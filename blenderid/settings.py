@@ -122,6 +122,7 @@ OAUTH2_PROVIDER = {
         'email': 'Default scope',
     },
     'ALLOWED_REDIRECT_URI_SCHEMES': ['http', 'https'],
+    'REQUEST_APPROVAL_PROMPT': 'auto',
 }
 
 # This is required for compatibility with Blender Cloud, as it performs
