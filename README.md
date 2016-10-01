@@ -16,3 +16,7 @@ be done as soon as Django-OAuth-Toolkit supports it.
 5. Create settings_local.py override system.
 6. Test against other websites using Blender ID
 7. Deploy!
+
+## Missing features
+
+Subclients
