@@ -19,5 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^u/', include('bid_addon_support.urls', namespace='addon_support')),
-    url(r'^oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    url(r'^oauth/', include('blenderid.oauth2_urls', namespace='oauth2_provider')),
 ]
