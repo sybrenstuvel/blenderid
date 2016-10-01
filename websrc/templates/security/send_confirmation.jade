@@ -1,0 +1,28 @@
+| {% extends 'layout.html' %}
+| {% from "security/_macros.html" import render_field_with_errors, render_field_with_errors_without_label, render_field %}
+| {% include "security/_messages.html" %}
+| {% block body %}
+.container
+	.col-md-6.col-md-push-3
+		.row
+			.box.text-align-center
+				i.backicon.fa.fa-lock
+				h1 Resend confirmation instructions
+				form(action="{{ url_for_security('send_confirmation') }}", method='POST', name='send_confirmation_form')
+					| {{ send_confirmation_form.hidden_tag() }}
+					// Email input
+					.input-group.input-group-lg.content-margin-center.width-75
+						span.input-group-addon
+							i.fa.fa-envelope-o
+						| {{ render_field_with_errors_without_label(send_confirmation_form.email, class='form-control', placeholder="E-mail") }}
+					// Button
+					.control-group
+						label.control-label(for='submit')
+						.controls
+							| {{ render_field(send_confirmation_form.submit, class='btn btn-default btn-lg btn-squishy width-half') }}
+						hr
+						p
+							a.margin-bottom-5(href="{{url_for_security('login')}}")
+								i.fa.fa-angle-double-right
+								|  Log in
+| {% endblock %}

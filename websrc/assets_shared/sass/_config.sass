@@ -1,0 +1,87 @@
+$font-body: 'Roboto', sans-serif !default
+$font-headings: 'PT Sans Narrow', sans-serif !default
+$font_size: 14px !default
+$font-size: $font_size
+$font-size-small: .8rem
+$font-size-normal: 1rem
+$font-size-medium: 1.7rem
+$font-size-large: 2.2rem
+$font-size-larger: 2.8rem
+$font-size-largest: 3.2rem
+
+$color_background: #f8f8f8 !default
+$color-background: $color_background
+$color-background-light: lighten($color-background, 5%)
+$color-background-dark: darken($color-background, 5%)
+$color-background-nav: hsl(hue($color-background), 20%, 25%)
+
+$color_background_bright: lighten($color_background, 70%) !default // to be removed
+$color_background_dark: darken($color_background, 25%)  !default // to be removed
+
+/* e.g. Links, the Bluish in borg */
+$color_brand_main: #109df0 !default
+$color-primary: $color_brand_main
+$color-primary-light: hsl(hue($color-primary), 30%, 90%)
+$color-primary-dark: hsl(hue($color-primary), 80%, 30%)
+$color-primary-accent:  hsl(hue($color-primary), 100%, 50%)
+
+/* e.g. Active status of stuff, Orangish */
+$color_brand_secondary: #ff8844 !default
+$color-secondary: #f42942
+$color-secondary-light: hsl(hue($color-secondary), 30%, 90%)
+$color-secondary-dark: hsl(hue($color-secondary), 80%, 40%)
+$color-secondary-accent: hsl(hue($color-secondary), 100%, 50%)
+
+$color_text: #4d4e53
+$color-text: $color_text // for backwards compat
+$color-text-dark: $color-text
+$color-text-dark-primary: #646469 // rgba($color-text, .87)
+$color-text-dark-secondary: #9E9FA2 // rgba($color-text, .54)
+$color-text-dark-hint: #BBBBBD // rgba($color-text, .38)
+$color-text-light: white
+$color-text-light-primary: rgba($color-text-light, .87)
+$color-text-light-secondary: rgba($color-text-light, .54)
+$color-text-light-hint: rgba($color-text-light, .38)
+
+$color_text_bright: lighten($color_text, 80%) !default // to be removed
+$color_text_dark: darken($color_text, 10%) !default // to be removed
+
+
+$color-warning: #F3BB45 !default
+$color-info: #68B3C8 !default
+$color-success: #27AE60 !default
+$color-danger: #EB5E28 !default
+
+$color_primary: #428bca !default
+$color_warning: #faaf40 !default
+$color_info: #40b0e0 !default
+$color_success: #d5d644 !default
+$color_danger: #e95d4f !default
+
+
+/* Mobile Stuff */
+$screen-xs: 480px !default
+$screen-xs-min: $screen-xs
+$screen-phone: $screen-xs-min
+$screen-sm: 768px !default
+$screen-sm-min: $screen-sm
+$screen-tablet: $screen-sm-min
+$screen-md: 992px !default
+$screen-md-min: $screen-md
+$screen-desktop: $screen-md-min
+$screen-lg: 1200px !default
+$screen-lg-min: $screen-lg
+$screen-lg-desktop: $screen-lg-min
+$screen-xs-max: $screen-sm-min - 1
+$screen-sm-max: $screen-md-min - 1
+$screen-md-max: $screen-lg-min - 1
+
+$container_width: 1170px !default
+
+/* Just to do some math later */
+/* Featured (our own jumbotron) */
+$featured-xl_height: 520px !default
+$featured-lg_height: 480px !default
+$featured-md_height: 250px !default
+$featured-sm_height: 150px !default
+$featured-xs_height: 100px !default

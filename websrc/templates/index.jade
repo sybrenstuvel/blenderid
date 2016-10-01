@@ -1,0 +1,79 @@
+| {% extends 'layout.html' %}
+| {% load gravatar %}
+| {% block page_title %}
+| {% if current_user.full_name %}
+| {{current_user.full_name}}'s
+| {% else %}
+| Your
+| {% endif %}
+| Profile
+| {% endblock %}
+| {% block body %}
+.row.id
+	.col-md-6
+		.id__profile-details
+			img.img-circle.id__profile-details-avatar(src='{% gravatar_url current_user.email 120 %}', title='Gravatar Profile Picture')
+			h1.id__profile-details-name
+				| {% if current_user.full_name %}
+				| {{ current_user.full_name }}
+				| {% endif %}
+			| {% if not current_user.full_name %}
+			p
+				.background-info
+					span.margin-left-2
+						| Your name is missing,
+						a(href="{% url 'profile' %}") add it here
+			| {% endif %}
+			p.id__profile-details-email
+				| {{ current_user.email }}
+			p
+				a.btn.btn-default(href="{% url 'profile' %}")
+					i.fa.fa-edit
+					|  Edit Profile
+			| {% if not current_user.confirmed_at and config.SECURITY_CONFIRMABLE %}
+			p
+				a.btn.btn-warning(href="-- url_for_security('send_confirmation') --")
+					i.fa.fa-envelope
+					|  Please confirm your email address
+			| {% endif %}
+		// id__profile-details
+		| {% if current_user.has_role('bfct_trainer') %}
+		.id__profile-certification
+			i.fa.fa-graduation-cap.backicon
+			h3.id__profile-certification-title Blender Foundation Certified Trainer
+			p
+				| You're an official
+				span.info  Blender Foundation Certified Trainer
+				br
+				| More details about your
+				a(href='https://www.blender.org/certification')  certification
+				|         {% if current_user.has_role('bfct_board') %}
+				hr.width-full
+			p.info
+				i.fa.fa-graduation-cap
+				|  BFCT Board Member{% if current_user.has_role('bfct_manager') %} & Manager{% endif %}
+			|         {% endif %}
+			p
+		|     {% endif %}
+	// col-md-6
+	.col-md-6
+		.id__profile-subscriptions
+			i.bf-cloud.backicon
+			h3.id__profile-subscriptions-title Blender Cloud
+			p
+				| Visit your
+				a(href='https://cloud.blender.org/settings/billing')  preferences
+				|  for more details
+		.id__profile-subscriptions
+			i.bf-network.backicon
+			h3.id__profile-subscriptions-title Blender Network
+			p
+				| Visit your
+				a(href='https://www.blendernetwork.org/profile/edit')  profile settings
+				|  for subscription details
+		//
+			<div class="box padding-top-1">
+			<h3>Blender Conference</h3>
+			<p></p>
+			</div> <!-- box
+| {% endblock %}

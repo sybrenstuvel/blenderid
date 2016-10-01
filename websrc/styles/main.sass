@@ -1,0 +1,171 @@
+@import url(//fonts.googleapis.com/css?family=Open+Sans)
+@import url(//fonts.googleapis.com/css?family=Open+Sans+Condensed:300)
+@import url(../assets_shared/css/font-borg.css)
+@import ../assets_shared/sass/main.sass
+
+.featured
+	h1, h2, h3, h4
+		bottom: 0
+		position: absolute
+		padding-bottom: 0
+		margin-bottom: 10px
+
+.about
+	&__join
+		height: 400px
+		text-align: center
+
+		&-icons
+			display: inline-block
+
+			& li
+				margin: 0 10px
+				margin-bottom: 0 !important
+				color: lighten($color_text, 60%)
+				float: left
+				font-size: 4em
+				&:after
+					content: '' !important
+
+		&-anonymous, &-authenticated
+			height: 400px
+			display: inline-block
+
+			& .btn
+				margin-top: 20px
+
+	&__info
+		height: 400px
+
+		&-where, &-what
+			margin-top: 20px
+
+			&-links
+				& li
+					margin-bottom: 0 !important
+
+.id
+	&__profile
+		&-details
+			@extend .box
+
+			&-avatar
+				float: right
+				margin: 15px
+
+		&-certification, &-subscriptions
+			padding: 15px 0 0 0
+			@extend .box
+
+			&-title
+				margin: 0 0 10px 15px !important
+
+.application_row
+	width: 2800%
+	height: 100%
+	top: 0
+	left: 0
+	position: absolute
+
+.cke
+	margin-top: 40px !important
+
+.authorize
+	padding: 20px
+
+	&__pictogram
+		display: table
+		margin: 0 auto 15px
+		position: relative
+
+		img, .authorize__app-image_placeholder
+			width: 100px
+			height: 100px
+
+			+border-radius(50%)
+
+		.authorize__app-image
+			background: #7596d9
+			margin-right: 20px
+
+		.authorize__app-image_placeholder
+			background: #7596d9
+			margin-right: 20px
+
+		.authorize__app-image_placeholder_icon
+			position: absolute
+			top: 20px
+			left: 33px
+			color: white
+
+		.authorize__person-image
+			background: #afd876
+
+		.authorize__pictogram__arrow
+			margin-top: -98px
+
+			font-family: FontAwesome
+			font-size: 70px
+			color: white
+
+			&:before
+				display: table
+				margin: 0 auto
+				content: "\f07e"
+
+
+	&__title
+		margin-bottom: 10px !important
+		text-align: center
+
+	&__blurb
+		max-width: 60%
+		margin: 20px auto !important
+		font-size: 16px
+
+		text-shadow: none
+		text-align: center
+
+	&__info
+		font-size: 13px
+		color: #737373
+
+	&__review
+		padding: 20px 0
+		margin-bottom: 20px
+
+		border-top: 1px solid #dfdfdf
+		border-bottom: 1px solid #dfdfdf
+
+		h3
+			margin: 0 0 10px 15px
+
+		ul
+			padding-left: 15px
+
+		li
+			margin-bottom: 5px
+
+.btn-chooser
+	padding-bottom: 20px
+
+	.btn
+		margin-right: 10px
+		&:last-child
+			margin-right: 0
+
+	&--center
+		display: table
+		margin: 0 auto
+
+.box__learn-more
+	display: block
+	font-size: 12px
+	text-align: center
+
+.profile.address .box
+	padding: 15px
+
+.profile.address .box h2
+	padding: 0
+	margin: 0

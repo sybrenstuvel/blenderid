@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Boilerplate</title>
+
+		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="css/main.css" rel="stylesheet">
+
+		<!-- This should load in the local CSS, it's here now because we don't have a local CSS -->
+		<link href="css/font-borg.css" rel="stylesheet">
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+	</head>
+	<body>
+		<div class="container-main">
+		<a name="hop"></a> <!-- Anchor to top -->
+		<header class="navbar navbar-transparent navbar-fixed-top" role="navigation">
+			<div class="navbar-overlay"></div>
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#cloud-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<i class="fa fa-bars"></i>
+					</button>
+					<a class="logo navbar-brand" href="#"><!-- Blender Network --></a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<nav class="collapse navbar-collapse" id="cloud-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a id="can_i_haz_popover"
+									 data-toggle="popover" data-trigger="hover" data-placement="bottom"
+									 data-content="And here's some amazing content. It's very engaging. Right?"
+									>Link with Popover</a></li>
+						<li class="active"><a href="#" title="Link Title">Link Active</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								Boilerdown <b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="#">
+										<i class="fa fa-cogs" title="Link Title"></i>Link Title #1
+									</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a href="#">
+										<i class="fa fa-power-off" title="Link Title"></i>Link Titlelonger #2
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav><!-- /.navbar-collapse -->
+
+				</div>
+		</header>
+
+		<!--
+		<div class="alert alert-success">
+			<div class="container">
+				Look at me!
+				<button type="button" class="close" data-dismiss="alert"><i class="fa fa-times"></i></button>
+			</div>
+		</div>
+		-->
+
+		<!-- FEATURED -->
+		<div class="container-fluid featured">
+			<div class="featured-overlay"></div>
+			<div class="col-md-12 height-full">
+				<div class="container vertical-align">
+					<h1>This is H1 on Featured LG</h1>
+					<h3>Using the vertical-align class for align awesomeness</h3>
+					<button class="btn btn-default btn-outline">View Stuff</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Sometimes we have Second level navigation -->
+		<header class="navbar navbar-default navbar-secondlevel navbar-static-top" role="navigation">
+			<div class="container relative">
+				<ul class="nav navbar-nav navbar-left">
+					<li class="active"><a href="#" title="Link Title">Open Projects</a></li>
+					<li><a href="#" title="No way">Closed Projects</a></li>
+					<li><a href="#" title="Link Title">Training</a></li>
+
+					<!-- Dropdown -->
+					<li class="dropdown absolute right">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">big@buck.bunny <b class="caret"></b></a>
+						<ul class="dropdown-menu right">
+							<li><a href="#"><i class="fa fa-edit"></i> My Submissions</a></li>
+							<li class="active">
+									<a href="#">
+											<i class="fa fa-star"></i> My Favorites
+									</a>
+							</li>
+							<li class="divider"></li>
+							<li><a href="#"><i class="fa fa-power-off"></i> Log out</a></li>
+						</ul>
+					</li>
+					<!-- // Dropdown -->
+
+				</ul>
+			</div>
+		</header>
+		<!-- // second level-->
+
+		<!-- Sometimes we even have third level navigation -->
+		<header class="navbar navbar-default navbar-thirdlevel navbar-static-top" role="navigation">
+			<div class="container">
+				<ul class="nav navbar-nav navbar-left">
+					<li><a href="#" title="Link Title">Sintol</a></li>
+					<li class="active"><a href="#" title="Link Title">Yo Franko!</a></li>
+				</ul>
+			</div>
+		</header>
+		<!-- // third level-->
+
+		<div class="container"> <!-- centered container for rest of the page -->
+
+			<div class="row">
+				<div class="col-md-4">
+					<ol class="breadcrumb">
+						<li><a href="#">Breadcrumbs Root</a></li>
+						<li><a href="#">Branch</a></li>
+						<li class="active"><a href="#">Leaf</a></li>
+					</ol>
+				</div>
+			</div>
+
+			<div class="row flex">
+				<div class="col-md-4">
+					<div class="box">
+						<h1>Heading H1 <i class="title-icon bf-cloud"></i></h1>
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam iaculis sem a turpis suscipit, pharetra fringilla neque porta. Sed auctor tristique sapien.
+						</p>
+						<h3>Wide Buttons</h3>
+						<p>
+							You can make anything wide by using the class
+							<code>width-full</code>, here I'm using it on the
+							<code>button</code> tag, after <code>btn</code> and <code>btn-default</code>.
+						</p>
+						<p>
+							<button class="btn btn-default width-full">
+								I'm wide!
+							</button>
+						</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="box">
+						<h2><a>Heading H2</a> <i class="title-icon bf-blender"></i></h2>
+						<p>
+							The transparent icon on the right of the title is
+							added by using the class <code>title-icon</code>, next to the
+							icon class itself. Something like.
+						</p>
+						<h3>Squishy Buttons</h3>
+						<p>
+							Make any <code>button</code> tag look like you can press it by
+							adding the <code>btn-squishy</code> class to it
+							(after <code>btn</code> and <code>btn-default</code>).
+						</p>
+						<p>
+							<button class="btn btn-default btn-squishy width-full">
+								I'm squishy :'D
+							</button>
+						</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="box">
+						<i class="backicon bf-network"></i>
+						<h3>Heading H3 <i class="title-icon bf-network"></i></h3>
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam iaculis sem a turpis suscipit, pharetra fringilla neque porta. Sed auctor tristique sapien.
+						</p>
+						<h3>This Box has 'Backicon'</h3>
+						<p>
+							That thingie on the bottom-right, is a class applied to the
+							<code>i</code> tag called 'backicon'. You can also use it
+							on the <code>featured</code> box on top.
+						</p>
+						<p>
+							<button class="btn btn-default btn-outline">
+								I'm btn-outline!
+							</button>
+						</p>
+					</div>
+				</div>
+			</div> <!-- Row with main boxes -->
+
+			<hr class="width-full">
+
+			<!-- VISIBILITY STUFF -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1>Visibility Stuff</h1>
+					<p>
+						Visible and Hidden are awesome classes on Bootstrap.
+						<code>visible-*size*</code> is only shown for a specific size.
+						While <code>hidden-*size*</code> is shown always except the specific size.
+					</p>
+					<p class="media-debug">
+						This text should change colors on every size too.
+					</p>
+				</div>
+				<div class="col-md-3">
+					<h2>
+						<span class="visible-xs-inline info"><i class="fa fa-check"></i> Visible XS</span>
+						<span class="hidden-xs danger"><i class="fa fa-times"></i> Hidden XS</span>
+					</h2>
+				</div>
+				<div class="col-md-3">
+					<h2>
+						<span class="visible-sm-inline info"><i class="fa fa-check"></i> Visible SM</span>
+						<span class="hidden-sm danger"><i class="fa fa-times"></i> Hidden SM</span>
+				</div>
+				<div class="col-md-3">
+					<h2>
+						<span class="visible-md-inline info"><i class="fa fa-check"></i> Visible MD</span>
+						<span class="hidden-md danger"><i class="fa fa-times"></i> Hidden MD</span>
+				</div>
+				<div class="col-md-3">
+					<h2>
+						<span class="visible-lg-inline info"><i class="fa fa-check"></i> Visible LG</span>
+						<span class="hidden-lg danger"><i class="fa fa-times"></i> Hidden LG</span>
+					</h2>
+				</div>
+			</div>
+
+			<hr class="width-full">
+
+			<!-- LABELS STUFF -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1>Labels</h1>
+					<p>The <code>label</code> class applied to a <code>span</code> will look like below. Additionally you can have <code>label-*status*</code>
+							and <code>label-2x</code> for labels with text 100% size (regular labels are 90%)
+					</p>
+				</div>
+				<div class="col-md-3">
+					<p><span class="label label-info">label-info</span></p>
+					<p class="margin-top-15px"><span class="label label-2x label-info">label-info label-2x</span></p>
+				</div>
+				<div class="col-md-3">
+					<p><span class="label label-danger">label-danger</span></p>
+					<p class="margin-top-15px"><span class="label label-2x label-danger">label-danger label-2x</span></p>
+				</div>
+				<div class="col-md-3">
+					<p><span class="label label-warning">label-warning</span></p>
+					<p class="margin-top-15px"><span class="label label-2x label-warning">label-warning label-2x</span></p>
+				</div>
+				<div class="col-md-3">
+					<p><span class="label label-success">label-success</span></p>
+					<p class="margin-top-15px"><span class="label label-2x label-success">label-success label-2x</span></p>
+				</div>
+			</div>
+
+			<hr class="width-full">
+
+			<!-- BUTTONS STUFF -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1>Game of Buttons</h1>
+					<p>You can have different kinds of buttons by adding <code>btn btn-default</code> and one of the following classes.</p>
+				</div>
+				<div class="col-md-3">
+					<h3>Success</h3>
+					Just add <code>btn-success</code>.
+					<hr/>
+					<a href="#" class="btn btn-default btn-block btn-success">
+							<i class="fa fa-thumbs-up"></i> Go for it
+					</a>
+					<a href="#" class="btn btn-default btn-block btn-squishy btn-success">
+							<i class="fa fa-thumbs-o-up"></i> Sure
+					</a>
+					<a href="#" class="btn btn-default btn-block btn-squishy btn-success disabled">
+							<i class="fa fa-frown-o"></i> Disabled
+					</a>
+				</div>
+				<div class="col-md-3">
+					<h3>Danger</h3>
+					Same here, add <code>btn-danger</code>.
+					<hr/>
+					<a href="#" class="btn btn-default btn-block btn-danger">
+							<i class="fa fa-thumbs-down"></i> Nope
+					</a>
+					<a href="#" class="btn btn-default btn-block btn-squishy btn-danger">
+							<i class="fa fa-thumbs-o-down"></i> Nopity nope
+					</a>
+					<a href="#" class="btn btn-default btn-block btn-squishy btn-danger disabled">
+							<i class="fa fa-frown-o"></i> Disabled
+					</a>
+				</div>
+				<div class="col-md-3">
+					<h3>Warning</h3>
+					This time, <code>btn-warning</code>.
+					<hr/>
+					<a href="#" class="btn btn-default btn-block btn-warning">
+							<i class="fa fa-info"></i> I've got an info icon
+					</a>
+					<a href="#" class="btn btn-default btn-block btn-squishy btn-warning">
+							<i class="fa fa-info-circle"></i> I've got an info-circle icon
+					</a>
+					<a href="#" class="btn btn-default btn-block btn-squishy btn-warning disabled">
+							<i class="fa fa-frown-o"></i> Disabled
+					</a>
+				</div>
+				<div class="col-md-3">
+					<h3>Info</h3>
+					You guess right, <code>btn-info</code> now.
+					<hr/>
+					<a href="#" class="btn btn-default btn-block btn-info">
+							<i class="fa fa-info"></i> I've got an info icon
+					</a>
+					<a href="#" class="btn btn-default btn-block btn-squishy btn-info">
+							<i class="fa fa-info-circle"></i> I've got an info-circle icon
+					</a>
+					<a href="#" class="btn btn-default btn-block btn-squishy btn-info disabled">
+							<i class="fa fa-frown-o"></i> Disabled
+					</a>
+				</div>
+			</div>
+
+			<hr class="width-full">
+
+			<!-- LISTS STUFF -->
+			<div class="row">
+				<div class="col-md-12">
+					<h1>Here be Lists</h1>
+				</div>
+			</div>
+			<div class="row flex">
+				<div class="col-md-4">
+					<div class="box">
+						<h2>Defaults</h2>
+						<p>
+							This <code>ul</code> below doesn't have any special class.
+							<ul>
+								<li>The</li>
+								<li>Defaultest</li>
+								<li>List</li>
+								<li>Ever</li>
+							</ul>
+						</p>
+						<p>
+							Nothing special really.
+						</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="box">
+						<h2>Special Classes</h2>
+						<p>
+							This <code>ul</code> has the <code>list-bullets-check</code> class.
+							<ul class="list-bullets-check">
+								<li>Super Clean</li>
+								<li>Defaultest</li>
+							</ul>
+						</p>
+						<p>
+							This one instead has <code>list-bullets-none</code>
+							and <code>list-margin-none</code> so is nice aligned.
+							<ul class="list-margin-none list-bullets-none">
+								<li>Super Clean</li>
+								<li>Defaultest</li>
+							</ul>
+						</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="box">
+						<h2>Listception</h2>
+						<p>
+							Lists can be nested, <code>ul</code>'s inside <code>li</code>'s.
+							<ul>
+								<li>This is alright, just a li</li>
+								<li>This one here too.</li>
+								<li>But this one instead, has a <code>ul</code> inside.
+									<ul>
+										<li>Hey there</li>
+										<li>I'm nested</li>
+										<li>My icon changed and got offset a bit.</li>
+									</ul>
+								</li>
+								<li>Back to normal.</li>
+							</ul>
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<hr class="width-full">
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box">
+						<h1>Special</h1>
+						<blockquote>
+							<p>This is a <code>blockquote</code>. Nothing interesting to add.</p>
+						</blockquote>
+					</div>
+				</div>
+			</div>
+
+			<hr class="width-full">
+
+			<div class="row">
+				<!-- TABLE TEMPLATE -->
+				<div class="col-md-6">
+					<h1>Here be Tables</h1>
+					<p>
+					The table below has a class called <code>table-striped</code> for odd-even colors,
+					<code>table-hover</code> for mouse over effects, and <code>box</code> for the nice white background and
+					overall box effect we already use elsewhere.
+					They can also have status classes on their "tr" such as <code>success</code>, or <code>danger</code>.
+					</p>
+					<table class="table table-striped table-hover box">
+						<thead>
+							<tr>
+								<th>Here</th>
+								<th>Will be</th>
+								<th>A whole bunch</th>
+								<th>Of pretty awesome</th>
+								<th class="text-center">Stuff</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td>This</td>
+								<td>row</td>
+								<td>doesn't have</td>
+								<td>any</td>
+								<td class="text-center">class</td>
+							</tr>
+							<tr>
+								<td>This</td>
+								<td>row</td>
+								<td>doesn't have</td>
+								<td>any</td>
+								<td class="text-center">class</td>
+							</tr>
+							<tr>
+								<td>This</td>
+								<td>row</td>
+								<td>doesn't have</td>
+								<td>any</td>
+								<td class="text-center">class</td>
+							</tr>
+							<tr class="table-row-link">
+								<td>This</td>
+								<td>row</td>
+								<td>has the<code>table-row-link</code> class</td>
+								<td>So it looks like a</td>
+								<td class="text-center">link</td>
+							</tr>
+							<tr class="info">
+								<td>This</td>
+								<td>row</td>
+								<td>has</td>
+								<td>the <code>info</code></td>
+								<td class="text-center">class</td>
+							</tr>
+							<tr class="danger">
+								<td>This</td>
+								<td>row</td>
+								<td>has</td>
+								<td>the <code>danger</code></td>
+								<td class="text-center">class</td>
+							</tr>
+						</tbody>
+					</table>
+				</div> <!-- // TABLE TEMPLATE -->
+
+				<div class="col-md-6">
+
+					<!-- TABS TEMPLATE -->
+					<h1>Tabs!</h1>
+					<p>
+					The tabs below are inside a <code>box</code> class.
+					</p>
+
+					<div class="box">
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs nav-justified" role="tablist">
+						<li class="active">
+							<a href="#home" role="tab" data-toggle="tab">
+								<i class="fa fa-home"></i> Home
+							</a>
+						</li>
+						<li><a href="#profile" role="tab" data-toggle="tab">Twee</a></li>
+						<li><a href="#messages" role="tab" data-toggle="tab">Número Tres</a></li>
+					</ul>
+
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div class="tab-pane fade in active" id="home">
+							<p>First Tab</p>
+						</div>
+						<div class="tab-pane fade" id="profile"><p>Tab Twee</p></div>
+						<div class="tab-pane fade" id="messages"><p>Solapa Tres</p></div>
+					</div>
+					<!-- // TABS TEMPLATE -->
+					</div>
+
+					<!-- ACCORDION TEMPLATE -->
+					<h1>Accordion</h1>
+
+					<div class="panel-group accordion" id="accordion" role="tablist" aria-multiselectable="true">
+						<div class="panel panel-default">
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								<div class="panel-heading" role="tab" id="headingOne">
+									<h4 class="panel-title">
+											Collapsible Group Item #1
+											<div class="panel-collapse-widget"></div>
+									</h4>
+								</div>
+							</a>
+							<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+								<div class="panel-body">
+									Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+								<div class="panel-heading" role="tab" id="headingTwo">
+									<h4 class="panel-title">
+											Collapsible Group Item #2
+											<div class="panel-collapse-widget"></div>
+									</h4>
+								</div>
+							</a>
+							<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+								<div class="panel-body">
+									Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+								</div>
+							</div>
+						</div>
+						<div class="panel panel-default">
+							<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+								<div class="panel-heading" role="tab" id="headingThree">
+									<h4 class="panel-title">
+											Collapsible Group Item #3
+											<div class="panel-collapse-widget"></div>
+									</h4>
+								</div>
+							</a>
+							<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+								<div class="panel-body">
+									Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- // ACCORDION TEMPLATE -->
+
+				</div>
+			</div>
+
+		<hr class="width-full">
+
+		<!-- FORMS -->
+		<h1>Formity Forms</h1>
+			<form class="form-horizontal">
+					<fieldset>
+
+						<div class="row">
+							<div class="col-md-6">
+							 <div class="input-group input-group-lg width-full">
+									<span class="input-group-addon"><i class="bf-network"></i></span>
+									<input class="form-control" placeholder="Full freakin width, from here << to theeeere >>" type="text"/>
+									<label class="control-label">Label for full width input</label>
+							 </div>
+						 </div>
+						 <div class="col-md-6">
+								<div class="input-group input-group-lg width-full">
+									<label for="last_name" class="control-label">Field with button on the right</label>
+									<input type="text" class="form-control collection-user" placeholder="I've got a button!">
+									<span class="input-group-addon">
+										<button title="Hi!"><i class="fa fa-times"></i></button>
+									</span>
+								</div>
+						</div>
+					</div>
+
+							<hr/>
+
+							<div class="row">
+									<div class="col-md-6">
+										<div class="input-group width-full">
+											<span class="input-group-addon"><i class="bf-cloud"></i></span>
+											<input class="form-control" placeholder="Default Text" type="text"/>
+											<label class="control-label">This is just input-group, not large</label>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="input-group input-group-lg width-full">
+											<span class="input-group-addon"><i class="fa fa-file-video-o"></i></span>
+											<input class="form-control" placeholder="Default Text" type="text"/>
+											<label class="control-label">Video Example</label>
+										</div>
+									</div>
+							</div>
+
+							<div class="row">
+									<div class="col-md-6">
+											<p class="margin-top-4">
+											You can also add a <code>disabled</code> class to the <code>input-group</code>.
+											</p>
+									</div>
+									<div class="col-md-6">
+										<div class="input-group input-group-lg width-full disabled">
+											<span class="input-group-addon"><i class="fa fa-file-video-o"></i></span>
+											<input class="form-control" placeholder="Default Text (disabled)" type="text"/>
+											<label class="control-label">Video Example (disabled)</label>
+										</div>
+									</div>
+							</div>
+
+							<hr/>
+
+							<div class="box alert-info">
+									<p>
+										<i class="fa fa-info-circle"></i> Warn about warnings!!!
+									</p>
+							</div>
+
+							<hr/>
+
+							<div class="row">
+								<div class="col-md-6">
+									<div class="input-group input-group-lg width-full">
+										<span class="input-group-addon"><i class="fa fa-picture-o"></i></span>
+										<input class="form-control" type="file"/>
+										<label class="control-label">Image Upload</label>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="input-group input-group-lg width-full">
+										<select class="form-control" placeholder="Default Text" type="text">
+											<option>Blender Internal</option>
+											<option>Blender Eternal</option>
+											<option>Blender Render</option>
+											<option disabled>(•_•)</option>
+											<option disabled>( •_•)>⌐■-■</option>
+											<option disabled>(⌐■_■)</option>
+											<option disabled>Deal with it.</option>
+										</select>
+										<label class="control-label">Select the fastest render engine ever</label>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="input-group input-group-lg width-full">
+										<span class="input-group-addon"><i class="fa fa-bug"></i></span>
+										<select class="form-control" placeholder="Default Text" type="text">
+											<option disabled>For Scale</option>
+										</select>
+										<label class="control-label">Banana</label>
+									</div>
+								</div>
+							</div>
+
+							<hr/>
+
+							<div class="row">
+								<div class="col-md-6">
+
+									 <div class="input-group input-group-lg width-full">
+											<textarea class="form-control" placeholder="Default Text"></textarea>
+											<label class="control-label">Long stuff go in textareas</label>
+									 </div>
+
+									<hr/>
+
+									<button class="btn btn-default btn-success btn-squishy width-half pull-right" type="submit">
+											<i class="fa fa-send"></i> Send Stuff!
+									</button>
+								</div>
+								<div class="col-md-6">
+									<div class="input-group">
+										<input class="form-control" id="work_travel" name="work_travel" placeholder="Are you available to travel?" type="checkbox">
+										<label class="control-label" for="work_travel">This is a checkbox with input-group</label>
+									</div>
+
+									<div class="input-group input-group-lg">
+										<input checked="" class="form-control" id="work_online" name="work_online" placeholder="Are you available to travel?" type="checkbox">
+										<label class="control-label" for="work_online">This one has input-group and input-group-lg</label>
+									</div>
+
+									<div class="input-group input-group-lg width-full disabled has-error">
+										<span class="input-group-addon"><i class="fa fa-file-video-o"></i></span>
+										<input class="form-control" placeholder="Default Text (disabled)" type="text"/>
+										<label class="control-label">Bunch of inputs on top of each other</label>
+										<ul class="error">
+											<li>Sorry, this field looks too awesome</li>
+										</ul>
+									</div>
+
+									<div class="input-group input-group-lg width-full has-error">
+										<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+										<input class="form-control" id="city" name="city" placeholder="City" type="text" value="Amsterdam">
+										<label class="control-label" for="city">City</label>
+										<ul class="error">
+											<li>Can't hear you over the beauty of this field</li>
+										</ul>
+									</div>
+
+								</div>
+
+					</fieldset>
+				</form>
+			<!-- // FORMS -->
+
+			<hr class="width-full">
+
+			<!-- INTERACTIVES -->
+			<h1>Interactives</h1>
+			<!-- FLIP -->
+			<div class="row">
+				<div class="col-md-12">
+					Just include the interactive JS file.
+						<code>&lt;script src="js/interactive.js"&gt;&lt;/script&gt;</code>
+					<h3>Card Flip Effect</h3>
+				</div>
+
+				<div class="col-md-6">
+					<div class="flip relative">
+						<div class="card">
+							<div class="face front">
+								<!-- Front face stuff-->
+								<div class="box text-center">
+									<p>
+										Just add the class <code>flip-it</code> to anything
+										<hr/>
+										<button class="btn btn-default btn-squishy btn-danger flip-it">
+											<i class="fa fa-rocket"></i> Like Buttons!
+										</button>
+									</p>
+								</div>
+							</div> <!-- // Front face stuff -->
+							<div class="face back">
+								<!-- Back face stuff-->
+								<div class="text-center">
+									<p>
+										It's alright to have an empty background too
+										<hr/>
+										<button class="btn btn-default btn-squishy btn-info flip-it">
+											<i class="fa fa-angle-left"></i> Bring me back
+										</button>
+									</p>
+								</div>
+							</div> <!-- // Back face stuff -->
+						</div> <!-- Card -->
+					</div> <!-- Flip toggle -->
+				</div> <!-- col -->
+
+				<div class="col-md-6">
+					<div class="flip relative">
+						<div class="card">
+							<div class="face front">
+								<!-- Front face stuff-->
+								<div class="box">
+									<div class="flip_toggle flip-it" title="Flip!"></div>
+									<p>Business in the front</p>
+								</div>
+							</div> <!-- // Front face stuff -->
+							<div class="face back">
+								<!-- Back face stuff-->
+								<div class="box background-danger">
+									<p class="text-center">
+										<button class="btn btn-default btn-squishy width-75 flip-it">
+											Party in the back
+										</button>
+								 </p>
+								</div>
+							</div> <!-- // Back face stuff -->
+						</div> <!-- Card -->
+					</div> <!-- flip -->
+				</div> <!-- col -->
+
+			</div> <!-- row -->
+			<!-- // FLIP -->
+		<!-- // INTERACTIVES -->
+
+		<hr class="width-full">
+
+			<!-- ANIMATIONS -->
+			<h1>Animations</h1>
+			<div class="row">
+				<div class="col-md-12">
+					Some simple CSS3 animations are included as well.
+
+					<h2>Blink</h2>
+						Simply by adding the class <code>blink</code>, it will make the content fade in and out in a lapse of 2 seconds.
+						Additionally, to <code>blink</code> you can attach the classes <code>slow</code> (6s), <code>fast</code> (1s),
+						<code>slowest</code> (12s) and <code>fastest</code> (0.5s).
+						<div class="row text-center margin-top-2 margin-bottom-2">
+							<div class="col-md-3"><i class="fa fa-ambulance fa-2x block blink slowest"></i><code>blink slowest</code></div>
+							<div class="col-md-3"><i class="fa fa-ambulance fa-2x block blink slow"></i><code>blink slow</code></div>
+							<div class="col-md-3"><i class="fa fa-ambulance fa-2x block blink fast"></i><code>blink fast</code></div>
+							<div class="col-md-3"><i class="fa fa-ambulance fa-2x block blink fastest"></i><code>blink fastest</code></div>
+						</div>
+
+				</div>
+
+		<hr class="width-full">
+
+		</div> <!-- centered container for the page-->
+		</div> <!-- container-main -->
+	</div>
+
+		<!-- Footer Stuff -->
+		<div id="footer-navigation"> <!-- Sitemap -->
+				<div class="container">
+					<div class="row">
+						<div class="col-md-3 col-xs-6 margin-top-1">
+							<h4>Blender Cloud</h4>
+							<ul>
+								<a href="http://cloud.blender.org" title="Blender Cloud Home">
+									<li><i class="fa fa-home"></i> Home</li>
+								</a>
+								<a href="http://cloud.blender.org/news" title="Cloud News">
+									<li><i class="fa fa-list-alt"></i> News</li>
+								</a>
+								<a href="http://wiki.blender.org/index.php/Org:Institute/BlenderCloud"
+									 title="About Blender Cloud">
+									<li><i class="bf-cloud"></i> About</li>
+								</a>
+							</ul>
+						</div>
+						<div class="col-md-6 col-xs-6 margin-top-1">
+							<h4>Blender</h4>
+							<ul>
+								<a href="http://www.blender.org" title="Blender Official Website">
+									<li><i class="bf-blender"></i> Blender.org</li>
+								</a>
+								<a href="http://www.blender.org/store"
+									title="The Official Blender Store">
+									<li><i class="fa fa-shopping-cart"></i> Blender Store</li>
+								</a>
+								<a href="http://www.blendernetwork.org"
+									title="The Network of Blender Professionals">
+									<li><i class="bf-network"></i> Blender Network</li>
+								</a>
+							</ul>
+						</div>
+						<div class="col-md-2 col-xs-12 margin-top-1">
+							<h4>Contact & Support</h4>
+							<ul>
+								<a href="http://twitter.com/Blender_Cloud" title="Follow us on Twitter">
+									<li><i class="fa fa-twitter"></i>Blender_Cloud</li>
+								</a>
+								<a href="mailto:cloudsupport@blender.org" title="Support Email">
+									<li><i class="fa fa-envelope-o"></i> E-mail</li>
+								</a>
+							</ul>
+						</div>
+					</div> <!-- footer row -->
+				</div> <!-- footer container -->
+		</div> <!-- footer-navigation -->
+
+		<footer>
+			<div class="container">
+				<span class="pull-left">
+					<p>
+						<a href="#">Terms & Services, Cancellation</a>
+						·
+						<a href="#">Privacy Policy</a>
+					</p>
+				</span>
+				<span class="pull-right">
+					<p>
+						Boilerplate
+						<a href="#hop"><i class="fa fa-angle-up"></i></a>
+					</p>
+				</span>
+			</div> <!-- /footer-container -->
+		</footer>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="js/min/interactive.min.js"></script>
+		<script type="text/javascript">
+			$('#can_i_haz_popover').popover();
+		</script>
+	</body>
+</html>

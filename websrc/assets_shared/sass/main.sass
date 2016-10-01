@@ -1,0 +1,1920 @@
+/*!
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Blender Web Assets
+ * Design components for Blender.org websites
+ *
+ * Authors: Pablo Vazquez, Niklas Ravnsborg-Gjertsen
+ */
+
+/*
+ ** Don't load the fonts here, do it on the local file
+ ** @import url(//fonts.googleapis.com/css?family=X);
+ ** @import url(font-borg.css); // import font-borg in the local file instead
+ */
+
+/* Defaults look like Blender.org
+ ** (without the condensed font, need to load it on the local file)
+ */
+
+@import reset
+@import config
+@import utils
+@import base
+
+.flex
+	display: flex
+
+	+media-xs
+		display: block
+	+media-sm
+		display: block
+
+	[class^="col-"]
+		display: flex
+
+		+media-xs
+			display: block
+		+media-sm
+			display: block
+
+		.box
+			width: 100%
+
+/* INPUTS */
+.input-group
+	width: 100%
+	position: relative
+
+.input-append input, .input-prepend input,
+.input-append select, .input-prepend select,
+.input-append .uneditable-input, .input-prepend .uneditable-input
+	background-color: lighten($color_background, 5%)
+	transition: background-color 0.1s ease-in
+
+.form-control
+	top: 0
+	color: darken($color_text, 20%)
+	position: absolute
+	background-color: lighten($color_background, 3%) !important
+	border: none
+	margin-top: 30px
+	border: thin solid lighten($color_text, 50%) !important
+	border-radius: 3px
+	// box-shadow: 2px 2px 0 rgba(darken($color_background, 60%), .1)
+	box-shadow: none
+	transition: all 0.15s ease-in-out
+
+.form-control:focus,
+.form-control:hover
+	background-color: white !important
+	border: thin solid $color_background !important
+	color: darken($color_brand_main, 15%)
+	// box-shadow: 2px 2px 0 rgba(darken($color_background, 60%), .2)
+	box-shadow: none
+
+/* Form with Errors */
+.has-error .form-control
+	border: thin solid lighten($color_danger, 10%) !important
+	&:active, &:focus
+		box-shadow: none
+		border: thin solid $color_danger !important
+
+.has-error.input-group .input-group-addon,
+.has-error.input-group .control-label
+	color: $color_danger !important
+
+// .input-group-lg > .form-control, .input-group-lg > .input-group-addon,
+// .input-group-lg > .input-group-btn > .btn
+// 	padding: 0px 4px 0px 10px
+// 	height: 40px
+// 	font-size: 120%
+
+/* INPUT: Checkbox */
+.input-group input.form-control[type=checkbox],
+.input-group.input-group-lg input.form-control[type=checkbox]
+	box-shadow: none !important
+
+.input-group input.form-control[type=checkbox]
+	width: 15px
+
+.input-group.input-group-lg input.form-control[type=checkbox]
+	width: 20px
+
+/* INPUT: Checkbox Labels */
+.input-group input.form-control[type=checkbox]+label.control-label,
+.input-group.input-group-lg input.form-control[type=checkbox]+label.control-label
+	text-align: left
+	cursor: pointer
+	user-select: none
+	transition: color 0.1s ease-out
+
+.input-group input.form-control[type=checkbox]:hover+label.control-label,
+.input-group.input-group-lg input.form-control[type=checkbox]:hover+label.control-label
+	color: $color_brand_secondary
+
+.input-group input.form-control[type=checkbox]:checked+label.control-label,
+.input-group.input-group-lg input.form-control[type=checkbox]:checked+label.control-label
+	color: $color_brand_main
+	&:hover
+		color: $color_brand_secondary
+
+.input-group input.form-control[type=checkbox]+label.control-label
+	padding-left: 22px
+	padding-top: 3px
+
+.input-group.input-group-lg input.form-control[type=checkbox]+label.control-label
+	padding-left: 30px
+	padding-top: 6px
+
+/* INPUT: Checkbox Addon */
+.input-group input.form-control[type=checkbox]+label.control-label,
+.input-group.input-group-lg input.form-control[type=checkbox]+label.control-label
+	user-select: none
+
+/* INPUT ADDONS */
+.input-group .input-group-addon
+	position: absolute
+	top: 30px
+	z-index: 3
+	padding: 10px 15px 10px 12px !important
+	background: transparent
+	border: 0
+	color: lighten($color_text, 20%) !important
+
+.input-group .input-group-addon + .form-control,
+.input-group .input-group-addon + select.form-control
+	padding-left: 35px !important
+
+.input-group .input-group-addon .bf-network
+	font-size: 140% !important
+	position: absolute
+	left: 8px
+	top: 8px
+
+.input-group .input-group-addon .bf-cloud
+	font-size: 160% !important
+	position: absolute
+	left: 8px
+	top: 4px
+
+.input-group.input-group-lg .input-group-addon .bf-cloud
+	top: 6px
+
+.input-group.input-group-lg .input-group-addon
+	top: 28px
+
+/* For addons on the right */
+.form-control + .input-group-addon
+	float: right
+	right: 10px
+
+/* For addons with button */
+.form-control + .input-group-addon > button
+	position: relative
+	margin-top: -6px
+	right: 8px
+	background-color: transparent
+	border: none
+	opacity: 0.5
+	transition: opacity 0.2s ease
+	box-shadow: none
+
+/* For addons with button */
+.form-control:focus + .input-group-addon > button,
+.form-control:hover + .input-group-addon > button,
+.form-control + .input-group-addon > button:hover
+	opacity: 1.0
+
+.form-control + .input-group-addon.danger > button
+	color: $color_danger
+
+.error
+	color: $color_danger
+
+ul.error
+	margin: 0 !important
+	padding: 5px 0 0 0 !important
+	display: inline-block
+	& li
+		&:after
+			content: '' !important
+
+.box ul.error li,  .box ul.error li:last-child
+	margin-bottom: 0
+
+.edit_box
+	background-color: lighten($color_info, 10%)
+	float: right
+	color: $color_text_bright
+	padding: 8px 10px
+	margin: 8px
+	cursor: pointer
+	user-select: none
+	border-radius: 3px
+	box-shadow: 2px 2px 0 rgba(black, .1)
+
+.edit_box:hover
+	background-color: lighten($color_info, 5%)
+
+.edit_box:focus, .edit_box:active
+	background-color: $color_brand_secondary
+
+/* Boostrap Panels Override */
+.panel
+	border-radius: 3px
+	box-shadow: 2px 2px 0 rgba(black, .1)
+
+.panel-default
+	border: none
+	& a:focus
+		text-decoration: none
+
+.panel-default > .panel-heading
+	color: $color_text
+	margin: 0
+	background-color: darken($color_background, 5%)
+	border: none
+	border-bottom: 2px solid lighten($color_text, 60%)
+
+.panel-title
+	font-size: 160%
+	text-shadow: 1px 1px 0 rgba(white, .5)
+
+a.list-group-item, .panel > .list-group .list-group-item
+	background-color: $color_background_bright
+	color: $color_text
+	border: thin solid lighten($color_text, 65%)
+	border-left: 2px solid lighten($color_text, 65%)
+	padding: 5% 5% 5% 40px
+
+a.list-group-item:hover, a.list-group-item:focus
+	background-color: darken($color_background, 5%)
+	color: $color_brand_main !important
+	border: thin solid lighten($color_text, 60%)
+	border-left: 2px solid lighten($color_brand_main, 20%) !important
+
+a.list-group-item.active, a.list-group-item.active:hover, a.list-group-item.active:focus
+	background-color: transparent
+	color: $color_brand_secondary !important
+	border: thin solid lighten($color_text, 60%)
+	border-left: 2px solid $color_brand_secondary !important
+
+.list-group-with-icon a.list-group-item i, .panel > .list-group.list-group-with-icon .list-group-item i
+	padding: 3px 15px 5px
+	position: absolute
+	float: left
+	left: 0
+
+.accordion .panel-heading
+	border-bottom: thin solid darken($color_background, 10%)
+	transition: border-bottom 0.2s ease-out
+
+.accordion .collapsed .panel-heading
+	border-bottom: thin solid transparent
+
+.accordion a .panel-title
+	color: $color_brand_main
+	transition: color 0.1s ease-out
+
+.accordion a:hover .panel-title
+	color: $color_brand_secondary !important
+
+.accordion a.collapsed .panel-title
+	color: lighten($color_text, 20%)
+
+.panel-collapse-widget
+	font-family: $font_body
+	color: lighten($color_text, 40%)
+	display: block
+	float: right
+	+rotate(45deg)
+	transition: all 0.25s ease-out
+
+.panel-collapse-widget:after
+	content: '+'
+
+.collapsed .panel-collapse-widget
+	+rotate(0deg)
+
+.accordion .panel-body
+	position: relative
+	transform: translateY(-2px)
+	opacity: 0
+	transition: opacity 0.2s ease-out
+	transition: transform 0.2s ease-out
+
+.accordion .collapse.in .panel-body
+	opacity: 1.0
+	transform: translateY(0)
+	transition: opacity 0.2s ease-out
+	transition: transform 0.2s ease-out
+
+.accordion .collapsed+.collapsing .panel-body
+	opacity: 0
+	transition: opacity 0.2s ease-out
+
+
+/* CKEditor Overrides */
+.cke_chrome
+	font-family: $font_body !important
+	font-weight: lighter
+	color: darken($color_text, 10%) !important
+	border: thin solid lighten($color_text, 40%) !important
+	background-color: lighten($color_background, 3%) !important
+	resize: vertical
+	margin: 0 !important
+	box-shadow: 2px 2px 0 rgba(darken($color_background, 60%), .1)
+	border-radius: 3px
+
+span#cke_2_top
+	padding: 5px !important
+	border: none
+	background-image: none
+	background-color: transparent !important
+	box-shadow: none
+
+span.cke_toolgroup
+	border: none
+	border-bottom: 2px solid transparent
+	background-image: none
+	background-color: white
+
+a.cke_button_off
+	border-bottom: 2px solid transparent !important
+	box-shadow: none
+
+a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active,
+a.cke_button_disabled:hover, a.cke_button_disabled:focus, a.cke_button_disabled:active
+	background-image: none !important
+	background-color: transparent !important
+	color: white !important
+	border-bottom: 2px solid $color_brand_main !important
+
+a.cke_button_on, a.cke_button_on:hover, a.cke_button_on:focus, a.cke_button_on:active
+	background-image: none !important
+	background-color: transparent !important
+	border-bottom: 2px solid $color_brand_secondary !important
+	color: white !important
+	box-shadow: none
+
+/* PLACEHOLDERS */
+\::-webkit-input-placeholder
+	color: lighten($color_text, 40%) !important
+
+\:-moz-placeholder
+	/* Mozilla Firefox 4 to 18 */
+	color: lighten($color_text, 40%) !important
+	opacity: 1
+
+\::-moz-placeholder
+	color: lighten($color_text, 40%) !important
+	opacity: 1
+
+\:-ms-input-placeholder
+	color: lighten($color_text, 40%) !important
+
+/* CHECKBOXES */
+.input-group.input-checkbox
+	margin-top: 25px
+	margin-bottom: 25px
+
+.input-group.input-checkbox .control-label
+	font-size: 100%
+	text-align: left !important
+
+/* NOTE on btn-group
+ *
+ * Disabling all btn-group cases, it gets hard to tweak
+ * when using plugins such as bootstrap's selectpicker.
+ */
+
+// .input-group.input-checkbox .btn-group
+// 	float: right
+
+// .input-group.input-checkbox .btn-group .btn
+// 	min-width: 45px
+// 	font-weight: bolder
+// 	color: white
+// 	background-color: $color_brand_main
+// 	border-bottom-color: darken($color_brand_main, 20%)
+
+// .input-group.input-checkbox .btn-group .btn.active
+// 	background-color: $color_brand_secondary
+// 	border-bottom-color: darken($color_brand_secondary, 20%)
+
+// .input-group.input-checkbox .btn-group .btn:before
+// 	content: '\f00d'
+// 	font-family: "FontAwesome"
+
+// .input-group.input-checkbox .btn-group .btn.active:before
+// 	content: '\f00c'
+// 	font-family: "FontAwesome"
+
+// .input-group.input-checkbox .btn-group .btn
+// 	color: white
+// 	border-left-color: white !important
+// 	border-right-color: white !important
+
+// .input-group.input-checkbox .btn-group .btn.active
+// 	box-shadow: none
+
+// .input-group.input-checkbox .btn-group .btn:hover
+// 	color: white !important
+
+/* DROPDOWN TOGGLES */
+.btn-group.open .dropdown-toggle
+	box-shadow: none // Overrides ugly inset shadow from bootstrap
+
+// border: thin solid lighten($color_text, 65%)
+
+// .btn-group ul.dropdown-menu
+// 	font-size: 100%
+
+// BOOTSTRAP SELECT
+.bootstrap-select
+	.btn
+		font-family: $font_body !important
+
+.bs-searchbox
+	display: inline-block
+	width: 100%
+
+	.form-control
+		margin: 0 auto
+		padding: 15px 10px
+		box-shadow: none
+		&:active, &:focus
+			box-shadow: none
+
+/* FORM LABELS */
+label
+	font-weight: normal
+
+.control-label
+	font-size: 95%
+
+.input-group-lg .control-label
+	font-size: 100%
+
+.input-group .control-label
+	position: absolute
+	left: 0
+	top: 8px
+
+.form-horizontal .control-label
+	padding-top: 0 // because bootstrap
+
+.input-group select:focus
+	border: none
+	box-shadow: none
+
+.input-group select
+	height: auto !important
+	padding: 6px 7px 7px !important
+	text-transform: capitalize
+
+.input-group select:hover,
+.input-group select:focus
+	color: inherit
+
+.input-group option
+	margin: 0 4px 0 8px !important
+
+.input-group.disabled
+	opacity: 0.5
+	pointer-events: none
+
+.input-group.disabled .form-control
+	border-color: transparent
+	background-color: darken($color_background, 6%)
+
+.input-group .form-control[type='file']
+	padding-top: 5px
+
+.input-group.input-group-lg .form-control[type='file']
+	padding-top: 6px
+
+@import helpers
+
+/* Top Bar: Generics */
+.navbar
+	color: $color_text
+	border: none
+	z-index: 9 !important
+	/* Top level, above all. Other levels override this with !important */
+	margin-bottom: 0
+	font-size: 140%
+	min-height: 44px
+	box-shadow: 0 0 25px rgba(black, .2)
+
+	&.navbar-secondlevel, &.navbar-thirdlevel
+		&:nth-last-of-type(1)
+			box-shadow: 2px 2px 0 rgba(darken($color_background, 60%), .1)
+
+.navbar-transparent
+	text-shadow: none
+
+	background-color: transparent
+	background-image: url(https://www.blender.org/wp-content/themes/bthree/assets_shared/images/background_gradient_strip_top.png)
+	background-repeat: repeat-x
+	background-size: 100% 100% // 'contain' gives a black-line appearing for a few seconds in webkit when scrolling
+	z-index: 0
+
+	transition: background-color 100ms ease-in-out
+
+	&.is-mobile
+		background:
+			color: white
+			image: none
+
+		.navbar-header
+			padding-top: 0
+
+			a.logo
+				margin:
+					top: 5px
+					left: 0
+
+			.navbar-toggle
+				margin:
+					top: 5px
+					bottom: 5px
+
+		& .nav
+			& li a
+				color: $color_text
+				padding-top: 20px
+
+	&.is-active
+		background:
+			color: white
+			image: none
+		& .navbar-header
+			padding-top: 20px
+		& .nav > li a
+			color: $color_text
+			padding-top: 20px
+
+	& .navbar-nav ul.dropdown-menu a
+		color: $color_text
+		padding: 6% 8% 6% 6%
+		padding-right: 45px
+
+		&:hover
+			color: $color_brand_main
+		&:active
+			color: $color_brand_secondary
+
+	& .navbar-nav > li,
+	& .nav > li,
+		&.active a
+			border-bottom-color: $color_brand_secondary
+
+		& a
+			color: white
+			text-shadow: none
+			padding:
+				top: 35px
+				left: 20px
+				right: 20px
+			transition: padding 100ms ease-in-out, color 100ms ease-in-out
+
+			&:hover, &:focus, &:active
+				background-color: transparent
+				border-bottom-color: $color_brand_main
+
+		& .open a, & .open a:hover, & .open a:focus,
+		&.open a, &.open a:hover, &.open a:focus
+			background-color: transparent
+
+	& .navbar-header
+		color: white
+		padding: 35px 20px 0 20px
+		transition: padding 100ms ease-in-out
+
+		& a.logo
+			margin-top: -12px
+			/* To remove the Blender logo */
+			// background: none
+
+	/* from BlenderNetwork */
+	& .navbar-brand
+		padding: initial
+		white-space: nowrap
+
+.navbar-overlay
+	background-color: rgba(255,255,255,0)
+	width: 100%
+	height: 100%
+	position: absolute
+	top: 0
+	left: 0
+	right: 0
+	bottom: 0
+	z-index: 0
+
+.navbar-nav
+	+media-xs
+		margin: 0 -15px
+
+.navbar.dark
+	color: $color_text_bright
+
+.navbar li:after, .navbar-nav li:after
+	content: ''
+
+.navbar-nav > li > a
+	color: $color_text
+	font-family: $font_headings !important
+	border-bottom: 2px solid transparent
+	text-shadow: 1px 1px 2px $color_background
+	transition: border-color 0.1s ease-out
+
+.navbar-default.dark .nav > li > a
+	color: $color_text_bright
+	text-shadow: 1px 1px 2px $color_background
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus
+	color: $color_brand_main
+	border-color: $color_brand_main
+
+.navbar-default.dark .navbar-nav > li > a:hover
+	color: white
+
+.navbar-default
+	background-color: $color_background_bright
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus
+	font-weight: normal
+	color: darken($color_brand_secondary, 15%)
+	background-color: transparent
+	border-bottom-color: lighten($color_brand_secondary, 4%)
+
+.navbar-brand
+	color: $color_text
+
+.navbar-brand:hover
+	opacity: 0.9
+	transition: opacity 0.1s ease
+
+.navbar li.current_page_item a,
+.navbar li.current-page-parent a,
+.navbar li.current-page-ancestor a,
+.navbar li.current_page_parent a
+	font-weight: normal
+	color: darken($color_brand_secondary, 5%)
+	border-bottom-color: rgba($color_brand_secondary, .8)
+
+.navbar li.current_page_item a:hover,
+.navbar li.current-page-parent a:hover,
+.navbar li.current-page-ancestor a:hover,
+.navbar li.current_page_parent a:hover,
+.navbar li.current_page_ancestor a:hover
+	color: $color_brand_secondary
+	border-bottom-color: rgba($color_brand_secondary, .8)
+	cursor: default
+
+.navbar li.current-page-ancestor a,
+.navbar li.current_page_ancestor a
+	color: rgba($color_brand_secondary, .85)
+
+.navbar li.current-page-ancestor a:hover,
+.navbar li.current_page_ancestor a:hover
+	cursor: pointer
+
+.navbar-secondlevel.navbar
+	z-index: 8 !important
+	box-shadow: none
+	/* First level is 9 */
+
+.navbar-secondlevel.navbar,
+.navbar-thirdlevel.navbar
+	background-color: white
+	min-height: 41px
+
+.navbar-secondlevel .navbar-nav > li > a,
+.navbar-thirdlevel .navbar-nav > li > a
+	padding: 10px 15px 8px 15px
+	position: relative
+	top: 2px
+
+.navbar-thirdlevel
+	z-index: 7 !important
+	/* Second level is 8 */
+	border-top: 1px solid darken($color_background, 3%)
+	font-size: 140%
+
+ul.nav.navbar-nav.navbar-left
+	+media-sm
+		max-width: 105%
+		margin-bottom: 0
+
+	& .dropdown-menu li
+		+media-sm
+			margin: 10px 0 10px -15px
+			font-size: 110%
+
+	/* Otherwise navbars with many items overlap the Email on BID enabled sites */
+
+.navbar-toggle
+	font-size: 1em
+
+/* // Top Bar: Generics */
+
+/* DROPDOWN MENUS */
+.dropdown-menu
+	box-shadow: none
+
+.navbar-nav
+	.dropdown-menu
+		border: 0
+		min-width: 130px
+		background: $color_background_bright
+		font-size: 70%
+		padding: 0
+		border-radius: 0
+		box-shadow: 2px 2px 0 rgba(black, .1)
+		transition: opacity 0.1s ease
+
+	.dropdown-menu > li > a
+		padding: 6% 8% 6% 6%
+		padding-right: 45px
+		font-weight: normal
+		line-height: 1.42857143
+		color: $color_text
+		transition: border-color 0.05s ease
+
+		&:hover
+			background: transparent
+			color: lighten($color_brand_main, 10%)
+
+	.dropdown-menu > .active > a
+		background: transparent
+		color: $color_brand_secondary
+
+	.dropdown-menu > .active > a:hover,
+	.dropdown-menu > .active > a:focus, .dropdown-menu > li > a:active
+		background: transparent
+		color: darken($color_brand_secondary, 10%)
+		cursor: default
+
+	.dropdown-menu > li > a:focus, .dropdown-menu > li > a:active,
+	.dropdown-menu > .active > a:focus, .dropdown-menu > li > a:active
+		background: transparent
+		color: $color_brand_main
+
+	.dropdown-menu
+		i
+			float: left
+			width: 22px
+			margin: 3px 0 0 2px
+
+		.divider
+			height: 1px
+			margin: 0
+			background: $color_background
+
+	/* Special classes for mobile */
+	li.dropdown.absolute.right
+		+media-sm
+			position: relative !important
+			float: left !important
+			width: 100%
+
+.navbar-nav .open .dropdown-menu
+	border-bottom-left-radius: 3px !important
+	border-bottom-right-radius: 3px !important
+	+media-sm
+		float: left !important
+		width: 100%
+
+/* // DROPDOWN MENUS */
+// article .row
+	// margin-bottom: 20px // we're now padding on container-main
+
+img.alignright
+	float: right
+	margin: 10px 0 10px 10px
+
+img.alignleft
+	float: right
+	margin: 10px 10px 10px 0
+
+/* Special Classes */
+.backicon
+	z-index: 0
+	position: absolute
+	font-size: 1400%
+	bottom: -50px
+	right: -35px
+	color: rgba($color_text, .08)
+	pointer-events: none
+	user-select: none
+
+.divider
+	margin: 20px auto
+	width: 100%
+	height: 2px
+	border-top: thin solid darken($color_background, 5%)
+
+.title
+	position: relative
+	margin: 5px 0
+	padding: 10px 0
+	color: white
+	text-shadow: 2px 2px 0 rgba($color_text_dark, .3)
+
+i.title-icon
+	position: relative
+	float: right
+	margin: 0 3%
+	bottom: .1em
+	font-size: 116%
+	opacity: 0.2
+
+.info
+	color: $color_info !important
+
+.warning
+	color: $color_warning !important
+
+.danger
+	color: $color_danger !important
+
+.success
+	color: darken($color_success, 10%) !important
+
+.text-color-brand-main
+	color: $color_brand_main !important
+
+.text-color-brand-secondary
+	color: $color_brand_secondary !important
+
+.info h1, .info h2, .info h3, .info h4, .info h5, .info h6
+	color: $color_info !important
+
+.danger h1, .danger h2, .danger h3, .danger h4, .danger h5, .danger h6
+	color: $color_danger !important
+
+.warning h1, .warning h2, .warning h3, .warning h4, .warning h5, .warning h6
+	color: $color_warning !important
+
+.success h1, .success h2, .success h3, .success h4, .success h5, .success h6
+	color: $color_success !important
+
+/* LISTS */
+ul
+	margin: 0
+
+ul li
+	margin-left: 0
+	list-style-type: none
+	position: relative
+	transition: all 0.1s ease-out
+
+ul li:after
+	content: ""
+	position: absolute
+	left: -10px
+	top: -2px
+	text-align: right
+	font-size: 120%
+	color: rgba($color_text, .5)
+	transition: all 0.15s ease-in
+
+ul.list-bullets-check li:after
+	content: '\f00c'
+	font-size: 75%
+	top: 4px
+	left: -15px
+	font-family: "FontAwesome"
+
+ul.list-bullets-none li:after
+	content: ""
+
+li [class^="fa-"]
+	/* Override Font-Awesome props */
+	text-align: left
+
+ul.list-margin-none
+	padding: 0 10px 0 28px
+
+ul ul
+	padding-left: 10px
+
+ul li ul li:after
+	content: '\f101'
+	font-size: 85%
+	top: 2px
+	left: -11px
+	font-family: "FontAwesome"
+
+/* // LISTS */
+
+/* Pagination */
+.pagination
+	margin: 30px auto 0px auto
+	width: 100%
+	text-align: center
+
+.pagination .active span
+	background-color: $color_brand_secondary
+
+/* // PAGINATION */
+
+/* BUTTONS
+ **  There are simple buttons, squishy, small, big, whole lot!
+ **  Squishy ones feel like you're pressing it, let's not over use them.
+ */
+a.btn, .btn, button
+	background-color: lighten($color_text, 68%)
+	color: $color_text
+	font-family: $font_headings !important
+	font-size: 130%
+	text-shadow: 0 1px 1px rgba(255, 255, 255, .06)
+	border: thin solid lighten($color_text, 65%)
+	border-bottom: 1px solid lighten($color_text, 58%)
+	border-radius: 3px
+	transition: all 0.1s ease-in-out
+
+	&:hover
+		background-color: lighten($color_text, 70%)
+		border-color: lighten($color_text, 65%)
+		border-bottom: 1px solid lighten($color_brand_main, 26%)
+		color: $color_brand_main !important
+
+	&:active, &:focus
+		background-color: lighten($color_text, 70%)
+		color: $color_brand_secondary !important
+		border-color: lighten($color_text, 65%)
+		border-bottom-color: $color_brand_secondary
+		outline: none !important
+		box-shadow: 1px 1px 0 rgba(black, .1)
+
+a.btn.btn-squishy, .btn.btn-squishy
+	position: relative
+	top: 0
+	margin-bottom: 8px
+	font-weight: 600
+	border-radius: 3px
+	box-shadow: 0 3px 0 lighten($color_text, 58%)
+
+	&:hover
+		background-color: lighten($color_text, 70%)
+		top: 2px
+		box-shadow: 0 1px 0 lighten($color_text, 58%)
+
+	&:active, &:focus
+		border-bottom-color: $color_brand_secondary
+		color: $color_brand_secondary !important
+		background-color: lighten($color_text, 70%)
+		border-top-color: lighten($color_text, 70%)
+
+
+a.btn.btn-outline, .btn.btn-outline
+	background-color: transparent
+	color: white
+	border: 1px solid white
+	padding: 5px 20px
+	box-shadow: none
+
+	&:hover
+		color: white !important
+		border: 1px solid white
+		background-color: rgba(white, .25)
+
+	&:active, &:focus
+		color: white !important
+		border: 1px solid white
+		background-color: rgba(white, .5)
+
+.box
+	a.btn.btn-outline, .btn.btn-outline
+		color: $color_text
+		border: 1px solid lighten($color_text, 40%)
+
+		&:hover
+			color: black !important
+			border: 1px solid lighten($color_text, 20%)
+			background-color: rgba(white, .25)
+
+		&:active, &:focus
+			color: black !important
+			border: 1px solid $color_text
+			background-color: rgba(white, .5)
+
+/* BUTTON SUCCESS */
+a.btn-success, .btn-success
+	background-color: $color_success
+	color: darken($color_success, 40%)
+	border-color: darken($color_success, 5%)
+	text-shadow: 1px 1px 0 rgba(white, .6)
+
+a.btn-success:hover, .btn-success:hover
+	color: $color_text !important
+	background-color: lighten($color_success, 15%)
+	border-color: darken($color_success, 5%)
+
+a.btn.btn-squishy.btn-success, .btn.btn-squishy.btn-success
+	background-color: $color_success
+	border-color: darken($color_success, 5%)
+	border-bottom-color: darken($color_success, 8%)
+	box-shadow: 0 3px 0 darken($color_success, 8%)
+
+a.btn.btn-squishy.btn-success:hover, .btn.btn-squishy.btn-success:hover
+	background-color: lighten($color_success, 5%)
+	box-shadow: 0 1px 0 darken($color_success, 8%)
+
+a.btn-success:focus, .btn-success:focus,
+a.btn-success:active, .btn-success:active,
+a.btn.btn-squishy.btn-success:focus, .btn.btn-squishy.btn-success:focus,
+a.btn.btn-squishy.btn-success:active, .btn.btn-squishy.btn-success:active
+	color: $color_text !important
+	background-color: darken($color_success, 10%)
+	border-bottom-color: darken($color_success, 10%)
+
+/* BUTTON DANGER */
+a.btn-danger, .btn-danger
+	color: $color_text_bright !important
+	background-color: lighten($color_danger, 2%)
+	border-color: darken($color_danger, 5%)
+	text-shadow: 1px 1px 0 rgba(black, .4)
+
+a.btn-danger:hover, .btn-danger:hover
+	color: $color_text_bright !important
+	background-color: lighten($color_danger, 6%)
+	border-color: darken($color_danger, 5%)
+	border-bottom-color: darken($color_danger, 10%)
+
+a.btn.btn-squishy.btn-danger, .btn.btn-squishy.btn-danger
+	background-color: lighten($color_danger, 2%)
+	border-bottom-color: darken($color_danger, 10%)
+	box-shadow: 0 3px 0 desaturate(darken($color_danger, 8%), 12%)
+
+a.btn.btn-squishy.btn-danger:hover, .btn.btn-squishy.btn-danger:hover
+	border-color: darken($color_danger, 4%)
+	background-color: lighten($color_danger, 5%)
+	box-shadow: 0 1px 0 darken($color_danger, 15%)
+
+a.btn-danger:focus, .btn-danger:focus,
+a.btn-danger:active, .btn-danger:active,
+a.btn.btn-squishy.btn-danger:focus, .btn.btn-squishy.btn-danger:focus,
+a.btn.btn-squishy.btn-danger:active, .btn.btn-squishy.btn-danger:active
+	color: $color_text_bright !important
+	background-color: darken($color_danger, 10%)
+	border-bottom-color: darken($color_danger, 12%)
+
+/* BUTTON WARNING */
+a.btn-warning, .btn-warning
+	color: darken($color_warning, 45%)
+	background-color: lighten($color_warning, 6%)
+	border-color: darken($color_warning, 2%)
+	text-shadow: 1px 1px 1px rgba(white, .5)
+
+a.btn-warning:hover, .btn-warning:hover
+	color: $color_text_dark !important
+	background-color: lighten($color_warning, 12%)
+	border-color: darken($color_warning, 2%)
+	border-bottom-color: darken($color_warning, 15%)
+
+a.btn.btn-squishy.btn-warning, .btn.btn-squishy.btn-warning
+	background-color: lighten($color_warning, 6%)
+	border-bottom-color: darken($color_warning, 12%)
+	box-shadow: 0 3px 0 desaturate(darken($color_warning, 14%), 5%)
+
+a.btn.btn-squishy.btn-warning:hover, .btn.btn-squishy.btn-warning:hover
+	background-color: lighten($color_warning, 12%)
+	box-shadow: 0 1px 0 darken($color_warning, 15%)
+
+a.btn-warning:focus, .btn-warning:focus,
+a.btn-warning:active, .btn-warning:active,
+a.btn.btn-squishy.btn-warning:focus, .btn.btn-squishy.btn-warning:focus,
+a.btn.btn-squishy.btn-warning:active, .btn.btn-squishy.btn-warning:active
+	color: $color_text !important
+	background-color: darken($color_warning, 10%)
+
+/* BUTTON INFO */
+a.btn-info, .btn-info
+	color: $color_text_bright !important
+	background-color: lighten($color_info, 4%)
+	border-color: darken($color_info, 2%)
+	text-shadow: 1px 1px 0 rgba(black, .4)
+
+a.btn-info:hover, .btn-info:hover
+	color: $color_text_bright !important
+	background-color: lighten($color_info, 10%)
+	border-color: darken($color_info, 2%)
+	border-bottom-color: darken($color_info, 15%)
+
+a.btn.btn-squishy.btn-info, .btn.btn-squishy.btn-info
+	background-color: lighten($color_info, 4%)
+	border-bottom-color: darken($color_info, 12%)
+	box-shadow: 0 3px 0 darken($color_info, 8%)
+
+a.btn.btn-squishy.btn-info:hover, .btn.btn-squishy.btn-info:hover
+	background-color: lighten($color_info, 10%)
+	box-shadow: 0 1px 0 darken($color_info, 5%)
+
+a.btn-info:focus, .btn-info:focus,
+a.btn-info:active, .btn-info:active,
+a.btn.btn-squishy.btn-info:focus, .btn.btn-squishy.btn-info:focus,
+a.btn.btn-squishy.btn-info:active, .btn.btn-squishy.btn-info:active
+	color: $color_text_bright !important
+	background-color: darken($color_info, 10%)
+	border-bottom-color: darken($color_info, 12%)
+
+/* BUTTON EXTERNAL */
+a.btn.external
+	border-bottom: 2px solid rgba($color_brand_secondary, .2)
+
+a.btn.external:after
+	content: '\f08e'
+	float: right
+	font-size: 75%
+	color: rgba($color_text, .6)
+	position: absolute
+	top: 6px
+	right: 8px
+	font-family: "FontAwesome"
+
+/* Tiny cute lil buttons */
+.btn-xs
+	font-size: 90%
+
+/* // BUTTONS */
+
+/* TABS */
+
+.nav-tabs li:after
+	content: ""
+
+/* Inactive tabs */
+.nav-tabs > li > a
+	color: $color_text
+	border-color: transparent
+	cursor: pointer
+	transition: color 0.1s, opacity 0.1s
+
+/* Mouse over inactive tab */
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus,
+.nav-tabs.nav-justified > li > a:hover,
+.nav-tabs.nav-justified > li > a:focus
+	border: none
+	background-color: transparent
+	color: darken($color_brand_main, 10%)
+	border-color: transparent
+	border-bottom: 2px solid lighten($color_brand_main, 10%) !important
+
+/* Active tab */
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus,
+.nav-tabs.nav-justified > li.active > a,
+.nav-tabs.nav-justified > li.active > a:hover,
+.nav-tabs.nav-justified > li.active > a:focus
+	border: none
+	background-color: transparent
+	color: $color_brand_main
+	border-color: transparent
+	border-bottom: 2px solid $color_brand_main !important
+	cursor: default
+
+.nav-tabs.nav-justified > li > a
+	border-bottom: 2px solid darken($color_background, 10%) !important
+
+/* Tab content */
+.tab-content
+	position: relative
+	height: 100%
+	background-color: $color_background_bright
+	border: none
+	border-radius: 3px
+	box-shadow: 2px 2px 0 rgba(darken($color_background, 60%), .1)
+
+.tab-content p
+	padding: 10px
+
+/* LABELS */
+.label
+	padding: .2em .7em .3em
+	font-size: 90%
+	font-weight: normal
+	color: $color_text_bright
+	text-shadow: 1px 1px 0 rgba(black, .2)
+	box-shadow: 1px 1px 0 rgba(black, .1)
+	border-radius: 3px
+
+.label.label-2x
+	font-size: 100%
+
+.label-info
+	background-color: $color_info
+	color: $color_text_bright
+	font-weight: bold
+	text-shadow: 1px 1px 0 rgba(black, .2)
+	border: thin solid darken($color_info, 5%)
+
+.label-danger
+	background-color: $color_danger
+	color: $color_text_bright
+	font-weight: bold
+	text-shadow: 1px 1px 0 rgba(black, .2)
+	border: thin solid darken($color_danger, 5%)
+
+.label-warning
+	background-color: $color_warning
+	color: darken($color_warning, 45%)
+	text-shadow: 1px 1px 0 rgba(white, .5)
+	border: thin solid darken($color_warning, 5%)
+
+.label-success
+	background-color: $color_success
+	color: darken($color_success, 40%)
+	text-shadow: 1px 1px 0 rgba(white, .5)
+	border: thin solid darken($color_success, 5%)
+
+.disabled label
+	color: lighten($color_text, 5%)
+
+/* // LABELS */
+
+/* CARDS */
+/* swap a "front" div with a "back" div */
+/* both inside a "card" div, with a nice flip effect. */
+.flip
+	-webkit-perspective: $container_width
+	-moz-perspective: 0
+	-o-perspective: $container_width
+	perspective: $container_width
+	position: relative
+	clear: both
+
+.flip .card
+	height: 100%
+	-webkit-transform-style: preserve-3d
+	-moz-transform-style: preserve-3d
+	-o-transform-style: preserve-3d
+	transform-style: preserve-3d
+	-webkit-transition: 0.3s
+	-moz-transition: 0.3s
+	-o-transition: 0.3s
+	transition: 0.3s
+
+.flip .card .face
+	-webkit-backface-visibility: hidden
+	-moz-backface-visibility: hidden
+	-o-backface-visibility: hidden
+	backface-visibility: hidden
+	z-index: 3
+
+.flip .card .front
+	position: absolute
+	width: 100%
+	z-index: 2
+	-webkit-backface-visibility: hidden !important
+	-moz-backface-visibility: hidden !important
+	-o-backface-visibility: hidden !important
+	backface-visibility: hidden !important
+	transition: opacity 0.15s ease-in-out
+
+.flip .card .back
+	-webkit-transform: rotatey(-180deg)
+	-moz-transform: rotatey(-180deg)
+	-o-transform: rotatey(-180deg)
+	transform: rotatey(-180deg)
+
+.flip .face > h1, .flip .face > h2,
+.flip .face > h3, .flip .face > h4
+	/* Special case when card starts with a title */
+	margin-top: 0
+
+.flip .card.flipped
+	-webkit-transform: rotatey(-180deg)
+	-moz-transform: rotatey(-180deg)
+	-o-transform: rotatey(-180deg)
+	transform: rotatey(-180deg)
+
+.flipped .front
+	/* FF */
+	opacity: 0
+	-webkit-backface-visibility: hidden !important
+	-moz-backface-visibility: hidden !important
+	-o-backface-visibility: hidden !important
+	backface-visibility: hidden !important
+
+.flip_toggle
+	display: block
+	position: absolute
+	right: 0
+	top: 5px
+	padding: 2px
+	min-width: 40px
+	min-height: 40px
+	z-index: 2
+	transition: color 0.15s ease-in-out
+
+.flip_toggle:hover
+	cursor: pointer
+	color: lighten($color_brand_main, 10%)
+
+.flip_toggle:before
+	content: '\f021'
+	font-family: 'FontAwesome'
+	right: 12px
+	position: absolute
+
+/* BOX
+ **  Use it to put content inside a neat little box
+ */
+
+.box, .breadcrumb
+	position: relative
+	background-color: $color_background_bright
+	border: thin solid lighten($color_text, 68%)
+	overflow: hidden /* for backicons */
+	word-break: break-word
+	border-radius: 3px
+	box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px
+
+.box
+	+media-xs
+		margin-bottom: 14px
+	+media-sm
+		margin-bottom: 14px
+
+	& p
+		position: relative
+		margin: 15px
+
+	& p + ul
+		margin-top: -7px
+
+	& a
+		text-shadow: none
+
+	& h1
+		margin: 10px 10px 0 15px
+		text-shadow: none
+
+	& h2
+		margin: 10px 10px 0 15px
+		text-shadow: none
+
+	& h3, & h4, & h5, & h6
+		margin: 10px 0 0 15px
+		text-shadow: none
+
+	& h2 + p
+		margin-top: 10px
+
+	& h3 + p, & h4 + p, & h5 + p
+		margin-top: 5px
+
+	& hr
+		width: 95%
+		opacity: 0.8
+
+	& ul
+		margin-top: 10px
+		margin-left: 0
+		padding-left: 30px
+
+		& li
+			margin-bottom: 10px
+			padding-right: 15px
+
+			&:after
+				content: '\00b7'
+				top: -1px
+				left: -13px
+				color: lighten($color_text, 40%)
+
+			&:last-child
+				margin-bottom: 35px
+
+	& .bottom
+		width: 100%
+
+	&+.box // When a box is followed immediately by another box
+		margin-top: 20px
+
+	& ul.nav.nav-tabs
+		margin: 0
+		padding: 0
+		list-style: none
+		& li
+			margin: 0
+			padding: 0
+			background-color: darken(white, 8%)
+			text-shadow: 1px 1px 1px rgba(white, .8)
+
+			&:first-child
+				border-top-left-radius: 3px
+			&:last-child
+				border-top-right-radius: 3px
+			&:after
+				content: ''
+
+			&.active
+				background-color: white
+
+			& a
+				border: none
+				border-right-color: white
+				border-bottom-color: white
+				text-shadow: 1px 1px 1px rgba(white, .8)
+
+/* // BOX */
+
+/* FEATURED - (our own jumbotron) */
+.featured
+	height: $featured-lg_height
+	+media-xs
+		height: $featured-sm_height
+
+	display: flex
+	flex-direction: column
+	justify-content: flex-end
+	position: relative
+	background-color: white
+	border-bottom: thin solid lighten($color_text, 65%)
+	background-image: url(https://www.blender.org/wp-content/themes/bthree/assets/images/placeholder_background.jpg)
+	background-size: cover
+	text-shadow: 1px 1px 1px rgba(black, .37)
+
+	.container
+		z-index: 1
+		position: relative
+
+.featured-xs
+	height: $featured-xs_height
+
+.featured-sm
+	height: $featured-sm_height
+
+.featured-md
+	height: $featured-md_height
+
+.featured-lg
+	height: $featured-lg_height
+
+.featured-xl
+	height: $featured-xl_height
+
+.featured h1, .featured h2, .featured h3,
+.featured h4, .featured h5, .featured h6
+	color: white
+
+.featured h1
+	font-size: 360%
+	+media-xs
+		font-size: 200%
+		padding: 0
+		margin: 0
+
+.featured h3
+	font-size: 180%
+	+media-xs
+		font-size: 130%
+		padding: 0
+		margin: 0
+
+.featured-overlay
+	position: absolute
+	top: 0
+	left: 0
+	right: 0
+	bottom: 0
+	background-color: transparent
+	background-image: linear-gradient(rgba(white, .15), rgba(black, .2))
+
+/* THUMBNAILS */
+.thumbnail
+	padding: 4px
+	border: none
+	background-color: white
+	box-shadow: 1px 1px 0 rgba($color_text, .25)
+	transition: all 0.1s ease-out
+
+a img.thumbnail:hover
+	opacity: 0.9
+
+/* // THUMBNAILS */
+
+/* ADMIN POWERS */
+.soyadmin
+	float: right
+	color: $color_text
+	font-size: 150%
+	position: fixed
+	right: 17px
+	top: 12px
+	z-index: 10
+	opacity: 0.3
+
+.soyadmin:hover
+	color: $color_brand_main
+	opacity: 1.0
+
+/* // ADMIN POWERS */
+
+/* ALERTS */
+
+
+.alert
+	margin-bottom: 0
+	border: none
+	position: fixed
+	z-index: 9
+	width: 100%
+	border-radius: 0
+	text-align: center
+	color: $color_text_dark
+	font-size: 110%
+	padding: 0
+	-webkit-animation: fade-in-pause-out 6s
+	-webkit-animation-fill-mode: both
+	-moz-animation: fade-in-pause-out 6s
+	-moz-animation-fill-mode: both
+	-o-animation: fade-in-pause-out 6s
+	-o-animation-fill-mode: both
+	-ms-animation: fade-in-pause-out 6s
+	-ms-animation-fill-mode: both
+	animation: fade-in-pause-out 6s
+	animation-fill-mode: both
+
+.alert .container
+	padding: 0.5em 0
+
+.alert-info, .alert-warning,
+.alert-danger, .alert-error, .alert-success,
+	box-shadow: 0 2px 2px rgba(black, .1)
+
+.alert-info
+	background-color: rgba($color_info, .9)
+	color: $color_text_bright
+	text-shadow: 1px 1px 1px rgba(black, .2)
+
+.alert-warning
+	background-color: saturate(darken($color_warning, 10%), 100%)
+	color: $color_text_bright
+	text-shadow: 1px 1px 1px rgba(black, .4)
+	& .close
+		color: $color_text
+		&:hover
+			color: darken($color_text, 10%) !important
+
+.alert-danger, .alert-error
+	background-color: rgba($color_danger, .9)
+	color: $color_text_bright
+	text-shadow: 1px 1px 1px rgba(black, .2)
+
+.alert-success
+	background-color: rgba(saturate(lighten($color_success, 8%), 20%), .9)
+	text-shadow: 1px 1px 1px rgba(white, .5)
+	& .close
+		color: $color_text
+		&:hover
+			color: darken($color_text, 10%) !important
+
+.alert button.close
+	font-size: 90%
+	padding: 0.2em 0.5em 0 0
+	-webkit-animation: fade-in-pause-out 6s
+	-webkit-animation-fill-mode: both
+	-moz-animation: fade-in-pause-out 6s
+	-moz-animation-fill-mode: both
+	-o-animation: fade-in-pause-out 6s
+	-o-animation-fill-mode: both
+	-ms-animation: fade-in-pause-out 6s
+	-ms-animation-fill-mode: both
+	animation: fade-in-pause-out 6s
+	animation-fill-mode: both
+
+.alert-info h1, .alert-info h2, .alert-info h3, .alert-info h4,
+.alert-danger h1, .alert-danger h2, .alert-danger h3, .alert-danger h4,
+.alert-error h1, .alert-error h2, .alert-error h3, .alert-error h4
+	color: $color_text_bright
+
+.close
+	color: $color_text_bright
+	text-shadow: none
+	opacity: 0.5
+
+.close:hover
+	color: $color_text_bright !important
+	background-color: transparent
+	opacity: 1.0
+
+.alert button.close
+	box-shadow: none
+
+.alert button.close:hover
+	border: none
+	box-shadow: none
+
+/* // ALERTS */
+
+/* TABLES (yeah they're still used every now and then */
+.table
+	border-collapse: initial
+
+/* No ugly borders! */
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th,
+.table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td
+	border-top: thin solid transparent
+	border-bottom: thin solid transparent
+
+/* Only on mouse over */
+.table tr:hover td
+	border-top: thin solid lighten($color_text, 58%) !important
+	border-bottom: thin solid lighten($color_text, 58%) !important
+
+.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th
+	background-color: darken($color_background, 3%)
+
+/* First odd, then even */
+.table-striped > tbody > tr:nth-child(2n+1):hover > td, .table-striped > tbody > tr:nth-child(2n+1):hover > th,
+.table-striped > tbody > tr:nth-child(2n):hover > td, .table-striped > tbody > tr:nth-child(2n):hover > th
+	background-color: darken($color_background, 4%)
+
+.table .table-row-link:hover > tr, .table .table-row-link:hover > td
+	color: $color_brand_main
+	cursor: pointer
+
+/* Tables with status */
+tbody > tr.danger > td a, tbody > tr.info > td a,
+tbody > tr.warning > td a, tbody > tr.success > td a
+	font-weight: bold
+
+tbody > tr.danger > td a:hover, tbody > tr.info > td a:hover,
+tbody > tr.warning > td a:hover, tbody > tr.success > td a:hover
+	text-decoration: underline !important
+
+tbody > tr.danger > td a, tbody > tr.info > td a
+	color: $color_text_bright
+
+tbody > tr.warning > td a, tbody > tr.success > td a
+	color: $color_text
+
+.table tr.info:hover td
+	background-color: darken($color_info, 10%) !important
+	border-top: thin solid darken($color_info, 10%) !important
+	border-bottom: thin solid darken($color_info, 10%) !important
+
+.table tr.danger:hover td
+	background-color: darken($color_danger, 5%) !important
+	border-top: thin solid $color_danger !important
+	border-bottom: thin solid $color_danger !important
+
+.table tr.warning:hover td
+	background-color: darken($color_warning, 5%) !important
+	border-top: thin solid $color_warning !important
+	border-bottom: thin solid $color_warning !important
+
+.table tr.success:hover td
+	background-color: darken($color_success, 5%) !important
+	border-top: thin solid $color_success !important
+	border-bottom: thin solid $color_success !important
+
+.table-striped > tbody > tr.danger:nth-child(2n) > td, .table-striped > tbody > tr.danger:nth-child(2n) > th,
+.table-striped > tbody > tr.danger:nth-child(2n+1) > td, .table-striped > tbody > tr.danger:nth-child(2n+1) > th,
+.table-striped > tbody > tr.info:nth-child(2n) > td, .table-striped > tbody > tr.info:nth-child(2n) > th,
+.table-striped > tbody > tr.info:nth-child(2n+1) > td, .table-striped > tbody > tr.info:nth-child(2n+1) > th
+	color: $color_text_bright
+
+.table > tbody > tr.success > td,
+.table-striped > tbody > tr.success:nth-child(2n) > td, .table-striped > tbody > tr.success:nth-child(2n) > th,
+.table-striped > tbody > tr.success:nth-child(2n+1) > td, .table-striped > tbody > tr.success:nth-child(2n+1) > th,
+.table-striped > tbody > tr.warning:nth-child(2n) > td, .table-striped > tbody > tr.warning:nth-child(2n) > th,
+.table-striped > tbody > tr.warning:nth-child(2n+1) > td, .table-striped > tbody > tr.warning:nth-child(2n+1) > th
+	color: $color_text
+
+/* Danger */
+.table-striped > tbody > tr.danger:nth-child(2n) > td,
+.table-striped > tbody > tr.danger:nth-child(2n) > th
+	background-color: lighten($color_danger, 5%)
+
+.table-striped > tbody > tr.danger:nth-child(2n+1) > td,
+.table-striped > tbody > tr.danger:nth-child(2n+1) > th
+	background-color: $color_danger
+
+/* Success */
+.table-striped > tbody > tr.success:nth-child(2n) > td,
+.table-striped > tbody > tr.success:nth-child(2n) > th
+	background-color: darken($color_success, 5%)
+
+.table > tbody > tr.success > td,
+.table-striped > tbody > tr.success:nth-child(2n+1) > td,
+.table-striped > tbody > tr.success:nth-child(2n+1) > th
+	background-color: $color_success
+
+/* Warning */
+.table-striped > tbody > tr.warning:nth-child(2n) > td,
+.table-striped > tbody > tr.warning:nth-child(2n) > th
+	background-color: lighten($color_warning, 10%)
+
+.table-striped > tbody > tr.warning:nth-child(2n+1) > td,
+.table-striped > tbody > tr.warning:nth-child(2n+1) > th
+	background-color: $color_warning
+
+/* Info */
+.table-striped > tbody > tr.info:nth-child(2n) > td,
+.table-striped > tbody > tr.info:nth-child(2n) > th
+	background-color: lighten($color_info, 10%)
+
+.table-striped > tbody > tr.info:nth-child(2n+1) > td,
+.table-striped > tbody > tr.info:nth-child(2n+1) > th
+	background-color: $color_info
+
+/* Data Tables */
+.dataTable .group
+	font-size: 200%
+	font-family: $font_headings
+	text-shadow: 1px 1px 0 rgba(black, .2)
+
+.dataTable .group td,
+.dataTable .group td:hover
+	background-color: $color_info !important
+	color: white !important
+	border: none !important
+	border-bottom: 2px solid darken($color_info, 10%) !important
+	padding-top: 7px
+	padding-bottom: 0
+
+.dataTable .sorting
+	position: relative
+
+.dataTable .fa-sort
+	font-size: 80%
+	position: absolute
+	color: lighten($color_text, 40%)
+	top: 12px
+	right: 2px
+
+/* // Data Tables */
+
+/* LOGO */
+header a.logo
+	display: block
+	position: relative
+	float: left
+	height: 45px /* 36 is actual size */
+	font-family: $font_headings !important
+	color: inherit
+	text-align: right
+	font-size: 120%
+	background: url(https://www.blender.org/wp-content/themes/bthree/assets/images/logo.png) no-repeat
+	font-weight: lighter
+	line-height: 180%
+	width: 123px
+	opacity: 1.0
+	margin: 8px 0 0 0
+	background-size: 123px 36px
+	background-position-y: 5px
+	transition: opacity 0.2s ease-in
+
+	+media-xs
+		margin: 12px 0 0 15px
+
+	&:hover
+		opacity: 0.8
+
+/* // LOGO */
+
+/* FOOTER */
+/* Footer Navigation */
+footer
+	font-size: 80%
+
+footer a
+	color: lighten($color_text, 20%) !important
+
+footer a:hover
+	color: $color_brand_main !important
+
+#footer-navigation
+	font-size: 85%
+	margin-bottom: 5px
+	color: lighten($color_text, 15%)
+	border-top: thick solid lighten($color_text, 60%)
+
+	ul
+		position: relative
+		margin: 0
+		padding: 0 0 10px 16px
+		list-style-type: none
+	a
+		color: lighten($color_text, 15%)
+		&:hover
+			color: $color_brand_main
+
+	h4
+		color: lighten($color_text, 8%)
+		margin-bottom: 5px
+
+/* Bootstrap Overrides */
+/* Breadcrumb */
+.breadcrumb > li + li:before
+	content: '\f105'
+	font-family: "FontAwesome"
+
+.breadcrumb
+	& .active,
+	& .active a
+		color: lighten($color_text, 30%)
+
+	& .active a:hover
+		color: $color_brand_secondary
+
+/* // Breadcrumb */
+
+.well
+	overflow: hidden
+
+.tooltip
+	font-size: $font_size
+	position: absolute
+
+.tooltip.in
+	opacity: 1.0
+
+.tooltip-inner
+	margin: 0 auto
+	background-color: $color_background
+	color: $color_text
+	border-radius: 3px
+	box-shadow: 2px 2px 0 rgba(darken($color_background, 60%), .2)
+
+.tooltip.bottom .tooltip-arrow
+	border-bottom-color: $color_background
+	border-radius: 6px
+
+.tooltip.top .tooltip-arrow
+	border-top-color: $color_background
+
+.tooltip.bottom .tooltip-arrow
+	border-bottom-color: $color_background
+
+.tooltip.left .tooltip-arrow
+	border-left-color: $color_background
+
+.tooltip.right .tooltip-arrow
+	border-left-color: $color_background
+
+.popover .arrow
+	display: none
+
+.popover
+	min-width: 250px
+	background-color: transparent
+	border: none
+	border-radius: 3px
+
+.popover-title
+	background-color: $color_background
+	font-size: 110%
+	border-radius: 0
+	display: none
+
+.popover-content
+	font-size: $font_size
+	border-radius: 3px
+	background-color: $color_background
+	box-shadow: 2px 2px 0 rgba(darken($color_background, 60%), .2)
+
+.blink
+	transition: all 2s ease-in-out
+	animation: blink 2s infinite ease-in-out
+	animation-name: blink
+	-moz-animation-name: blink
+	animation-direction: normal
+	animation-duration: 2s
+	animation-iteration-count: infinite
+	animation-timing-function: ease-in-out
+
+.blink.slowest
+	animation-duration: 12s
+
+.blink.slow
+	animation-duration: 6s
+
+.blink.fast
+	animation-duration: 1s
+
+.blink.fastest
+	animation-duration: .5s
