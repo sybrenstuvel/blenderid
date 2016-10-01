@@ -1,0 +1,34 @@
+[
+    {
+        "fields": {
+            "date_joined": "2016-09-30T06:54:10Z",
+            "email": "",
+            "first_name": "",
+            "groups": [],
+            "is_active": true,
+            "is_staff": false,
+            "is_superuser": false,
+            "last_login": null,
+            "last_name": "",
+            "password": "pbkdf2_sha256$24000$impossibru",
+            "user_permissions": [],
+            "username": "blender-id-app-owner"
+        },
+        "model": "auth.user",
+        "pk": 2
+    },
+    {
+        "fields": {
+            "authorization_grant_type": "password",
+            "client_id": "SPECIAL-SNOWFLAKE-57",
+            "client_secret": "Soz6Chuo0Ooy0iiy8weiChee5GuGoque",
+            "client_type": "confidential",
+            "name": "Blender ID addon",
+            "redirect_uris": "",
+            "skip_authorization": false,
+            "user": 2
+        },
+        "model": "oauth2_provider.application",
+        "pk": 1
+    }
+]
