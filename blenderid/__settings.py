@@ -1,0 +1,39 @@
+"""
+Local development settings.
+"""
+
+from blenderid.common_settings import *
+
+DEBUG = True
+BLENDER_ID_ADDON_CLIENT_ID = 'SPECIAL-SNOWFLAKE-57'
+
+# Update this to something unique for your machine.
+# This was generated using "pwgen -sync 64"
+SECRET_KEY = r'''}y\[.~WGh2#~|6r|alD0R6<'WA@F#hB|4eyR\6SUyovx5H,v4TP#H~6unZGIgk~`'''
+
+
+LOGGING = {
+    'version': 1,
+    'formatters': {
+        'default': {'format': '%(asctime)-15s %(levelname)8s %(name)s %(message)s'}
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'default',
+            'stream': 'ext://sys.stderr',
+        }
+    },
+    'loggers': {
+        'bid_main': {'level': 'DEBUG'},
+        'blenderid': {'level': 'DEBUG'},
+        'bid_api': {'level': 'DEBUG'},
+        'bid_addon_support': {'level': 'DEBUG'},
+    },
+    'root': {
+        'level': 'WARNING',
+        'handlers': [
+            'console',
+        ],
+    }
+}
