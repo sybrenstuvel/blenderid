@@ -11,12 +11,18 @@ class UserProfileInline(admin.StackedInline):
     can_delete = False
 
 
-class UserSettingInline(admin.StackedInline):
+class UserSettingInline(admin.TabularInline):
     model = models.UserSetting
+    extra = 1
+
+
+class AddressInline(admin.TabularInline):
+    model = models.Address
+    extra = 1
 
 
 class UserAdmin(BaseUserAdmin):
-    inlines = (UserProfileInline, UserSettingInline)
+    inlines = (UserProfileInline, UserSettingInline, AddressInline)
 
     fieldsets = (
         (None, {'fields': ('username', 'password', 'email')}),

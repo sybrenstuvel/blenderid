@@ -70,7 +70,8 @@ ADDRESS_TYPE_CHOICES = [
 
 
 class Address(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE,
                              related_name='addresses')
     address_type = models.CharField(max_length=32, choices=ADDRESS_TYPE_CHOICES)
     address = models.TextField(max_length=255)
