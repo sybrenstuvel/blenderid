@@ -2,9 +2,7 @@ import logging
 import datetime
 
 from django.conf import settings
-from django.shortcuts import render
 from django.views.generic import View
-from django.views.decorators.http import require_http_methods
 from django.views.decorators.debug import sensitive_post_parameters
 from django.contrib.auth import authenticate
 from django.http import HttpResponse, JsonResponse
@@ -13,12 +11,12 @@ from django.utils import timezone
 from django.core import exceptions as django_exc
 
 from oauth2_provider.models import AccessToken, RefreshToken, Application
-from oauth2_provider.settings import oauth2_settings
 
 import oauthlib.common
 
 # Braces is a dependency of oauth2_provider.
 from braces.views import CsrfExemptMixin
+
 
 def index(request):
     return HttpResponse('This is an API end-point for the Blender ID add-on.')
@@ -118,6 +116,7 @@ class DeleteTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
             'data': {'message': 'ole'}
         })
 
+
 class ValidateTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
     log = logging.getLogger('%s.ValidateTokenView' % __name__)
 
@@ -128,7 +127,6 @@ class ValidateTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
             raise django_exc.PermissionDenied()
 
         return token
-
 
     @method_decorator(sensitive_post_parameters('token'))
     def post(self, request):
@@ -151,15 +149,19 @@ class ValidateTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
         token = self.validate_oauth_token(user_id, access_token, subclient)
 
         if not token or not token.is_valid():
-            log.debug('Token not found in database.')
+            if self.log.isEnabledFor(logging.DEBUG):
+                if not token:
+                    self.log.debug('Token not found in database.')
+                elif token.is_valid():
+                    self.log.debug('Token is found but not valid.')
             return JsonResponse({'status': 'fail',
                                  'token': 'Token is invalid'},
-                                 status=403)
+                                status=403)
 
         user = token.user
         return JsonResponse({'status': 'success',
-                        'user': {'id': user.id,
-                                 'email': user.email,
-                                 'full_name': user.get_full_name().strip()},
-                        'token_expires': token.expires,
-                        })
+                             'user': {'id': user.id,
+                                      'email': user.email,
+                                      'full_name': user.get_full_name().strip()},
+                             'token_expires': token.expires,
+                             })
