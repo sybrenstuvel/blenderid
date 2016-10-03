@@ -133,3 +133,16 @@ OAUTH2_PROVIDER = {
 # This is required for compatibility with Blender Cloud, as it performs
 # a POST request to /oauth/token.
 APPEND_SLASH = False
+
+# Read https://docs.djangoproject.com/en/1.9/topics/auth/passwords/#password-upgrading
+# before removing any password hasher from this list.
+PASSWORD_HASHERS = [
+    'bid_main.hashers.BlenderIdPasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.SHA1PasswordHasher',
+    'django.contrib.auth.hashers.MD5PasswordHasher',
+    'django.contrib.auth.hashers.CryptPasswordHasher',
+]
