@@ -11,6 +11,24 @@ BLENDER_ID_ADDON_CLIENT_ID = 'SPECIAL-SNOWFLAKE-57'
 # This was generated using "pwgen -sync 64"
 SECRET_KEY = r'''}y\[.~WGh2#~|6r|alD0R6<'WA@F#hB|4eyR\6SUyovx5H,v4TP#H~6unZGIgk~`'''
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'blender_id_new',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    }
+}
+
 
 LOGGING = {
     'version': 1,

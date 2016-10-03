@@ -5,3 +5,4 @@ db.sqlite3
 /templates/
 /static/
 /blenderid/settings.py
+.cache
