@@ -1,8 +1,12 @@
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from oauth2_provider.models import AccessToken, RefreshToken
 
+
+# We don't import django.contrib.auth.models.User directly. Instead, we use
+# django.contrib.auth.get_user_model() as described at:
+# https://docs.djangoproject.com/en/1.9/topics/auth/customizing/
 
 class BlenderIdAddonSupportTest(TestCase):
     fixtures = ['bid_addon_support/fixtures/bid_addon_support']
@@ -12,7 +16,8 @@ class BlenderIdAddonSupportTest(TestCase):
         Happy flow of the Blender ID add-on authentication.
         """
 
-        user = User.objects.create_user('sybren', 'sybren@example.com', 'jemoeder',
+        user_cls = get_user_model()
+        user = user_cls.objects.create_user('sybren', 'sybren@example.com', 'jemoeder',
                                         first_name='Sybren', last_name='Stüvel')
         user.save()
 
@@ -39,7 +44,8 @@ class BlenderIdAddonSupportTest(TestCase):
         Bad password given
         """
 
-        user = User.objects.create_user('sybren', 'sybren@example.com', 'otherpw')
+        user_cls = get_user_model()
+        user = user_cls.objects.create_user('sybren', 'sybren@example.com', 'otherpw')
         user.save()
 
         url = reverse('addon_support:identify')
@@ -59,7 +65,8 @@ class BlenderIdAddonSupportTest(TestCase):
         Bad password given
         """
 
-        user = User.objects.create_user('sybren', 'sybren@example.com', 'jemoeder')
+        user_cls = get_user_model()
+        user = user_cls.objects.create_user('sybren', 'sybren@example.com', 'jemoeder')
         user.save()
 
         url = reverse('addon_support:identify')
