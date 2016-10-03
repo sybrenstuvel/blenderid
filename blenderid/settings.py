@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'oauth2_provider',
     'django_gravatar',
+    'django_countries',
+    'bid_main',
+    'bid_api',
+    'bid_addon_support',
 ]
 
 MIDDLEWARE_CLASSES = [
