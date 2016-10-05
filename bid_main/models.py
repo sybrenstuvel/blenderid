@@ -21,14 +21,22 @@ class UserProfile(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
+
+        self._split_name()
+
+    def _split_name(self):
         # Updates the user's first_name and last_name from full_name, so that
         # the admin interface can search for users by name. By no means is this
         # culturally correct, and those fields shouldn't be used by any front-end code.
-        name_parts = self.full_name.split(' ')
-        midpoint = int(math.ceil(len(name_parts) / 2))
+        if self.full_name:
+            name_parts = self.full_name.split(' ')
+            midpoint = int(math.ceil(len(name_parts) / 2))
 
-        self.user.first_name = ' '.join(name_parts[:midpoint])
-        self.user.last_name = ' '.join(name_parts[midpoint:])
+            self.user.first_name = ' '.join(name_parts[:midpoint])
+            self.user.last_name = ' '.join(name_parts[midpoint:])
+        else:
+            self.user.first_name = ''
+            self.user.last_name = ''
         self.user.save()
 
 
