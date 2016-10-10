@@ -15,7 +15,7 @@ admin.site.index_title = 'Admin menu'
 
 class UserSettingInline(admin.TabularInline):
     model = models.UserSetting
-    extra = 1
+    extra = 0
 
 
 class AddressInline(admin.TabularInline):

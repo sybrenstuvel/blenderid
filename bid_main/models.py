@@ -1,5 +1,3 @@
-import math
-
 from django.db import models
 from django.conf import settings
 from django.core.mail import send_mail
@@ -148,7 +146,7 @@ class Setting(models.Model):
     users = models.ManyToManyField(settings.AUTH_USER_MODEL, through='UserSetting')
 
     def __str__(self):
-        return '[Setting %r]' % self.name
+        return self.name.replace('_', ' ').title()
 
 
 class UserSetting(models.Model):
@@ -157,7 +155,7 @@ class UserSetting(models.Model):
     unconstrained_value = SettingValueField()
 
     def __str__(self):
-        return '[UserSetting of %r; %r = %r]' % (self.user.username, self.setting.name, self.unconstrained_value)
+        return 'Setting %r of %r' % (self.setting.name, self.user.email)
 
 
 ADDRESS_TYPE_CHOICES = [

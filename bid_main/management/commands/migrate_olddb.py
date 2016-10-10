@@ -42,13 +42,15 @@ class Command(BaseCommand):
         self.stdout.write('Migrating old DB to new.')
 
         self.migrate_roles()
+        self.migrate_settings()
         self.migrate_users(*args, **options)
         self.migrate_user_roles()
+        self.migrate_user_settings()
         self.migrate_user_addresses()
 
     @transaction.atomic()
     def migrate_roles(self):
-        self.stdout.write('Migrating roles to groups.')
+        self.stdout.write('Migrating roles.')
 
         for result in query("SELECT * FROM role"):
             self.stdout.write('    - %s' % result.name)
@@ -70,6 +72,15 @@ class Command(BaseCommand):
 
             self.name_to_role[result.name] = role
         self.stdout.write(self.style.SUCCESS('Migrated %i groups') % len(self.name_to_role))
+
+    @transaction.atomic()
+    def migrate_settings(self):
+        self.stdout.write('Migrating settings.')
+
+        with connection.cursor() as cursor:
+            # "ignore" skips duplicates.
+            cursor.execute('insert ignore into bid_main_setting (id, name, description, data_type, `default`) '
+                           'select id, name, description, data_type, `default` from setting')
 
     @transaction.atomic()
     def migrate_users(self, *args, **options):
@@ -144,6 +155,13 @@ class Command(BaseCommand):
             # "ignore" skips duplicates.
             cursor.execute('insert ignore into bid_main_user_roles (user_id, role_id) '
                            'select user_id, role_id from roles_users')
+
+    @transaction.atomic()
+    def migrate_user_settings(self):
+        with connection.cursor() as cursor:
+            # "ignore" skips duplicates.
+            cursor.execute('insert ignore into bid_main_usersetting (id, user_id, setting_id, unconstrained_value) '
+                           'select id, user_id, setting_id, unconstrained_value from users_settings')
 
     @transaction.atomic()
     def migrate_user_addresses(self):
