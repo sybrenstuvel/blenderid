@@ -149,3 +149,5 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.MD5PasswordHasher',
     'django.contrib.auth.hashers.CryptPasswordHasher',
 ]
+
+AUTH_USER_MODEL = 'bid_main.User'
