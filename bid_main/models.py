@@ -179,7 +179,7 @@ class Address(models.Model):
         verbose_name_plural = _('addresses')
 
     def __str__(self):
-        return '[Address of %r; %s]' % (self.user.full_name, self.address_type)
+        return '%s address of %s' % (self.address_type, self.user.full_name)
 
 
 class Role(models.Model):

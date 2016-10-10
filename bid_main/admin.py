@@ -20,7 +20,7 @@ class UserSettingInline(admin.TabularInline):
 
 class AddressInline(admin.TabularInline):
     model = models.Address
-    extra = 1
+    extra = 0
 
 
 @admin.register(models.User)

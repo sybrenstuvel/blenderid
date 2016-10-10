@@ -44,6 +44,7 @@ class Command(BaseCommand):
         self.migrate_roles()
         self.migrate_users(*args, **options)
         self.migrate_user_roles()
+        self.migrate_user_addresses()
 
     @transaction.atomic()
     def migrate_roles(self):
@@ -128,9 +129,6 @@ class Command(BaseCommand):
                                 current_login_ip=result.current_login_ip,
                                 login_count=result.login_count or 0)
             existing.save()
-
-            # TODO: port settings and addresses
-
             migrated += 1
 
         if migrated:
@@ -146,3 +144,54 @@ class Command(BaseCommand):
             # "ignore" skips duplicates.
             cursor.execute('insert ignore into bid_main_user_roles (user_id, role_id) '
                            'select user_id, role_id from roles_users')
+
+    @transaction.atomic()
+    def migrate_user_addresses(self):
+        self.stdout.write('Migrating addresses.')
+        migrated = skipped = 0
+
+        # Only migrate non-migrated addresses for migrated users.
+        for result in query("SELECT * FROM address where "
+                            "user_id in (select id from bid_main_user) and "
+                            "id not in (select id from bid_main_address)"):
+            # +---------------------+--------------+------+-----+---------+----------------+
+            # | Field               | Type         | Null | Key | Default | Extra          |
+            # +---------------------+--------------+------+-----+---------+----------------+
+            # | id                  | int(11)      | NO   | PRI | NULL    | auto_increment |
+            # | user_id             | int(11)      | YES  | MUL | NULL    |                |
+            # | address_type        | varchar(128) | YES  |     | NULL    |                |
+            # | first_name          | varchar(255) | YES  |     | NULL    |                |
+            # | last_name           | varchar(255) | YES  |     | NULL    |                |
+            # | street_address      | varchar(255) | YES  |     | NULL    |                |
+            # | extended_address    | varchar(255) | YES  |     | NULL    |                |
+            # | locality            | varchar(128) | YES  |     | NULL    |                |
+            # | region              | varchar(255) | YES  |     | NULL    |                |
+            # | postal_code         | varchar(24)  | YES  |     | NULL    |                |
+            # | country_code_alpha2 | varchar(2)   | YES  |     | NULL    |                |
+            # +---------------------+--------------+------+-----+---------+----------------+
+
+            try:
+                models.Address.objects.get(id=result.id)
+            except models.Address.DoesNotExist:
+                pass
+            else:
+                skipped += 1
+                continue
+
+            # TODO: Try to combine the addresses based on rules in different countries.
+            address = '\n'.join(x for x in [result.street_address,
+                                            result.extended_address,
+                                            result.locality,
+                                            result.region,
+                                            result.postal_code]
+                                if x)
+
+            addr = models.Address(id=result.id,
+                                  user_id=result.user_id,
+                                  address_type=result.address_type,
+                                  address=address,
+                                  country=result.country_code_alpha2)
+            addr.save()
+            migrated += 1
+
+        self.stdout.write('Migrated %i addresses, skipped %i' % (migrated, skipped))
