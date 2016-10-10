@@ -2,14 +2,20 @@
 Assumes the old database tables have been loaded into the same database as the new.
 """
 
-
 from collections import namedtuple
 
 from django.core.management.base import BaseCommand, CommandError
-from django.db import connection
+from django.db import connection, transaction
 from django.contrib.auth import get_user_model
 
 from bid_main import models
+
+
+def normalise_name(name):
+    if name is None:
+        return ''
+    return name.strip()
+
 
 class Command(BaseCommand):
     help = 'Migrates old BlenderID databases to the new structure'
@@ -17,6 +23,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('-k', '--keep-old-tables', action='store_true', default=False)
 
+    @transaction.atomic()
     def handle(self, *args, **options):
         self.stdout.write('Migrating old DB to new.')
 
@@ -38,12 +45,19 @@ class Command(BaseCommand):
                 result = nt_result(*row)
                 self.stdout.write('    - %s' % result.email, ending='')
 
+                if len(result.email) > 64:
+                    # These are suspected to be invalid; at the time of writing there are
+                    # only 3 of those, those are 180+ characters long, and corrupted.
+                    self.stdout.write(self.style.NOTICE(' [skipped for invalid address]                '))
+                    skipped += 1
+                    continue
+
                 try:
                     user_cls.objects.get(email=result.email)
                 except user_cls.DoesNotExist:
                     pass
                 else:
-                    self.stdout.write(self.style.NOTICE(' [skipped]'))
+                    self.stdout.write(self.style.NOTICE(' [skipped; exists]                          '))
                     skipped += 1
                     continue
 
@@ -68,28 +82,26 @@ class Command(BaseCommand):
                 # +------------------+--------------+------+-----+---------+----------------+
 
                 # Port the user
-                existing = user_cls(username=result.email,
-                                    password='blenderid$%s' % result.password,
+                existing = user_cls(id=result.id,
                                     email=result.email,
-                                    is_active=result.active,
-                                    last_login=result.last_login_at)
+                                    password='blenderid$%s' % result.password,
+                                    full_name=normalise_name(result.full_name),
+                                    is_active=bool(result.active),
+                                    last_login=result.last_login_at,
+                                    confirmed_email_at=result.confirmed_at,
+                                    last_login_ip=result.last_login_ip,
+                                    current_login_ip=result.current_login_ip,
+                                    login_count=result.login_count or 0)
                 existing.save()
-
-                # Port the profile
-                existing.profile.full_name = result.full_name
-                existing.profile.confirmed_email_at = result.confirmed_at
-                existing.profile.last_login_ip = result.last_login_ip
-                existing.profile.current_login_ip = result.current_login_ip
-                existing.profile.login_count = result.login_count
-                existing.profile.save()
 
                 # TODO: port settings and addresses
 
                 migrated += 1
-                self.stdout.write(self.style.SUCCESS(' [migrated]'))
+                self.stdout.write(self.style.SUCCESS(' [migrated]') + '                             ', ending='\r')
 
         if migrated:
             style = self.style.SUCCESS
         else:
             style = self.style.NOTICE
+        self.stdout.write('')
         self.stdout.write(style('Migrated %i users, skipped %i' % (migrated, skipped)))
