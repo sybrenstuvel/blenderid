@@ -37,7 +37,7 @@ class UserAdmin(BaseUserAdmin):
     list_display = ('email', 'full_name', 'is_staff', 'is_active', 'group_names')
     list_display_links = ('email', 'full_name', 'group_names')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
-    search_fields = ('email', 'first_name', 'last_name')
+    search_fields = ('email', 'full_name')
     ordering = ('email',)
 
     def group_names(self, user):
