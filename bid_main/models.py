@@ -63,6 +63,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         },
     )
     full_name = models.CharField(_('full name'), max_length=80, blank=True)
+    roles = models.ManyToManyField('Role', related_name='users')
 
     confirmed_email_at = models.DateTimeField(
         null=True, blank=True,
@@ -123,6 +124,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def has_confirmed_email(self):
         return self.confirmed_email_at is not None
 
+    def has_roles(self):
+        return bool(self.roles.filter(is_active=True))
+    has_roles.admin_order_field = 'roles__has'
+
 
 class SettingValueField(models.CharField):
     def __init__(self, *args, **kwargs):
@@ -169,5 +174,23 @@ class Address(models.Model):
     address = models.TextField(max_length=255)
     country = CountryField()
 
+    class Meta:
+        verbose_name = _('address')
+        verbose_name_plural = _('addresses')
+
     def __str__(self):
         return '[Address of %r; %s]' % (self.user.full_name, self.address_type)
+
+
+class Role(models.Model):
+    name = models.CharField(max_length=80)
+    description = models.CharField(max_length=255, blank=True, null=False)
+    is_active = models.BooleanField(default=True, null=False)
+
+    class Meta:
+        ordering = ['-is_active', 'name']
+
+    def __str__(self):
+        if self.is_active:
+            return self.name
+        return '%s [inactive]' % self.name

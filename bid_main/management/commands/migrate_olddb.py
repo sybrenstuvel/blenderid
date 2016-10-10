@@ -6,7 +6,7 @@ from collections import namedtuple
 
 from django.core.management.base import BaseCommand, CommandError
 from django.db import connection, transaction
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, models as auth_models
 
 from bid_main import models
 
@@ -17,9 +17,9 @@ def normalise_name(name):
     return name.strip()
 
 
-def query(sql):
+def query(sql, args=None):
     with connection.cursor() as cursor:
-        cursor.execute(sql)
+        cursor.execute(sql, args)
         desc = cursor.description
         nt_result = namedtuple('Result', [col[0] for col in desc])
 
@@ -31,28 +31,59 @@ def query(sql):
 class Command(BaseCommand):
     help = 'Migrates old BlenderID databases to the new structure'
 
+    def __init__(self, stdout=None, stderr=None, no_color=False):
+        super().__init__(stdout=stdout, stderr=stderr, no_color=no_color)
+        self.name_to_role = {}
+
     def add_arguments(self, parser):
         parser.add_argument('-k', '--keep-old-tables', action='store_true', default=False)
 
-    @transaction.atomic()
     def handle(self, *args, **options):
         self.stdout.write('Migrating old DB to new.')
 
+        self.migrate_roles()
         self.migrate_users(*args, **options)
+        self.migrate_user_roles()
 
+    @transaction.atomic()
+    def migrate_roles(self):
+        self.stdout.write('Migrating roles to groups.')
+
+        for result in query("SELECT * FROM role"):
+            self.stdout.write('    - %s' % result.name)
+
+            try:
+                role = models.Role.objects.get(name=result.name)
+            except models.Role.DoesNotExist:
+                descr = result.description or ''
+                is_active = True
+
+                if descr == 'INACTIVE':
+                    descr = ''
+                    is_active = False
+
+                role = models.Role(id=result.id, name=result.name,
+                                   description=descr,
+                                   is_active=is_active)
+                role.save()
+
+            self.name_to_role[result.name] = role
+        self.stdout.write(self.style.SUCCESS('Migrated %i groups') % len(self.name_to_role))
+
+    @transaction.atomic()
     def migrate_users(self, *args, **options):
         self.stdout.write('Migrating users.')
 
         migrated = skipped = 0
         user_cls = get_user_model()
 
-        for result in query("SELECT * FROM user"):
-            self.stdout.write('    - %s' % result.email, ending='')
+        # Only query for users that don't exist yet.
+        for result in query("SELECT * FROM user where email not in (select email from bid_main_user)"):
 
             if len(result.email) > 64:
                 # These are suspected to be invalid; at the time of writing there are
                 # only 3 of those, those are 180+ characters long, and corrupted.
-                self.stdout.write(self.style.NOTICE(' [skipped for invalid address]                '))
+                self.stdout.write('    - %s %s' % (result.email, self.style.NOTICE(' [skipped for invalid address]')))
                 skipped += 1
                 continue
 
@@ -61,7 +92,7 @@ class Command(BaseCommand):
             except user_cls.DoesNotExist:
                 pass
             else:
-                self.stdout.write(self.style.NOTICE(' [skipped; exists]                          '))
+                self.stdout.write('    - %s %s' % (result.email, self.style.NOTICE(' [skipped; exists]')))
                 skipped += 1
                 continue
 
@@ -101,7 +132,6 @@ class Command(BaseCommand):
             # TODO: port settings and addresses
 
             migrated += 1
-            self.stdout.write(self.style.SUCCESS(' [migrated]') + '                             ', ending='\r')
 
         if migrated:
             style = self.style.SUCCESS
@@ -109,3 +139,10 @@ class Command(BaseCommand):
             style = self.style.NOTICE
         self.stdout.write('')
         self.stdout.write(style('Migrated %i users, skipped %i' % (migrated, skipped)))
+
+    @transaction.atomic()
+    def migrate_user_roles(self):
+        with connection.cursor() as cursor:
+            # "ignore" skips duplicates.
+            cursor.execute('insert ignore into bid_main_user_roles (user_id, role_id) '
+                           'select user_id, role_id from roles_users')

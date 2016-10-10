@@ -21,7 +21,7 @@ class UserAdmin(BaseUserAdmin):
     inlines = (UserSettingInline, AddressInline)
 
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'full_name')}),
+        (None, {'fields': ('email', 'password', 'full_name', 'roles')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('date_joined', 'confirmed_email_at')}),
@@ -34,14 +34,21 @@ class UserAdmin(BaseUserAdmin):
         }),
     )
 
-    list_display = ('email', 'full_name', 'is_staff', 'is_active', 'group_names')
-    list_display_links = ('email', 'full_name', 'group_names')
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    list_display = ('email', 'full_name', 'is_staff', 'is_active', 'role_names')
+    list_display_links = ('email', 'full_name', 'role_names')
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups', 'roles')
     search_fields = ('email', 'full_name')
     ordering = ('email',)
 
-    def group_names(self, user):
-        return ', '.join(g.name for g in user.groups.all())
+    def role_names(self, user):
+        roles = user.roles.filter(is_active=True)
+        if not roles:
+            return '-'
+        suffix = ''
+        if len(roles) > 3:
+            suffix = ', … and %i more…' % (len(roles) - 3)
+            roles = roles[:3]
+        return ', '.join(g.name for g in roles) + suffix
 
 
 @admin.register(models.Setting)
@@ -50,4 +57,13 @@ class SettingAdmin(admin.ModelAdmin):
 
     list_display = ('name', 'description', 'data_type', 'default')
     list_filter = ('data_type',)
+    search_fields = ('name', 'description')
+
+
+@admin.register(models.Role)
+class RoleAdmin(admin.ModelAdmin):
+    model = models.Role
+
+    list_display = ('name', 'description', 'is_active')
+    list_filter = ('is_active',)
     search_fields = ('name', 'description')
