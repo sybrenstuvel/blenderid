@@ -11,19 +11,17 @@ from oauth2_provider.models import AccessToken, RefreshToken
 class BlenderIdAddonSupportTest(TestCase):
     fixtures = ['bid_addon_support/fixtures/bid_addon_support']
 
+    def setUp(self):
+        self._create_user()
+
     def test_verify_identity_happy(self):
         """
         Happy flow of the Blender ID add-on authentication.
         """
 
-        user_cls = get_user_model()
-        user = user_cls.objects.create_user('sybren', 'sybren@example.com', 'jemoeder',
-                                        first_name='Sybren', last_name='Stüvel')
-        user.save()
-
         url = reverse('addon_support:identify')
         resp = self.client.post(url, {
-            'username': 'sybren',
+            'email': 'sybren@example.com',
             'password': 'jemoeder',
             'host_label': 'unittest',
         })
@@ -39,19 +37,31 @@ class BlenderIdAddonSupportTest(TestCase):
 
         return dbtoken
 
+    def test_verify_identity_happy_username(self):
+        """
+        Happy flow of the Blender ID add-on authentication using 'username' form field.
+        """
+
+        url = reverse('addon_support:identify')
+        resp = self.client.post(url, {
+            'username': 'sybren@example.com',
+            'password': 'jemoeder',
+            'host_label': 'unittest',
+        })
+        self.assertEquals(200, resp.status_code)
+
+        data = resp.json()
+        self.assertEquals('success', data['status'])
+
     def test_verify_identity_bad_password(self):
         """
         Bad password given
         """
 
-        user_cls = get_user_model()
-        user = user_cls.objects.create_user('sybren', 'sybren@example.com', 'otherpw')
-        user.save()
-
         url = reverse('addon_support:identify')
         resp = self.client.post(url, {
-            'username': 'sybren',
-            'password': 'jemoeder',
+            'email': 'sybren@stuvel.eu',
+            'password': 'bad password ẅïẗḧ üñïčöđë',
             'host_label': 'unittest',
         })
         self.assertEquals(200, resp.status_code)
@@ -60,14 +70,17 @@ class BlenderIdAddonSupportTest(TestCase):
         self.assertEquals('fail', data['status'])
         self.assert_no_tokens()
 
+    def _create_user(self):
+        user_cls = get_user_model()
+        user = user_cls.objects.create_user(email='sybren@example.com',
+                                            password='jemoeder',
+                                            full_name='Sybren Stüvel')
+        user.save()
+
     def test_verify_identity_bad_username(self):
         """
         Bad password given
         """
-
-        user_cls = get_user_model()
-        user = user_cls.objects.create_user('sybren', 'sybren@example.com', 'jemoeder')
-        user.save()
 
         url = reverse('addon_support:identify')
         resp = self.client.post(url, {

@@ -5,7 +5,7 @@ from django.conf import settings
 from django.views.generic import View
 from django.views.decorators.debug import sensitive_post_parameters
 from django.contrib.auth import authenticate
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseServerError
 from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.core import exceptions as django_exc
@@ -26,6 +26,7 @@ class SpecialSnowflakeMixin:
     token_scopes = ''  # See AccessToken.scope
     application_id = settings.BLENDER_ID_ADDON_CLIENT_ID
     expires_days = 365  # TODO: move to settings
+    log = logging.getLogger('%s.SpecialSnowflakeMixin' % __name__)
 
     @property
     def application(self) -> Application:
@@ -33,7 +34,12 @@ class SpecialSnowflakeMixin:
         if app:
             return app
 
-        app = Application.objects.get(client_id=self.application_id)
+        try:
+            app = Application.objects.get(client_id=self.application_id)
+        except Application.DoesNotExist:
+            self.log.error('Special snowflake OAuth app %r does not exist', self.application_id)
+            raise RuntimeError('Server-side OAuth configuration error.')
+
         self._application = app
         return app
 
@@ -44,22 +50,29 @@ class VerifyIdentityView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
     @method_decorator(sensitive_post_parameters('password'))
     def post(self, request):
         """Entry point that generates an authentication token, given exsiting
-        and valid username and password. The token can be used as alternative
+        and valid email and password. The token can be used as alternative
         authentication system for REST based services (e.g. Attract).
         """
 
-        username = request.POST['username']
+        try:
+            email = request.POST['email']
+        except KeyError:
+            try:
+                email = request.POST['username']
+            except KeyError:
+                return JsonResponse({'status': 'fail', 'data': {'email': 'No email given'}})
+
         password = request.POST['password']
         host_label = request.POST['host_label']
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(email=email, password=password)
 
         if not user or not user.is_active:
             # TODO Throttle authentication attempts (limit to 3 or 5)
             # We need to address the following cases:
             # - the user already has a token-host_label pair
             # - the user never autheticated before (where do we store such info?)
-            self.log.info('User %r used bad password', username)
+            self.log.info('User %r used bad password', email)
             return JsonResponse({'status': 'fail', 'data': {'password': 'Wrong password'}})
 
         token, refresh_token = self.create_oauth_token(user, host_label)

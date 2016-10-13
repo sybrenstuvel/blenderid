@@ -2,19 +2,17 @@
     {
         "fields": {
             "date_joined": "2016-09-30T06:54:10Z",
-            "email": "",
-            "first_name": "",
+            "email": "sybren+blenderidowner@blender.org",
+            "full_name": "Blender ID app owner",
             "groups": [],
             "is_active": true,
             "is_staff": false,
             "is_superuser": false,
             "last_login": null,
-            "last_name": "",
             "password": "pbkdf2_sha256$24000$impossibru",
-            "user_permissions": [],
-            "username": "blender-id-app-owner"
+            "user_permissions": []
         },
-        "model": "auth.user",
+        "model": "bid_main.user",
         "pk": 2
     },
     {
