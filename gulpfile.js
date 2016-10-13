@@ -12,6 +12,7 @@ var sass         = require('gulp-sass');
 var sourcemaps   = require('gulp-sourcemaps');
 var uglify       = require('gulp-uglify');
 var cache        = require('gulp-cached');
+var spawn        = require('child_process').spawn;
 
 var enabled = {
     uglify: argv.production,
@@ -93,6 +94,24 @@ gulp.task('watch',function() {
     gulp.watch('websrc/scripts/tutti/*.js',['scripts_tutti']);
 });
 
+
+gulp.task('shared', function() {
+    /*
+      Set the working directory of your current process as
+      the directory where the target Gulpfile exists.
+    */
+    process.chdir('static/assets_shared');
+
+    // Run the `gulp` executable
+    var child = spawn('../../node_modules/.bin/gulp');
+
+    // Print output from Gulpfile
+    child.stdout.on('data', function(data) {
+        if (data) {
+            console.log(data.toString());
+        }
+    });
+});
 
 // Run 'gulp' to build everything at once
 gulp.task('default', ['styles', 'templates', 'scripts', 'scripts_tutti']);

@@ -23,3 +23,8 @@ Copy `blenderid/__settings.py` to `blenderid/settings.py` and adjust for your ne
 ## Missing features
 
 Subclients
+
+# Including shared assets
+
+`git submodule add git://git.blender.org/blender-web-assets.git static/assets_shared`
+`git submodule init`
