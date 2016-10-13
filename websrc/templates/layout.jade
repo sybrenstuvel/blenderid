@@ -1,3 +1,4 @@
+| {% load static from staticfiles %}
 doctype
 html(lang="en")
 	head
@@ -9,7 +10,7 @@ html(lang="en")
 
 		link(href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css', rel='stylesheet')
 		link(href='//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css', rel='stylesheet')
-		link(href="{{ url_for('static', filename='assets/css/main.css') }}", rel='stylesheet')
+		link(href="{% static 'assets/css/main.css' %}", rel='stylesheet')
 
 		| {% block header %}
 		| {% endblock %}
@@ -38,8 +39,8 @@ html(lang="en")
 							a(href='http://www.blender.org/about/') About
 						li
 							a(href='http://www.blender3d.org/e-shop/') Store
-		| {% for message in get_flashed_messages() %}
-		.alert.alert-info
+		| {% for message in messages %}
+		.alert.alert-info(class="{{ message.tags }}")
 			.container
 				| {{ message }}
 				button.close(type='button', data-dismiss='alert')
@@ -52,36 +53,36 @@ html(lang="en")
 			header.navbar.navbar-default.navbar-secondlevel.navbar-static-top(role='navigation')
 				.container.relative
 					ul.nav.navbar-nav.navbar-left
-						li(class="{% if title == 'about': %}active{% endif %}")
-							a(href="{{ url_for('about') }}") About
-						| {% if current_user.is_authenticated %}
-						li(class="{% if title == 'home': %}active{% endif %}")
-							a(href="{{url_for('homepage')}}") Dashboard
+						li(class="{% if page_id == 'about' %}active{% endif %}")
+							a(href="{% url 'bid_main:about' %}") About
+						| {% if user.is_authenticated %}
+						li(class="{% if page_id == 'index' %}active{% endif %}")
+							a(href="{% url 'bid_main:index' %}") Dashboard
 						| {% endif %}
-						| {% if current_user.is_authenticated %}
+						| {% if user.is_authenticated %}
 						li.dropdown.absolute.right
 							a.dropdown-toggle(href='#', data-toggle='dropdown')
-								| {{current_user.email}}
+								| {{user.email}}
 								b.caret
 							ul.dropdown-menu.right
-								| {% if current_user.has_role('admin') %}
+								| {% if user.is_staff %}
 								li
-									a(href="{{url_for('admin.index')}}")
+									a(href="{% url 'admin:index' %}")
 										i.fa.fa-rocket
 										|  Whoosh!
 								| {% endif %}
 								li
-									a(href="{{url_for('profile')}}")
+									a(href="{% url 'bid_main:profile' %}")
 										i.fa.fa-cog
 										|  Settings
 								li.divider
 								li
-									a(href="{{url_for_security('logout')}}")
+									a(href="{% url 'bid_main:logout' %}")
 										i.fa.fa-power-off
 										|  Log out
 						| {% else %}
 						li.absolute.right
-							a(href="{{url_for_security('login')}}")
+							a(href="{% url 'bid_main:login' %}")
 								i.fa.fa-sign-in
 								|  Sign in
 						| {% endif %}

@@ -126,6 +126,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         return bool(self.roles.filter(is_active=True))
     has_roles.admin_order_field = 'roles__has'
 
+    @property
+    def role_names(self):
+        return {role.name for role in self.roles.all()}
+
 
 class SettingValueField(models.CharField):
     def __init__(self, *args, **kwargs):
