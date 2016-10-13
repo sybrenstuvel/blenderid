@@ -2,13 +2,8 @@
 Makes a user a superuser. The user must already exist.
 """
 
-from collections import namedtuple
-
-from django.core.management.base import BaseCommand, CommandError
-from django.db import connection, transaction
-from django.contrib.auth import get_user_model, models as auth_models
-
-from bid_main import models
+from django.core.management.base import BaseCommand
+from django.contrib.auth import get_user_model
 
 
 class Command(BaseCommand):
