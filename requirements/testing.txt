@@ -2,3 +2,7 @@
 pytest
 pytest-cov
 pytest-django
+django-debug-toolbar==1.6
+
+# Secondary
+sqlparse==0.2.1
