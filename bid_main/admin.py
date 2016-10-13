@@ -18,14 +18,9 @@ class UserSettingInline(admin.TabularInline):
     extra = 0
 
 
-class AddressInline(admin.TabularInline):
-    model = models.Address
-    extra = 0
-
-
 @admin.register(models.User)
 class UserAdmin(BaseUserAdmin):
-    inlines = (UserSettingInline, AddressInline)
+    inlines = (UserSettingInline, )
 
     fieldsets = (
         (None, {'fields': ('email', 'password', 'full_name', 'roles')}),

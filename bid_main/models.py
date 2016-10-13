@@ -158,28 +158,6 @@ class UserSetting(models.Model):
         return 'Setting %r of %r' % (self.setting.name, self.user.email)
 
 
-ADDRESS_TYPE_CHOICES = [
-    ('billing', 'Billing'),
-    ('shipping', 'Shipping'),
-]
-
-
-class Address(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE,
-                             related_name='addresses')
-    address_type = models.CharField(max_length=32, choices=ADDRESS_TYPE_CHOICES)
-    address = models.TextField(max_length=255)
-    country = CountryField()
-
-    class Meta:
-        verbose_name = _('address')
-        verbose_name_plural = _('addresses')
-
-    def __str__(self):
-        return '%s address of %s' % (self.address_type, self.user.full_name)
-
-
 class Role(models.Model):
     name = models.CharField(max_length=80)
     description = models.CharField(max_length=255, blank=True, null=False)
