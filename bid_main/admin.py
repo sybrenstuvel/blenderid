@@ -62,10 +62,22 @@ class SettingAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description')
 
 
+def make_badge(modeladmin, request, queryset):
+    queryset.update(is_badge=True)
+make_badge.short_description = 'Mark selected roles as badges'
+
+
+def make_not_badge(modeladmin, request, queryset):
+    queryset.update(is_badge=False)
+make_not_badge.short_description = 'Mark selected roles as NOT badges'
+
+
 @admin.register(models.Role)
 class RoleAdmin(admin.ModelAdmin):
     model = models.Role
 
-    list_display = ('name', 'description', 'is_active')
-    list_filter = ('is_active',)
+    list_display = ('name', 'description', 'is_badge', 'is_active')
+    list_filter = ('is_badge', 'is_active')
     search_fields = ('name', 'description')
+
+    actions = [make_badge, make_not_badge]

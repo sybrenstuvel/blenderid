@@ -162,6 +162,7 @@ class Role(models.Model):
     name = models.CharField(max_length=80)
     description = models.CharField(max_length=255, blank=True, null=False)
     is_active = models.BooleanField(default=True, null=False)
+    is_badge = models.BooleanField(default=False, null=False)
 
     class Meta:
         ordering = ['-is_active', 'name']
