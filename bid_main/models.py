@@ -61,7 +61,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         },
     )
     full_name = models.CharField(_('full name'), max_length=80, blank=True)
-    roles = models.ManyToManyField('Role', related_name='users')
+    roles = models.ManyToManyField('Role', related_name='users', blank=True)
 
     confirmed_email_at = models.DateTimeField(
         null=True, blank=True,
