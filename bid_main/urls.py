@@ -13,7 +13,7 @@ urlpatterns = [
 
     # Source of registration machinery: http://musings.tinbrain.net/blog/2014/sep/21/registration-django-easy-way/
     url(r'^register/$', RegistrationView.as_view(), name='register'),
-    url(r'^register/done/$', auth_views.password_reset_done, {
+    url(r'^register/signed-up/$', auth_views.password_reset_done, {
         'template_name': 'registration/initial_signed_up.html',
     }, name='register-done'),
 
@@ -21,7 +21,7 @@ urlpatterns = [
         auth_views.password_reset_confirm, {
             'template_name': 'registration/initial_set_password.html',
             'post_reset_redirect': 'bid_main:register-complete',
-            'set_password_form': forms.SetPasswordForm,
+            'set_password_form': forms.SetInitialPasswordForm,
         }, name='register-confirm'),
     url(r'^register/complete/$', auth_views.password_reset_complete, {
         'template_name': 'registration/registration_complete.html',

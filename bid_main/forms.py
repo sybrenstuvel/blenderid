@@ -1,6 +1,12 @@
+import logging
+
 from django import forms
 from django.contrib.auth import forms as auth_forms
+from django.utils import timezone
+
 from .models import User
+
+log = logging.getLogger(__name__)
 
 
 class BootstrapModelFormMixin:
@@ -20,5 +26,15 @@ class UserRegistrationForm(BootstrapModelFormMixin, forms.ModelForm):
         fields = ['full_name', 'email', ]
 
 
-class SetPasswordForm(BootstrapModelFormMixin, auth_forms.SetPasswordForm):
-    pass
+class SetInitialPasswordForm(BootstrapModelFormMixin, auth_forms.SetPasswordForm):
+    """Used when setting password in user registration flow.
+
+    This means that the user has clicked on a link sent by email, so this
+    confirms their email address.
+    """
+
+    def save(self, commit=True):
+        self.user.confirmed_email_at = timezone.now()
+        log.info('Confirmed email of %s throuhg initial password form.', self.user.email)
+
+        return super().save(commit=commit)
