@@ -91,6 +91,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ),
     )
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+    last_update = models.DateTimeField(_('last update'), default=timezone.now)
 
     objects = UserManager()
 
@@ -100,6 +101,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
+
+    def save(self, *args, **kwargs):
+        self.last_update = timezone.now()
+
+        if kwargs.get('update_fields') is not None:
+            kwargs['update_fields'].append('last_update')
+        return super().save(*args, **kwargs)
 
     def get_full_name(self):
         """
