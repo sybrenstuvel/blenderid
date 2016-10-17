@@ -17,8 +17,7 @@ html(lang="en")
 	body.transition-none
 		| {% block modal %}
 		| {% endblock %}
-		a(name='hop')
-		header.navbar.navbar-default.navbar-fixed-top.bright(role='navigation')
+		header.navbar.navbar-default.navbar-fixed-top.bright#hop
 			.container
 				.navbar-header
 					button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbar-collapse-menu')
@@ -50,7 +49,7 @@ html(lang="en")
 			.container-fluid.featured.featured-sm
 				.container
 					h1 Blender ID
-			header.navbar.navbar-default.navbar-secondlevel.navbar-static-top(role='navigation')
+			header.navbar.navbar-default.navbar-secondlevel.navbar-static-top
 				.container.relative
 					ul.nav.navbar-nav.navbar-left
 						li(class="{% if page_id == 'about' %}active{% endif %}")
@@ -101,53 +100,53 @@ html(lang="en")
 					.col-md-3.col-xs-6.margin-top-1
 						h4 Blender
 						ul
-							a(href='https://www.blender.org/download/', title='Download Blender')
-								li Download
-							a(href='https://www.blender.org/download/', title='Source Code')
-								li Source Code
-							a(href='https://www.blender.org/features/', title='Blender Features')
-								li Features
-							a(href='https://wiki.blender.org/index.php/Doc:2.6/Manual', title='Blender Documentation')
-								li Documentation
+							li
+								a(href='https://www.blender.org/download/', title='Download Blender') Download
+							li
+								a(href='https://www.blender.org/download/#source', title='Source Code') Source Code
+							li
+								a(href='https://www.blender.org/features/', title='Blender Features') Features
+							li
+								a(href='https://wiki.blender.org/index.php/Doc:2.6/Manual', title='Blender Documentation') Documentation
 					.col-md-3.col-xs-6.margin-top-1
 						h4 Organization
 						ul
-							a(href='https://www.blender.org/foundation/', title='Blender Foundation')
-								li Foundation
-							a(href='https://www.blender.org/institute/', title='Blender Institute')
-								li Institute
-							a(href='https://www.blender.org/get-involved/developers/', title='Developers')
-								li Developers
-							a(href='https://www.blendernetwork.org', title='The Network of Blender Professionals')
-								li
+							li
+								a(href='https://www.blender.org/foundation/', title='Blender Foundation') Foundation
+							li
+								a(href='https://www.blender.org/institute/', title='Blender Institute') Institute
+							li
+								a(href='https://www.blender.org/get-involved/developers/', title='Developers') Developers
+							li
+								a(href='https://www.blendernetwork.org', title='The Network of Blender Professionals')
 									i.bf-network
 									|  Blender Network
 					.col-md-3.col-xs-6.margin-top-1
 						h4 Get Involved
 						ul
-							a(href='https://www.blender.org/foundation/donation-payment/', title='Donations')
-								li Donations
-							a(href='https://www.blender.org/get-involved/developers/', title='Software')
-								li Software
-							a(href='https://www.blender.org/get-involved/', title='Websites and Docs')
-								li Websites & Docs
-							a(href='http://www.blender.org/conference/', title='Conferences')
-								li Conferences
+							li
+								a(href='https://www.blender.org/foundation/donation-payment/') Donations
+							li
+								a(href='https://www.blender.org/get-involved/developers/') Software
+							li
+								a(href='https://www.blender.org/get-involved/') Websites & Docs
+							li
+								a(href='http://www.blender.org/conference/') Conferences
 					.col-md-3.col-xs-12.margin-top-1
 						h4 Blender.org
 						ul
-							a(href='https://www.blender.org/news/', title='News')
-								li News
-							a(href='https://www.blender.org/foundation/', title='Contact')
-								li Contact
-							a(href='https://www.blender.org/about/logo/', title='Trademark and Logo')
-								li Trademark & Logo
-							a(href='https://www.blender.org/about/website/', title='Website License')
-								li Website License
+							li
+								a(href='https://www.blender.org/news/') News
+							li
+								a(href='https://www.blender.org/foundation/') Contact
+							li
+								a(href='https://www.blender.org/about/logo/') Trademark & Logo
+							li
+								a(href='https://www.blender.org/about/website/') Website License
 
 		footer
 			.container
-				span.pull-right
+				.pull-right
 					p
 						| Blender.org
 						a(href='#hop')
