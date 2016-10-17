@@ -1,0 +1,16 @@
+Congrats!
+
+
+You now have your own Blender ID.
+
+Before you can log in, you have to choose a password at:
+
+{{ protocol }}://{{ domain }}{% url 'bid_main:register-confirm' uidb64=uid token=token %}
+
+Use this email address ({{ user.email }}) to log in to any Blender ID enabled
+website (such as Blender Cloud, Blender BFCT, Blender Store, etc).
+
+Check your dashboard at https://blender.org/id/ for more information.
+
+
+The Blender Web Team

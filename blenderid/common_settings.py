@@ -153,3 +153,4 @@ PASSWORD_HASHERS = [
 ]
 
 AUTH_USER_MODEL = 'bid_main.User'
+LOGIN_URL = 'bid_main:login'

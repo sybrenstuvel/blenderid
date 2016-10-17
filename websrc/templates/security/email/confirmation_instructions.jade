@@ -1,54 +1,17 @@
-doctype html
-html
-	head
-		style.
-			html, body {
-				background-color: white;
-				color: black;
-				font-family: sans-serif;
-			}
+| {% extends "email_layout.html" %}
+| {% block body %}
+p Dear Blender ID user,
+p Please confirm your email through the link below:
+p
+	a.button(href='{{ confirmation_link }}') Confirm my account
 
-			body {
-				max-width: 100%;
-				width: 50ex;
-				margin-left: auto;
-				margin-right: auto;
-				border: 1px solid black;
-				border-radius: 5px;
-				padding: 1em 2em;
-				box-shadow: 10px 10px 5px #ddd;
-				text-shadow: 2px 2px 3px #ddd;
-			}
+p
+	| If you did not request a
+	a(href='https://www.blender.org/id/') Blender ID
+	|  account, you can ignore this email.
+p
+	| Kind regards,
+	br
+	| The Blender ID team
 
-			p {
-				line-height: 150%;
-			}
-
-			a.button {
-				background-color: #44f;
-				color: white;
-				text-shadow: 2px 2px 3px #333;
-
-				display: block;
-				text-align: center;
-				border: 3px solid #00d;
-				padding: 1em;
-				border-radius: 1em;
-				box-shadow: 5px 5px 5px #ddd;
-			}
-				
-	body
-		p Dear Blender ID user,
-		p Please confirm your email through the link below:
-		p
-			a.button(href='{{ confirmation_link }}') Confirm my account
-
-		p
-			| If you did not request a 
-			a(href='https://www.blender.org/id/') Blender ID
-			|  account, you can ignore this email.
-		p
-			| Kind regards,
-			br
-			| The Blender ID team
-
+| {% endblock %}

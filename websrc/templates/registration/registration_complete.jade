@@ -1,0 +1,17 @@
+| {% extends 'layout.html' %}
+| {% load trans from i18n %}
+| {% load static from staticfiles %}
+| {% block page_title %}Registration{% endblock %}
+| {% block body %}
+.container
+	.row
+		.col-md-8.col-md-push-2
+			.box
+				h2 Registration complete!
+
+				p
+					| You have succesfully registered and provided a password. You can now <a href="{{ login_url }}")>log in</a>.
+
+				p Welcome to Blender ID!
+
+| {% endblock %}
