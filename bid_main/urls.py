@@ -7,8 +7,13 @@ from . import views, forms
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^about$', views.about, name='about'),
-    url(r'^login$', views.about, name='login'),
-    url(r'^logout$', views.about, name='logout'),
+    url(r'^login$', 'django.contrib.auth.views.login', {
+        'template_name': 'login.html',
+        'authentication_form': forms.AuthenticationForm,
+    }, name='login'),
+    url(r'^logout$', 'django.contrib.auth.views.logout', {
+        'next_page': 'bid_main:about',
+    }, name='logout'),
     url(r'^profile$', views.about, name='profile'),
 
     # Source of registration machinery: http://musings.tinbrain.net/blog/2014/sep/21/registration-django-easy-way/

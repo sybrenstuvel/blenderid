@@ -1,0 +1,41 @@
+| {% extends 'layout.html' %}
+| {% block page_title %}Log in to Blender ID{% endblock %}
+| {% block body %}
+.container
+	.row
+		.col-md-8.col-md-push-2
+			.box
+				i.bf-blender.backicon
+				form.margin-top-5(role='login', action='', method='POST', name='login_user_form')
+					| {% csrf_token %}
+					.col-md-6
+						fieldset
+							// Email input
+							.input-group.input-group-lg.width-full
+								span.input-group-addon
+									i.fa.fa-envelope-o
+								| {{ form.username }}
+								| {{ form.username.errors }}
+							.clearfix.margin-top-2
+							// Password input
+							.input-group.input-group-lg.width-full
+								span.input-group-addon
+									i.fa.fa-lock
+								| {{ form.password }}
+								| {{ form.password.errors }}
+							.clearfix.margin-top-2
+					.col-md-6
+						.width-full.text-align-center.margin-top-5.margin-bottom-5
+							h2
+								| One Account
+								br
+								| Everything Blender
+							// Button
+							.control-group
+								label.control-label(for='signin')
+								.controls.text-align-center
+									button.btn.btn-default.btn-lg.btn-squishy.width-75#register Sign in
+							hr
+							a.link(href="{% url 'bid_main:register' %}") Don't have a Blender ID yet?
+
+| {% endblock %}
