@@ -7,6 +7,7 @@ from collections import namedtuple
 from django.core.management.base import BaseCommand, CommandError
 from django.db import connection, transaction
 from django.contrib.auth import get_user_model, models as auth_models
+import pytz
 
 from bid_main import models
 
@@ -26,6 +27,14 @@ def query(sql, args=None):
         for row in cursor.fetchall():
             result = nt_result(*row)
             yield result
+
+
+def localise_datetime(dt):
+    """The datetimes in the old database were in UTC, without explicit timezone."""
+
+    if dt is None:
+        return None
+    return pytz.timezone('UTC').localize(dt)
 
 
 class Command(BaseCommand):
@@ -133,8 +142,8 @@ class Command(BaseCommand):
                                 password='blenderid$%s' % result.password,
                                 full_name=normalise_name(result.full_name),
                                 is_active=bool(result.active),
-                                last_login=result.last_login_at,
-                                confirmed_email_at=result.confirmed_at,
+                                last_login=localise_datetime(result.last_login_at),
+                                confirmed_email_at=localise_datetime(result.confirmed_at),
                                 last_login_ip=result.last_login_ip,
                                 current_login_ip=result.current_login_ip,
                                 login_count=result.login_count or 0)
