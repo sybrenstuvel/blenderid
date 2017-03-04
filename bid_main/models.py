@@ -130,6 +130,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def has_roles(self):
         return bool(self.roles.filter(is_active=True))
+
     has_roles.admin_order_field = 'roles__has'
 
     @property
@@ -173,6 +174,10 @@ class Role(models.Model):
     description = models.CharField(max_length=255, blank=True, null=False)
     is_active = models.BooleanField(default=True, null=False)
     is_badge = models.BooleanField(default=False, null=False)
+
+    may_manage_roles = models.ManyToManyField(
+        'Role', related_name='managers', blank=True,
+        help_text='Users with this role will be able to grant or revoke these roles to any other user.')
 
     class Meta:
         ordering = ['-is_active', 'name']
