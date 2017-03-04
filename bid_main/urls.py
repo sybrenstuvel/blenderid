@@ -7,11 +7,11 @@ from . import views, forms
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^about$', views.about, name='about'),
-    url(r'^login$', 'django.contrib.auth.views.login', {
+    url(r'^login$', auth_views.login, {
         'template_name': 'login.html',
         'authentication_form': forms.AuthenticationForm,
     }, name='login'),
-    url(r'^logout$', 'django.contrib.auth.views.logout', {
+    url(r'^logout$', auth_views.logout, {
         'next_page': 'bid_main:about',
     }, name='logout'),
     url(r'^profile$', views.about, name='profile'),
