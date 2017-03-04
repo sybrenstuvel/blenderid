@@ -6,8 +6,6 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from django_countries.fields import CountryField
-
 
 class UserManager(BaseUserManager):
     """UserManager that doesn't use a username, but an email instead."""

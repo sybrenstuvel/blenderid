@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'oauth2_provider',
     'django_gravatar',
-    'django_countries',
     'bid_main',
     'bid_api',
     'bid_addon_support',
