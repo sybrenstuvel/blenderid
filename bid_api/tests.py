@@ -225,3 +225,20 @@ class BadgerApiRevokeTest(BadgerBaseTest):
         response = badger_revoke(request, 'badge1', 'unknown@address')
 
         self.assertEqual(response.status_code, 422)
+
+
+class StoreCreateUserTest(BaseTest):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+
+        cls.role_badge1 = Role.objects.create(name='badge1', is_badge=True)
+        cls.role_badge2 = Role.objects.create(name='badge2', is_badge=True)
+        cls.role_badger = Role.objects.create(name='badger', is_badge=False)
+        cls.role_badger = Role.objects.create(name='badger', is_badge=False)
+
+        # Role needs to be saved before assigning many-to-many fields.
+        cls.role_badger.may_manage_roles = [cls.role_badge1, cls.role_badge2]
+        cls.role_badger.save()
+
+        # Create a store user.

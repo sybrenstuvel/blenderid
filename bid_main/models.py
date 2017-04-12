@@ -100,6 +100,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = _('user')
         verbose_name_plural = _('users')
 
+        # Custom permissions, used for the store API.
+        permissions = (
+            ('use_store_api', 'Can use the store API to manage users'),
+        )
+
     def save(self, *args, **kwargs):
         self.last_update = timezone.now()
 
