@@ -6,6 +6,7 @@ import logging
 
 from django.http import HttpResponse, HttpResponseForbidden
 from django.contrib.auth import get_user_model
+from django.views.decorators.http import require_http_methods
 from oauth2_provider.decorators import protected_resource
 
 from bid_main import models as bid_main_models
@@ -58,10 +59,12 @@ def _badger(request, badge: str, email: str, action: str) -> HttpResponse:
 
 
 @protected_resource()
+@require_http_methods(['POST'])
 def badger_grant(request, badge, email) -> HttpResponse:
     return _badger(request, badge, email, 'grant')
 
 
 @protected_resource()
+@require_http_methods(['POST'])
 def badger_revoke(request, badge, email) -> HttpResponse:
     return _badger(request, badge, email, 'revoke')

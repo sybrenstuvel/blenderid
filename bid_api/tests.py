@@ -43,11 +43,11 @@ class BaseTest(TestCase):
         self.application.delete()
         self.user.delete()
 
-    def authed_request(self) -> WSGIRequest:
+    def authed_post(self) -> WSGIRequest:
         auth_headers = {
             'HTTP_AUTHORIZATION': 'Bearer ' + self.access_token.token,
         }
-        request = self.request_factory.get('/fake-resource', **auth_headers)
+        request = self.request_factory.post('/fake-resource', **auth_headers)
         return request
 
 
@@ -83,7 +83,7 @@ class BadgerApiGrantTest(BadgerBaseTest):
     def test_grant_unknown_badge(self):
         from .views_badger import badger_grant
 
-        request = self.authed_request()
+        request = self.authed_post()
         response = badger_grant(request, 'unknown-badge', self.target_user.email)
 
         self.assertEqual(response.status_code, 403)
@@ -93,7 +93,7 @@ class BadgerApiGrantTest(BadgerBaseTest):
     def test_grant_not_allowed_badge(self):
         from .views_badger import badger_grant
 
-        request = self.authed_request()
+        request = self.authed_post()
         response = badger_grant(request, 'not-allowed-badge', self.target_user.email)
 
         self.assertEqual(response.status_code, 403)
@@ -103,7 +103,7 @@ class BadgerApiGrantTest(BadgerBaseTest):
     def test_grant_inactive_badge(self):
         from .views_badger import badger_grant
 
-        request = self.authed_request()
+        request = self.authed_post()
         response = badger_grant(request, 'inactive-badge', self.target_user.email)
 
         self.assertEqual(response.status_code, 403)
@@ -113,7 +113,7 @@ class BadgerApiGrantTest(BadgerBaseTest):
     def test_grant_happy_flow(self):
         from .views_badger import badger_grant
 
-        request = self.authed_request()
+        request = self.authed_post()
         response = badger_grant(request, 'badge1', self.target_user.email)
 
         self.assertEqual(response.status_code, 200)
@@ -124,7 +124,7 @@ class BadgerApiGrantTest(BadgerBaseTest):
     def test_grant_multiple_roles(self):
         from .views_badger import badger_grant
 
-        request = self.authed_request()
+        request = self.authed_post()
         response = badger_grant(request, 'badge1', self.target_user.email)
         self.assertEqual(response.status_code, 200)
 
@@ -140,7 +140,7 @@ class BadgerApiGrantTest(BadgerBaseTest):
     def test_unknown_target_user(self):
         from .views_badger import badger_grant
 
-        request = self.authed_request()
+        request = self.authed_post()
         response = badger_grant(request, 'badge1', 'unknown@address')
 
         self.assertEqual(response.status_code, 422)
@@ -162,7 +162,7 @@ class BadgerApiRevokeTest(BadgerBaseTest):
     def test_revoke_unknown_badge(self):
         from .views_badger import badger_revoke
 
-        request = self.authed_request()
+        request = self.authed_post()
         response = badger_revoke(request, 'unknown-badge', self.target_user.email)
 
         self.assertEqual(response.status_code, 403)
@@ -172,7 +172,7 @@ class BadgerApiRevokeTest(BadgerBaseTest):
     def test_revoke_not_allowed_badge(self):
         from .views_badger import badger_revoke
 
-        request = self.authed_request()
+        request = self.authed_post()
         response = badger_revoke(request, 'not-allowed-badge', self.target_user.email)
 
         self.assertEqual(response.status_code, 403)
@@ -182,7 +182,7 @@ class BadgerApiRevokeTest(BadgerBaseTest):
     def test_revoke_inactive_badge(self):
         from .views_badger import badger_revoke
 
-        request = self.authed_request()
+        request = self.authed_post()
         response = badger_revoke(request, 'inactive-badge', self.target_user.email)
 
         self.assertEqual(response.status_code, 403)
@@ -192,7 +192,7 @@ class BadgerApiRevokeTest(BadgerBaseTest):
     def test_revoke_happy_flow(self):
         from .views_badger import badger_revoke
 
-        request = self.authed_request()
+        request = self.authed_post()
         response = badger_revoke(request, 'badge1', self.target_user.email)
 
         self.assertEqual(response.status_code, 200)
@@ -204,7 +204,7 @@ class BadgerApiRevokeTest(BadgerBaseTest):
     def test_revoke_multiple_roles(self):
         from .views_badger import badger_revoke
 
-        request = self.authed_request()
+        request = self.authed_post()
         response = badger_revoke(request, 'badge1', self.target_user.email)
         self.assertEqual(response.status_code, 200)
 
@@ -221,7 +221,7 @@ class BadgerApiRevokeTest(BadgerBaseTest):
     def test_unknown_target_user(self):
         from .views_badger import badger_revoke
 
-        request = self.authed_request()
+        request = self.authed_post()
         response = badger_revoke(request, 'badge1', 'unknown@address')
 
         self.assertEqual(response.status_code, 422)
