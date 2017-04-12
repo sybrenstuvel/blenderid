@@ -51,7 +51,7 @@ class BaseTest(TestCase):
         return request
 
 
-class BadgerApiTest(BaseTest):
+class BadgerBaseTest(BaseTest):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -70,6 +70,8 @@ class BadgerApiTest(BaseTest):
                                             cls.role_inactivebadge]
         cls.role_badger.save()
 
+
+class BadgerApiGrantTest(BadgerBaseTest):
     def setUp(self):
         super().setUp()
 
@@ -140,5 +142,86 @@ class BadgerApiTest(BaseTest):
 
         request = self.authed_request()
         response = badger_grant(request, 'badge1', 'unknown@address')
+
+        self.assertEqual(response.status_code, 422)
+
+
+class BadgerApiRevokeTest(BadgerBaseTest):
+    def setUp(self):
+        super().setUp()
+
+        self.user.roles = [self.role_badger]
+        self.user.save()
+
+        # Incorrectly assign many roles, so that we can test what happens when they are
+        # actually there and then revoked.
+        self.target_user = UserModel.objects.create_user('target@user.com', '123456')
+        self.assigned_roles = {self.role_notallowed, self.role_notabadge, self.role_inactivebadge, self.role_badge1}
+        self.target_user.roles = list(self.assigned_roles)
+
+    def test_revoke_unknown_badge(self):
+        from .views_badger import badger_revoke
+
+        request = self.authed_request()
+        response = badger_revoke(request, 'unknown-badge', self.target_user.email)
+
+        self.assertEqual(response.status_code, 403)
+        self.target_user.refresh_from_db()
+        self.assertEqual(set(self.target_user.roles.all()), self.assigned_roles)
+
+    def test_revoke_not_allowed_badge(self):
+        from .views_badger import badger_revoke
+
+        request = self.authed_request()
+        response = badger_revoke(request, 'not-allowed-badge', self.target_user.email)
+
+        self.assertEqual(response.status_code, 403)
+        self.target_user.refresh_from_db()
+        self.assertEqual(set(self.target_user.roles.all()), self.assigned_roles)
+
+    def test_revoke_inactive_badge(self):
+        from .views_badger import badger_revoke
+
+        request = self.authed_request()
+        response = badger_revoke(request, 'inactive-badge', self.target_user.email)
+
+        self.assertEqual(response.status_code, 403)
+        self.target_user.refresh_from_db()
+        self.assertEqual(set(self.target_user.roles.all()), self.assigned_roles)
+
+    def test_revoke_happy_flow(self):
+        from .views_badger import badger_revoke
+
+        request = self.authed_request()
+        response = badger_revoke(request, 'badge1', self.target_user.email)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.target_user.refresh_from_db()
+        self.assertEqual(set(self.target_user.roles.all()),
+                         {self.role_notallowed, self.role_notabadge, self.role_inactivebadge})
+
+    def test_revoke_multiple_roles(self):
+        from .views_badger import badger_revoke
+
+        request = self.authed_request()
+        response = badger_revoke(request, 'badge1', self.target_user.email)
+        self.assertEqual(response.status_code, 200)
+
+        response = badger_revoke(request, 'badge2', self.target_user.email)
+        self.assertEqual(response.status_code, 200)
+
+        response = badger_revoke(request, 'badge1', self.target_user.email)
+        self.assertEqual(response.status_code, 200)
+
+        self.target_user.refresh_from_db()
+        self.assertEqual(set(self.target_user.roles.all()),
+                         {self.role_notallowed, self.role_notabadge, self.role_inactivebadge})
+
+    def test_unknown_target_user(self):
+        from .views_badger import badger_revoke
+
+        request = self.authed_request()
+        response = badger_revoke(request, 'badge1', 'unknown@address')
 
         self.assertEqual(response.status_code, 422)
