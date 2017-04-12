@@ -116,7 +116,7 @@ class BadgerApiGrantTest(BadgerBaseTest):
         request = self.authed_post()
         response = badger_grant(request, 'badge1', self.target_user.email)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 204)
 
         self.target_user.refresh_from_db()
         self.assertEqual(list(self.target_user.roles.all()), [self.role_badge1])
@@ -126,13 +126,13 @@ class BadgerApiGrantTest(BadgerBaseTest):
 
         request = self.authed_post()
         response = badger_grant(request, 'badge1', self.target_user.email)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 204)
 
         response = badger_grant(request, 'badge2', self.target_user.email)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 204)
 
         response = badger_grant(request, 'badge1', self.target_user.email)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 204)
 
         self.target_user.refresh_from_db()
         self.assertEqual(list(self.target_user.roles.all()), [self.role_badge1, self.role_badge2])
@@ -195,7 +195,7 @@ class BadgerApiRevokeTest(BadgerBaseTest):
         request = self.authed_post()
         response = badger_revoke(request, 'badge1', self.target_user.email)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 204)
 
         self.target_user.refresh_from_db()
         self.assertEqual(set(self.target_user.roles.all()),
@@ -206,13 +206,13 @@ class BadgerApiRevokeTest(BadgerBaseTest):
 
         request = self.authed_post()
         response = badger_revoke(request, 'badge1', self.target_user.email)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 204)
 
         response = badger_revoke(request, 'badge2', self.target_user.email)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 204)
 
         response = badger_revoke(request, 'badge1', self.target_user.email)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 204)
 
         self.target_user.refresh_from_db()
         self.assertEqual(set(self.target_user.roles.all()),

@@ -10,6 +10,7 @@ from django.views.decorators.http import require_http_methods
 from oauth2_provider.decorators import protected_resource
 
 from bid_main import models as bid_main_models
+from .http import HttpResponseNoContent, HttpResponseUnprocessableEntity
 
 log = logging.getLogger(__name__)
 UserModel = get_user_model()
@@ -34,7 +35,7 @@ def _badger(request, badge: str, email: str, action: str) -> HttpResponse:
         target_user: bid_main_models.User = UserModel.objects.get(email=email)
     except UserModel.DoesNotExist:
         log.warning('User %s tried to %s badge %r to nonexistant user %s.', user, action, badge, email)
-        return HttpResponse(status=422)
+        return HttpResponseUnprocessableEntity()
 
     # Check the role for being an active badge.
     role = may_manage[badge]
@@ -55,7 +56,7 @@ def _badger(request, badge: str, email: str, action: str) -> HttpResponse:
 
     target_user.save()
 
-    return HttpResponse()
+    return HttpResponseNoContent()
 
 
 @protected_resource()
