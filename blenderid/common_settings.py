@@ -133,6 +133,7 @@ OAUTH2_PROVIDER = {
     },
     'ALLOWED_REDIRECT_URI_SCHEMES': ['http', 'https'],
     'REQUEST_APPROVAL_PROMPT': 'auto',
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 3600 * 24 * 31,  # keep for a month
 }
 
 # This is required for compatibility with Blender Cloud, as it performs
