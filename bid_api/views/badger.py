@@ -10,7 +10,7 @@ from django.views.decorators.http import require_http_methods
 from oauth2_provider.decorators import protected_resource
 
 from bid_main import models as bid_main_models
-from .http import HttpResponseNoContent, HttpResponseUnprocessableEntity
+from ..http import HttpResponseNoContent, HttpResponseUnprocessableEntity
 
 log = logging.getLogger(__name__)
 UserModel = get_user_model()
