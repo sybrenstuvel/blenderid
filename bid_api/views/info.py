@@ -12,18 +12,13 @@ def user_info(request):
 
     user = request.resource_owner
 
-    # Ensure that some roles are set to False when not there.
-    public_roles = {
-        'bfct_trainer': False,
-        'network_member': False}
-
-    # The remaining roles are added only when granted.
-    for group in user.groups.all():
-        public_roles[group.name] = True
+    # This is returned as dict to be compatible with the old
+    # Flask-based Blender ID implementation.
+    public_roles = {role.name: True
+                    for role in user.roles.all()
+                    if role.is_active}
 
     return JsonResponse({'id': user.id,
                          'full_name': user.get_full_name(),
-                         'first_name': user.first_name,
-                         'last_name': user.last_name,
                          'email': user.email,
                          'roles': public_roles})
