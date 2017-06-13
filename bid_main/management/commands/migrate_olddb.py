@@ -44,9 +44,6 @@ class Command(BaseCommand):
         super().__init__(stdout=stdout, stderr=stderr, no_color=no_color)
         self.name_to_role = {}
 
-    def add_arguments(self, parser):
-        parser.add_argument('-k', '--keep-old-tables', action='store_true', default=False)
-
     def handle(self, *args, **options):
         self.stdout.write('Migrating old DB to new.')
 
