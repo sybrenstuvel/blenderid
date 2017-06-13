@@ -1,5 +1,17 @@
 """
 Assumes the old database tables have been loaded into the same database as the new.
+
+The following tables are explicitly *not* migrated:
+
+    - collections
+    - cloud_membership
+    - cloud_subscription
+    - gooseberry_pledge
+    - mail_queue
+    - mail_queue_prepaid
+    - mail_queue_recurring
+    - users_collections
+
 """
 
 from collections import namedtuple
