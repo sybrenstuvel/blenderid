@@ -28,3 +28,4 @@ Subclients
 
 `git submodule add git://git.blender.org/blender-web-assets.git static/assets_shared`
 `git submodule init`
+`git submodule update`
