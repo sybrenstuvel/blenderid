@@ -1,10 +1,10 @@
 -r requirements.txt
-pytest==3.0.6
-pytest-cov==2.4.0
+pytest==3.1.2
+pytest-cov==2.5.1
 pytest-django==3.1.2
-django-debug-toolbar==1.6
+django-debug-toolbar==1.8
 
 # Secondary
 sqlparse==0.2.3
-coverage==4.3.4
-py==1.4.32
+coverage==4.4.1
+py==1.4.34

@@ -21,9 +21,11 @@
             "client_id": "SPECIAL-SNOWFLAKE-57",
             "client_secret": "Soz6Chuo0Ooy0iiy8weiChee5GuGoque",
             "client_type": "confidential",
+            "created": "2017-06-13T16:23:16.543Z",
             "name": "Blender ID addon",
             "redirect_uris": "",
             "skip_authorization": false,
+            "updated": "2017-06-13T16:23:16.543Z",
             "user": 2
         },
         "model": "oauth2_provider.application",
