@@ -15,7 +15,7 @@ def user_info(request):
     # This is returned as dict to be compatible with the old
     # Flask-based Blender ID implementation.
     public_roles = {role.name: True
-                    for role in user.roles.all()
+                    for role in user.roles.filter(is_public=True)
                     if role.is_active}
 
     return JsonResponse({'id': user.id,

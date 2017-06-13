@@ -128,10 +128,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     def has_confirmed_email(self):
         return self.confirmed_email_at is not None
 
-    def has_roles(self):
-        return bool(self.roles.filter(is_active=True))
-
-    has_roles.admin_order_field = 'roles__has'
 
     @property
     def role_names(self):
@@ -174,6 +170,7 @@ class Role(models.Model):
     description = models.CharField(max_length=255, blank=True, null=False)
     is_active = models.BooleanField(default=True, null=False)
     is_badge = models.BooleanField(default=False, null=False)
+    is_public = models.BooleanField(default=True, null=False)
 
     may_manage_roles = models.ManyToManyField(
         'Role', related_name='managers', blank=True,
