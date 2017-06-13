@@ -3,12 +3,15 @@ Blender ID
 
 Test implementation of [Blender ID](https://www.blender.org/id/) using Django.
 
-Requires Python 3.5, Django 1.9 and Django-OAuth-Toolkit. Upgrade to Django 1.10 will
-be done as soon as Django-OAuth-Toolkit supports it.
+Requires Python 3.6, Django 1.10 and Django-OAuth-Toolkit.
+
 
 ## Post-clone configuration
 
 Copy `blenderid/__settings.py` to `blenderid/settings.py` and adjust for your needs.
+
+Run `git submodule update`
+
 
 ## Todo
 
@@ -20,9 +23,11 @@ Copy `blenderid/__settings.py` to `blenderid/settings.py` and adjust for your ne
 6. Test against other websites using Blender ID
 7. Deploy!
 
+
 ## Missing features
 
 Subclients
+
 
 # Including shared assets
 
