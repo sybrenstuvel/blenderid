@@ -76,7 +76,7 @@ class Command(BaseCommand):
                 role.save()
 
             self.name_to_role[result.name] = role
-        self.stdout.write(self.style.SUCCESS('Migrated %i groups') % len(self.name_to_role))
+        self.stdout.write(self.style.SUCCESS('Migrated %i roles') % len(self.name_to_role))
 
     @transaction.atomic()
     def migrate_settings(self):
