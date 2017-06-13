@@ -54,13 +54,13 @@ class VerifyIdentityView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
         authentication system for REST based services (e.g. Attract).
         """
 
-        try:
-            email = request.POST['email']
-        except KeyError:
-            try:
-                email = request.POST['username']
-            except KeyError:
-                return JsonResponse({'status': 'fail', 'data': {'email': 'No email given'}})
+        # gradually move from POST['username'] to POST['email']
+        email = request.POST.get('email')
+        if not email:
+            email = request.POST.get('username')
+        if not email:
+            return JsonResponse({'status': 'fail', 'data': {'email': 'not given'}})
+
 
         password = request.POST['password']
         host_label = request.POST['host_label']
