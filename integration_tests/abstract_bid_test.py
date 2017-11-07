@@ -1,15 +1,27 @@
 import os
 import unittest
+from urllib.parse import urljoin
 
 import requests
 
 
 class AbstractBlenderIDTest(unittest.TestCase):
+    endpoint: str = ''
+
     @classmethod
     def setUpClass(cls):
+        from requests.adapters import HTTPAdapter
         cls.session = requests.Session()
+        cls.session.mount('https://', HTTPAdapter(max_retries=5))
+        cls.session.mount('http://', HTTPAdapter(max_retries=5))
+
         cls.endpoint = os.environ.get('BLENDER_ID_ENDPOINT')
-        cls.assertTrue(cls.endpoint, 'Set the BLENDER_ID_ENDPOINT environment variable')
+        if not cls.endpoint:
+            raise SystemExit('Set the BLENDER_ID_ENDPOINT environment variable')
+
+    @classmethod
+    def urljoin(cls, relative_url: str) -> str:
+        return urljoin(cls.endpoint, relative_url)
 
     def request(self, method: str, path: str, *,
                 expected_status=200,
