@@ -6,3 +6,4 @@ db.sqlite3
 /static/assets/
 /blenderid/settings.py
 .cache
+.coverage

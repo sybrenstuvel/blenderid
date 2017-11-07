@@ -3,6 +3,7 @@ pytest==3.1.2
 pytest-cov==2.5.1
 pytest-django==3.1.2
 django-debug-toolbar==1.8
+python-dateutil==2.6.1
 
 # Secondary
 sqlparse==0.2.3
