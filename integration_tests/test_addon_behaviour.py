@@ -200,3 +200,20 @@ class AddonBehaviourTest(AbstractBlenderIDTest):
         # Double-revoking shouldn't work either.
         self.do_revoke_subclient_token(ident_data['user_id'], subtoken_info['token'],
                                        expected_status='fail')
+
+    def test_send_token_to_subclient(self):
+        ident_data = self.do_identify()
+        token = ident_data['oauth_token']['access_token']
+
+        subtoken_info = self.do_create_subclient_token(token)
+        self.do_validate(subtoken_info['token'], subclient=SUBCLIENT)
+
+        r = self.post(urljoin(self.cloud_api, 'blender_id/store_scst'),
+                      data={'user_id': ident_data['user_id'],
+                            'subclient_id': SUBCLIENT,
+                            'token': subtoken_info['token']})
+        r.raise_for_status()
+
+        # Let's check that the subclient token works now.
+        self.get(urljoin(self.cloud_api, 'users/me'),
+                 auth=(subtoken_info['token'], SUBCLIENT))
