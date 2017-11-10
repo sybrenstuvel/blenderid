@@ -1,5 +1,6 @@
-import logging
 import datetime
+import logging
+import typing
 
 from django.conf import settings
 from django.views.generic import View
@@ -133,9 +134,14 @@ class DeleteTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
 class ValidateTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
     log = logging.getLogger('%s.ValidateTokenView' % __name__)
 
-    def validate_oauth_token(self, user_id, access_token, subclient) -> AccessToken:
+    def validate_oauth_token(self, user_id, access_token, subclient) \
+            -> typing.Optional[AccessToken]:
         # FIXME: include subclient check.
-        token = AccessToken.objects.get(token=access_token)
+        try:
+            token = AccessToken.objects.get(token=access_token)
+        except AccessToken.model.DoesNotExist:
+            return None
+
         if user_id and token.user.id != user_id:
             raise django_exc.PermissionDenied()
 
@@ -160,7 +166,6 @@ class ValidateTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
         access_token = request.POST['token']
 
         token = self.validate_oauth_token(user_id, access_token, subclient)
-
         if not token or not token.is_valid():
             if self.log.isEnabledFor(logging.DEBUG):
                 if not token:
