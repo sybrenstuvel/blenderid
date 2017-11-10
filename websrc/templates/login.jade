@@ -15,15 +15,20 @@
 								span.input-group-addon
 									i.fa.fa-envelope-o
 								| {{ form.username }}
-								| {{ form.username.errors }}
 							.clearfix.margin-top-2
 							// Password input
 							.input-group.input-group-lg.width-full
 								span.input-group-addon
 									i.fa.fa-lock
 								| {{ form.password }}
-								| {{ form.password.errors }}
 							.clearfix.margin-top-2
+
+							| {% if form.errors %}
+							p.text-danger Your username and password didn't match. Please try again.
+							p
+								a(href="{% url 'bid_main:password_reset' %}") Lost your password?
+							| {% endif %}
+
 					.col-md-6
 						.width-full.text-align-center.margin-top-5.margin-bottom-5
 							h2
