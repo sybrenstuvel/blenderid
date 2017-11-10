@@ -68,7 +68,7 @@ class SpecialSnowflakeMixin:
 
         return token, refresh_token
 
-    def validate_oauth_token(self, user_id, access_token, subclient) \
+    def validate_oauth_token(self, user_id: int, access_token: str='', subclient: str='') \
             -> typing.Optional[AccessToken]:
         # FIXME: include subclient check.
         try:
@@ -135,12 +135,9 @@ class DeleteTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
         user_id = int(request.POST['user_id'])
         token_string = request.POST['token']
 
-        token = AccessToken.objects.get(token=token_string)
-        if token.user.id != user_id:
-            return JsonResponse({
-                'status': 'fail',
-                'data': {'message': 'not your token'}
-            })
+        token = self.validate_oauth_token(user_id, token_string)
+        if not token:
+            raise django_exc.PermissionDenied()
         token.revoke()
 
         return JsonResponse({
