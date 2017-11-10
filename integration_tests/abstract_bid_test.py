@@ -53,7 +53,8 @@ class AbstractBlenderIDTest(unittest.TestCase):
 
         self.assertEqual(
             expected_status, resp.status_code,
-            f'Expected status {expected_status} but got {resp.status_code}. Response: {resp.text}')
+            f'Expected status {expected_status} but got {resp.status_code}. '
+            f'Response: {resp.text[:300]}')
 
         return resp
 
