@@ -158,4 +158,4 @@ class BlenderIdAddonSupportTest(TestCase):
             'subclient_id': 'PILLAR',
             'host_label': 'unit testing stuff',
         }, HTTP_AUTHORIZATION=f'Bearer {dbtoken.token}')
-        self.assertEqual(200, resp.status_code)
+        self.assertEqual(201, resp.status_code)

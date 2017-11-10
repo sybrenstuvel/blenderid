@@ -9,4 +9,6 @@ urlpatterns = [
     url(r'^u/validate_token$', views.ValidateTokenView.as_view(), name='validate_token'),
     url(r'^subclients/create_token', views.SubclientCreateToken.as_view(),
         name='subclient_create_token'),
+    url(r'^subclients/revoke_token', views.DeleteTokenView.as_view(),
+        name='subclient_revoke_token'),
 ]

@@ -7,7 +7,7 @@ from django.views.generic import View
 from django.views.decorators.debug import sensitive_post_parameters
 from django.contrib.auth import authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, JsonResponse, HttpResponseServerError
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.core import exceptions as django_exc
@@ -27,6 +27,10 @@ Application = oa2_models.get_application_model()
 
 def index(request):
     return HttpResponse('This is an API end-point for the Blender ID add-on.')
+
+
+class HttpResponseUnauthorized(HttpResponse):
+    status_code = 401
 
 
 class SpecialSnowflakeMixin:
@@ -50,7 +54,8 @@ class SpecialSnowflakeMixin:
         self._application = app
         return app
 
-    def create_oauth_token(self, user, host_label: str, subclient='') -> (AccessToken, RefreshToken):
+    def create_oauth_token(self, user, host_label: str, subclient='') -> (
+    AccessToken, RefreshToken):
         """Creates an OAuth token and stores it in the database."""
         expires = timezone.now() + datetime.timedelta(days=self.expires_days)
         token = AccessToken(
@@ -71,7 +76,7 @@ class SpecialSnowflakeMixin:
 
         return token, refresh_token
 
-    def validate_oauth_token(self, user_id: int, access_token: str='', subclient: str='') \
+    def validate_oauth_token(self, user_id: int, access_token: str = '', subclient: str = '') \
             -> typing.Optional[AccessToken]:
         try:
             token = AccessToken.objects.get(token=access_token, subclient=subclient or '')
@@ -136,12 +141,12 @@ class DeleteTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
     def post(self, request):
         user_id = int(request.POST['user_id'])
         token_string = request.POST['token']
+        subclient = request.POST.get('subclient_id', '')
 
-        token = self.validate_oauth_token(user_id, token_string)
+        token = self.validate_oauth_token(user_id, token_string, subclient)
         if not token:
-            raise django_exc.PermissionDenied()
+            return HttpResponseUnauthorized()
         token.revoke()
-        self.log.warning('user %d revoked token %r', user_id, token_string)
 
         return JsonResponse({
             'status': 'success',
@@ -168,6 +173,12 @@ class ValidateTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
 
         subclient = request.POST.get('subclient_id')
         user_id = request.POST.get('user_id')
+        if user_id:
+            try:
+                user_id = int(user_id)
+            except TypeError:
+                return HttpResponseBadRequest(f'invalid user ID {user_id!r}')
+
         access_token = request.POST['token']
 
         token = self.validate_oauth_token(user_id, access_token, subclient)
@@ -190,7 +201,8 @@ class ValidateTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
                              })
 
 
-class SubclientCreateToken(SpecialSnowflakeMixin, CsrfExemptMixin, LoginRequiredMixin, ProtectedResourceView):
+class SubclientCreateToken(SpecialSnowflakeMixin, CsrfExemptMixin, LoginRequiredMixin,
+                           ProtectedResourceView):
     """Creates a subclient token by storing the subclient ID in the token scope."""
     log = logging.getLogger('%s.SubclientCreateToken' % __name__)
     raise_exception = True  # don't redirect to the login page.
