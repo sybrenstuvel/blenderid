@@ -149,3 +149,13 @@ class BlenderIdAddonSupportTest(TestCase):
         self.assertEquals(dbtoken.user.id, data['user']['id'])
         self.assertEquals('sybren@example.com', data['user']['email'])
         self.assertEquals('Sybren Stüvel', data['user']['full_name'])
+
+    def test_create_subclient_token(self):
+        dbtoken = self.test_verify_identity_happy()
+
+        url = reverse('addon_support:subclient_create_token')
+        resp = self.client.post(url, {
+            'subclient_id': 'PILLAR',
+            'host_label': 'unit testing stuff',
+        }, HTTP_AUTHORIZATION=f'Bearer {dbtoken.token}')
+        self.assertEqual(200, resp.status_code)

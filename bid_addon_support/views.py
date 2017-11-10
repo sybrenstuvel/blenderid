@@ -6,12 +6,14 @@ from django.conf import settings
 from django.views.generic import View
 from django.views.decorators.debug import sensitive_post_parameters
 from django.contrib.auth import authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, JsonResponse, HttpResponseServerError
 from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.core import exceptions as django_exc
 
 import oauth2_provider.models as oa2_models
+from oauth2_provider.views.generic import ProtectedResourceView
 
 import oauthlib.common
 
@@ -48,7 +50,7 @@ class SpecialSnowflakeMixin:
         self._application = app
         return app
 
-    def create_oauth_token(self, user, host_label: str) -> (AccessToken, RefreshToken):
+    def create_oauth_token(self, user, host_label: str, subclient='') -> (AccessToken, RefreshToken):
         """Creates an OAuth token and stores it in the database."""
         expires = timezone.now() + datetime.timedelta(days=self.expires_days)
         token = AccessToken(
@@ -57,7 +59,8 @@ class SpecialSnowflakeMixin:
             application=self.application,
             expires=expires,
             scope=self.token_scopes,
-            host_label=host_label)
+            host_label=host_label,
+            subclient=subclient or '')
         token.save()
 
         refresh_token = RefreshToken(
@@ -70,9 +73,8 @@ class SpecialSnowflakeMixin:
 
     def validate_oauth_token(self, user_id: int, access_token: str='', subclient: str='') \
             -> typing.Optional[AccessToken]:
-        # FIXME: include subclient check.
         try:
-            token = AccessToken.objects.get(token=access_token)
+            token = AccessToken.objects.get(token=access_token, subclient=subclient or '')
         except AccessToken.DoesNotExist:
             return None
 
@@ -139,6 +141,7 @@ class DeleteTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
         if not token:
             raise django_exc.PermissionDenied()
         token.revoke()
+        self.log.warning('user %d revoked token %r', user_id, token_string)
 
         return JsonResponse({
             'status': 'success',
@@ -185,3 +188,25 @@ class ValidateTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
                                       'full_name': user.get_full_name().strip()},
                              'token_expires': token.expires,
                              })
+
+
+class SubclientCreateToken(SpecialSnowflakeMixin, CsrfExemptMixin, LoginRequiredMixin, ProtectedResourceView):
+    """Creates a subclient token by storing the subclient ID in the token scope."""
+    log = logging.getLogger('%s.SubclientCreateToken' % __name__)
+    raise_exception = True  # don't redirect to the login page.
+
+    @method_decorator(sensitive_post_parameters('token'))
+    def post(self, request):
+        """Creates a subclient token for the user."""
+
+        subclient = request.POST['subclient_id']
+        host_label = request.POST.get('host_label', '')
+
+        scst, _ = self.create_oauth_token(request.user, host_label, subclient)
+        return JsonResponse({
+            'status': 'success',
+            'data': {
+                'token': scst.token,
+                'expires': scst.expires,
+            }
+        }, status=201)

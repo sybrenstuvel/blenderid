@@ -20,7 +20,7 @@ import django.contrib.staticfiles.views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^u/', include('bid_addon_support.urls', namespace='addon_support')),
+    url(r'', include('bid_addon_support.urls', namespace='addon_support')),
     url(r'^oauth/', include('blenderid.oauth2_urls', namespace='oauth2_provider')),
     url(r'^api/', include('bid_api.urls', namespace='bid_api')),
     url(r'', include('bid_main.urls', namespace='bid_main')),
