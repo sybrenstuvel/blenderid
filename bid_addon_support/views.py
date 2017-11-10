@@ -48,6 +48,39 @@ class SpecialSnowflakeMixin:
         self._application = app
         return app
 
+    def create_oauth_token(self, user, host_label: str) -> (AccessToken, RefreshToken):
+        """Creates an OAuth token and stores it in the database."""
+        expires = timezone.now() + datetime.timedelta(days=self.expires_days)
+        token = AccessToken(
+            user=user,
+            token=oauthlib.common.generate_token(),
+            application=self.application,
+            expires=expires,
+            scope=self.token_scopes,
+            host_label=host_label)
+        token.save()
+
+        refresh_token = RefreshToken(
+            user=user,
+            token=oauthlib.common.generate_token(),
+            application=self.application,
+        )
+
+        return token, refresh_token
+
+    def validate_oauth_token(self, user_id, access_token, subclient) \
+            -> typing.Optional[AccessToken]:
+        # FIXME: include subclient check.
+        try:
+            token = AccessToken.objects.get(token=access_token)
+        except AccessToken.DoesNotExist:
+            return None
+
+        if user_id and token.user.id != user_id:
+            raise django_exc.PermissionDenied()
+
+        return token
+
 
 class VerifyIdentityView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
     log = logging.getLogger('%s.VerifyIdentityView' % __name__)
@@ -93,26 +126,6 @@ class VerifyIdentityView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
             },
         })
 
-    def create_oauth_token(self, user, host_label: str) -> (AccessToken, RefreshToken):
-        """Creates an OAuth token and stores it in the database."""
-        expires = timezone.now() + datetime.timedelta(days=self.expires_days)
-        token = AccessToken(
-            user=user,
-            token=oauthlib.common.generate_token(),
-            application=self.application,
-            expires=expires,
-            scope=self.token_scopes,
-            host_label=host_label)
-        token.save()
-
-        refresh_token = RefreshToken(
-            user=user,
-            token=oauthlib.common.generate_token(),
-            application=self.application,
-        )
-
-        return token, refresh_token
-
 
 class DeleteTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
     log = logging.getLogger('%s.DeleteTokenView' % __name__)
@@ -138,19 +151,6 @@ class DeleteTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
 
 class ValidateTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
     log = logging.getLogger('%s.ValidateTokenView' % __name__)
-
-    def validate_oauth_token(self, user_id, access_token, subclient) \
-            -> typing.Optional[AccessToken]:
-        # FIXME: include subclient check.
-        try:
-            token = AccessToken.objects.get(token=access_token)
-        except AccessToken.DoesNotExist:
-            return None
-
-        if user_id and token.user.id != user_id:
-            raise django_exc.PermissionDenied()
-
-        return token
 
     @method_decorator(sensitive_post_parameters('token'))
     def post(self, request):
