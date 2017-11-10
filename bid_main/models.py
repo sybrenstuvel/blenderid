@@ -128,7 +128,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     def has_confirmed_email(self):
         return self.confirmed_email_at is not None
 
-
     @property
     def role_names(self):
         return {role.name for role in self.roles.all()}
