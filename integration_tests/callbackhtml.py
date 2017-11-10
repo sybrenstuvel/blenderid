@@ -1,6 +1,6 @@
 """HTML code."""
 
-auth_okay_html = """<!DOCTYPE html>
+template = """<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -24,7 +24,7 @@ auth_okay_html = """<!DOCTYPE html>
         }
         
         article, h1 {
-            border: 3px solid #1750d2;
+            border: 3px solid %s;
         }
         
         article {
@@ -39,7 +39,7 @@ auth_okay_html = """<!DOCTYPE html>
             
             text-align: center;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-            font-size: 200%;
+            font-size: 200%%;
             
             background-color: #1750d2;
             color: white;
@@ -51,7 +51,7 @@ auth_okay_html = """<!DOCTYPE html>
         }
         
         p.note {
-            font-size: 70%;
+            font-size: 70%%;
             color: #888;
         }
         
@@ -64,13 +64,21 @@ auth_okay_html = """<!DOCTYPE html>
 <body>
 <section>
     <h1>OAuth Integration Test Authorization</h1>
-
     <article>
-        <p>Authorization of the application with Blender ID was successful.
-        You can now <strong>close this browser window</strong>, and return to the application.</p>
+        %s
     </article>
 </section>
 </body>
 
 </html>
 """
+
+auth_okay_html = template % ('#1750d2', """
+    <p>Authorization of the application with Blender ID was successful.
+    You can now <strong>close this browser window</strong>, and return to the application.</p>
+""")
+
+error_html = template % ('#d25017', """
+    <p>Authorization of the application with Blender ID was <strong>unsuccessful</strong>.
+    You can now <strong>close this browser window</strong>, and return to the application.</p>
+""")

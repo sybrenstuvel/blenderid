@@ -18,6 +18,14 @@ class OAuthTokenHTTPHandler(http.server.BaseHTTPRequestHandler):
         qs = urllib.parse.urlsplit(self.path).query
         url_vars = urllib.parse.parse_qs(qs)
 
+        if 'error' in url_vars:
+            self.send_response(400)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+
+            self.wfile.write(callbackhtml.error_html.encode('utf8'))
+            return
+
         grant_code = url_vars['code'][0]
 
         self.server.grant_code = grant_code
