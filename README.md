@@ -18,10 +18,8 @@ Run `git submodule update`
 1. Test against the Blender-ID Addon.
 2. Test against Blender Cloud.
 3. Port templates & assets from existing Blender ID.
-4. Port to existing MySQL database (currently using SQLite).
-5. Create settings_local.py override system.
-6. Test against other websites using Blender ID
-7. Deploy!
+4. Test against other websites using Blender ID
+5. Deploy!
 
 
 ## Missing features
