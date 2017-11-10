@@ -1,7 +1,10 @@
 """
 Local development settings.
+
+Copy to settings.py and edit to suit your needs.
 """
 
+# noinspection PyUnresolvedReferences
 from blenderid.common_settings import *
 
 DEBUG = True
@@ -55,3 +58,7 @@ LOGGING = {
         ],
     }
 }
+
+# For Debug Toolbar, extend with whatever address you use to connect
+# to your dev server.
+INTERNAL_IPS = ['127.0.0.1']
