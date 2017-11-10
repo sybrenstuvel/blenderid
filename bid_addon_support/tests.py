@@ -1,7 +1,10 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth import get_user_model
-from oauth2_provider.models import AccessToken, RefreshToken
+from oauth2_provider.models import get_access_token_model, get_refresh_token_model
+
+AccessToken = get_access_token_model()
+RefreshToken = get_refresh_token_model()
 
 
 # We don't import django.contrib.auth.models.User directly. Instead, we use

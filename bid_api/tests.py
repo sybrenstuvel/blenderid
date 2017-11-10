@@ -6,11 +6,12 @@ from django.utils import timezone
 
 from django.contrib.auth import get_user_model
 
-from oauth2_provider.models import get_application_model, AccessToken
+import oauth2_provider.models as oa2_models
 
 from bid_main.models import Role
 
-Application = get_application_model()
+Application = oa2_models.get_application_model()
+AccessToken = oa2_models.get_access_token_model()
 UserModel = get_user_model()
 
 

@@ -11,12 +11,16 @@ from django.utils.decorators import method_decorator
 from django.utils import timezone
 from django.core import exceptions as django_exc
 
-from oauth2_provider.models import AccessToken, RefreshToken, Application
+import oauth2_provider.models as oa2_models
 
 import oauthlib.common
 
 # Braces is a dependency of oauth2_provider.
 from braces.views import CsrfExemptMixin
+
+AccessToken = oa2_models.get_access_token_model()
+RefreshToken = oa2_models.get_refresh_token_model()
+Application = oa2_models.get_application_model()
 
 
 def index(request):
@@ -62,7 +66,6 @@ class VerifyIdentityView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
         if not email:
             return JsonResponse({'status': 'fail', 'data': {'email': 'not given'}})
 
-
         password = request.POST['password']
         host_label = request.POST['host_label']
 
@@ -90,14 +93,16 @@ class VerifyIdentityView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
             },
         })
 
-    def create_oauth_token(self, user, host_label) -> (AccessToken, RefreshToken):
+    def create_oauth_token(self, user, host_label: str) -> (AccessToken, RefreshToken):
+        """Creates an OAuth token and stores it in the database."""
         expires = timezone.now() + datetime.timedelta(days=self.expires_days)
         token = AccessToken(
             user=user,
             token=oauthlib.common.generate_token(),
             application=self.application,
             expires=expires,
-            scope=self.token_scopes)
+            scope=self.token_scopes,
+            host_label=host_label)
         token.save()
 
         refresh_token = RefreshToken(
@@ -139,7 +144,7 @@ class ValidateTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
         # FIXME: include subclient check.
         try:
             token = AccessToken.objects.get(token=access_token)
-        except AccessToken.model.DoesNotExist:
+        except AccessToken.DoesNotExist:
             return None
 
         if user_id and token.user.id != user_id:

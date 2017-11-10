@@ -6,6 +6,8 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+import oauth2_provider.models as oa2_models
+
 
 class UserManager(BaseUserManager):
     """UserManager that doesn't use a username, but an email instead."""
@@ -182,3 +184,11 @@ class Role(models.Model):
         if self.is_active:
             return self.name
         return '%s [inactive]' % self.name
+
+
+class OAuth2AccessToken(oa2_models.AbstractAccessToken):
+    class Meta:
+        verbose_name = 'access token'
+
+    host_label = models.CharField(max_length=255, unique=False, blank=True)
+    subclient = models.CharField(max_length=255, unique=False, blank=True)

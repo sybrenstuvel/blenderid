@@ -125,6 +125,11 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 BLENDER_ID_ADDON_CLIENT_ID = '-secret-'
 
+# Defining one of those means you have to define them all.
+OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = 'bid_main.OAuth2AccessToken'
+OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL = 'oauth2_provider.RefreshToken'
+OAUTH2_PROVIDER_APPLICATION_MODEL = 'oauth2_provider.Application'
+
 OAUTH2_PROVIDER = {
     'SCOPES': {
         'email': 'Default scope',
@@ -133,6 +138,8 @@ OAUTH2_PROVIDER = {
     'ALLOWED_REDIRECT_URI_SCHEMES': ['https'],
     'REQUEST_APPROVAL_PROMPT': 'auto',
     'ACCESS_TOKEN_EXPIRE_SECONDS': 3600 * 24 * 31,  # keep for a month
+    'ACCESS_TOKEN_MODEL': OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL,
+    'REFRESH_TOKEN_MODEL': OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL,
 }
 
 # This is required for compatibility with Blender Cloud, as it performs
