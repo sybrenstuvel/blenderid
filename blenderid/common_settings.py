@@ -131,8 +131,7 @@ OAUTH2_PROVIDER = {
         'email': 'Default scope',
     },
 
-    # If you change DEBUG to True in later code, remember to update this too.
-    'ALLOWED_REDIRECT_URI_SCHEMES': ['http', 'https'] if DEBUG else ['https'],
+    'ALLOWED_REDIRECT_URI_SCHEMES': ['https'],
     'REQUEST_APPROVAL_PROMPT': 'auto',
     'ACCESS_TOKEN_EXPIRE_SECONDS': 3600 * 24 * 31,  # keep for a month
 }

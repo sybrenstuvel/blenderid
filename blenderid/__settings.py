@@ -11,12 +11,8 @@ BLENDER_ID_ADDON_CLIENT_ID = 'SPECIAL-SNOWFLAKE-57'
 # This was generated using "pwgen -sync 64"
 SECRET_KEY = r'''}y\[.~WGh2#~|6r|alD0R6<'WA@F#hB|4eyR\6SUyovx5H,v4TP#H~6unZGIgk~`'''
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+# For testing purposes, allow HTTP as well as HTTPS. Never enable this in production!
+# OAUTH2_PROVIDER['ALLOWED_REDIRECT_URI_SCHEMES'] = ['http', 'https']
 
 DATABASES = {
     'default': {
@@ -27,6 +23,10 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': str(BASE_DIR / 'db.sqlite3'),
+    # },
 }
 
 
