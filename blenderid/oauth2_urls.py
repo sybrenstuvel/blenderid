@@ -8,10 +8,10 @@ I've also removed the "management" URLs, as we use the admin interface for that.
 from __future__ import absolute_import
 from django.conf.urls import url
 
-from oauth2_provider import views
+from oauth2_provider import views as oauth2_views
 
 urlpatterns = (
-    url(r'^authorize/?$', views.AuthorizationView.as_view(), name="authorize"),
-    url(r'^token/?$', views.TokenView.as_view(), name="token"),
-    url(r'^revoke/?$', views.RevokeTokenView.as_view(), name="revoke-token"),
+    url(r'^authorize/?$', oauth2_views.AuthorizationView.as_view(), name="authorize"),
+    url(r'^token/?$', oauth2_views.TokenView.as_view(), name="token"),
+    url(r'^revoke/?$', oauth2_views.RevokeTokenView.as_view(), name="revoke-token"),
 )
