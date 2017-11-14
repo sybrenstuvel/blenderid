@@ -52,6 +52,7 @@ class OAuthFlowTest(AbstractBlenderIDTest):
 
         if self.auth_http_server is None:
             return
+        self.auth_http_server.server_close()
         self.auth_http_server = None
 
     def do_login(self):
@@ -63,6 +64,7 @@ class OAuthFlowTest(AbstractBlenderIDTest):
         webbrowser.open_new_tab(url)
         grant = self.auth_http_server.wait_for_oauth_grant()
         print(f'grant received: {grant}')
+        self.assertIsNotNone(grant, "expected a grant, but didn't get one")
 
         # Trade for an auth token
         print('trading grant for an oauth token')
