@@ -14,6 +14,7 @@ urlpatterns = [
                                      authentication_form=forms.AuthenticationForm),
         name='login'),
     url(r'^logout$', auth_views.LogoutView.as_view(next_page='bid_main:about'), name='logout'),
+    url(r'^switch', views.SwitchUserView.as_view(), name='switch_user'),
 
     url('^change$',
         auth_views.PasswordChangeView.as_view(

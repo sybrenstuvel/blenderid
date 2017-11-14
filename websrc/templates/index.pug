@@ -43,6 +43,9 @@
 				a.btn.btn-default(href="{% url 'bid_main:logout' %}")
 					i.fa.fa-sign-out
 					|  Logout
+				a.btn.btn-default(href="{% url 'bid_main:switch_user' %}")
+					i.fa.fa-sign-out
+					|  Log in as someone else
 
 		// id__profile-details
 		| {% if 'bfct_trainer' in user.role_names %}
@@ -59,7 +62,7 @@
 				hr.width-full
 			p.info
 				i.fa.fa-graduation-cap
-				|  BFCT Board Member{% if 'bfct_manager' in user.role_names %} & Manager{% endif %}
+				|  BFCT Board Member{% if 'bfct_manager' in user.role_names %} &amp; Manager{% endif %}
 			|         {% endif %}
 			p
 		|     {% endif %}

@@ -1,13 +1,14 @@
 from django.db import transaction
-from django.shortcuts import render
+from django.conf import settings
 from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic.edit import UpdateView
 
-from .forms import UserRegistrationForm, UserProfileForm
+from .forms import UserRegistrationForm, UserProfileForm, AuthenticationForm
 from .models import User
 
 
@@ -65,3 +66,9 @@ class ProfileView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class SwitchUserView(LoginRequiredMixin, LoginView):
+    template_name = 'switch_user.html'
+    form_class = AuthenticationForm
+    success_url_allowed_hosts = settings.NEXT_REDIR_AFTER_LOGIN_ALLOWED_HOSTS
