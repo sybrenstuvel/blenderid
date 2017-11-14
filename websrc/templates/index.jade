@@ -39,6 +39,11 @@
 					i.fa.fa-envelope
 					|  Please confirm your email address
 			| {% endif %}
+			p
+				a.btn.btn-default(href="{% url 'bid_main:logout' %}")
+					i.fa.fa-sign-out
+					|  Logout
+
 		// id__profile-details
 		| {% if 'bfct_trainer' in user.role_names %}
 		.id__profile-certification

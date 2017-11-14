@@ -52,29 +52,23 @@ html(lang="en")
 			header.navbar.navbar-default.navbar-secondlevel.navbar-static-top
 				.container.relative
 					ul.nav.navbar-nav.navbar-left
-						li(class="{% if page_id == 'about' %}active{% endif %}")
-							a(href="{% url 'bid_main:about' %}") About
 						| {% if user.is_authenticated %}
 						li(class="{% if page_id == 'index' %}active{% endif %}")
 							a(href="{% url 'bid_main:index' %}") Dashboard
 						| {% endif %}
+						li(class="{% if page_id == 'about' %}active{% endif %}")
+							a(href="{% url 'bid_main:about' %}") About
+						| {% if user.is_staff %}
+						li
+							a(href="{% url 'admin:index' %}")
+								i.fa.fa-rocket
+								=' Whoosh!'
+						| {% endif %}
 						| {% if user.is_authenticated %}
 						li.dropdown.absolute.right
-							a.dropdown-toggle(href='#', data-toggle='dropdown')
-								| {{user.email}}
+							a.dropdown-toggle(href='javascript:void();', data-toggle='dropdown') {{user.email}}
 								b.caret
 							ul.dropdown-menu.right
-								| {% if user.is_staff %}
-								li
-									a(href="{% url 'admin:index' %}")
-										i.fa.fa-rocket
-										|  Whoosh!
-								| {% endif %}
-								li
-									a(href="{% url 'bid_main:profile' %}")
-										i.fa.fa-cog
-										|  Settings
-								li.divider
 								li
 									a(href="{% url 'bid_main:logout' %}")
 										i.fa.fa-power-off

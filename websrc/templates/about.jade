@@ -35,7 +35,7 @@
 		// box
 	.col-md-6.about__join
 		.box
-			| {% if current_user.is_authenticated %}
+			| {% if user.is_authenticated %}
 			.about__join-authenticated
 				.vertical-align
 					a(href="{% url 'bid_main:index' %}")
@@ -59,9 +59,12 @@
 							i.bf-network
 					h3
 						| One account, everything Blender
-					h4
+					p
 						a.btn.btn-default.btn-squishy.btn-info(href="{% url 'bid_main:register' %}")
 							| Get your Blender ID
+						a.btn.btn-squishy(href="{% url 'bid_main:login' %}")
+							i.fa.fa-sign-in
+							| Sign In
 			| {% endif %}
 
 | {% endblock %}
