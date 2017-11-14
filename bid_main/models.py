@@ -59,8 +59,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         error_messages={
             'unique': _("A user with that email address already exists."),
         },
+        db_index=True,
     )
-    full_name = models.CharField(_('full name'), max_length=80, blank=True)
+    full_name = models.CharField(_('full name'), max_length=80, blank=True, db_index=True)
     roles = models.ManyToManyField('Role', related_name='users', blank=True)
 
     confirmed_email_at = models.DateTimeField(
