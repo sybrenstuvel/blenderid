@@ -1,0 +1,18 @@
+[
+{
+    "model": "oauth2_provider.application",
+    "pk": 2,
+    "fields": {
+        "client_id": "INTEGRATION-TESTS",
+        "user": 1,
+        "redirect_uris": "http://localhost:8666/",
+        "client_type": "confidential",
+        "authorization_grant_type": "authorization-code",
+        "client_secret": "EibieBooPhe7zohjo5rah4sie6Aij4eeg7phanoosael0nee",
+        "name": "Integration Tests",
+        "skip_authorization": false,
+        "created": "2017-11-09T16:41:45.543Z",
+        "updated": "2017-11-14T09:06:57.890Z"
+    }
+}
+]

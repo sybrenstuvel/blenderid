@@ -1,0 +1,18 @@
+[
+{
+    "model": "oauth2_provider.application",
+    "pk": 3,
+    "fields": {
+        "client_id": "CLOUD-OF-SNOWFLAKES-42",
+        "user": 1,
+        "redirect_uris": "http://blender-cloud:5000/oauth/blender-id/authorized\r\nhttp://blender-cloud:5001/oauth/blender-id/authorized\r\nhttp://blender-cloud/oauth/blender-id/authorized",
+        "client_type": "confidential",
+        "authorization_grant_type": "authorization-code",
+        "client_secret": "thohghoh5XeisodoThaateewo2chooy3",
+        "name": "Blender Cloud",
+        "skip_authorization": false,
+        "created": "2017-11-14T09:11:12.347Z",
+        "updated": "2017-11-14T09:11:12.347Z"
+    }
+}
+]
