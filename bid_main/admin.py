@@ -36,11 +36,12 @@ class UserAdmin(BaseUserAdmin):
         }),
     )
 
-    list_display = ('email', 'full_name', 'is_active', 'role_names', 'last_update')
-    list_display_links = ('email', 'full_name', 'role_names', 'last_update')
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups', 'roles')
+    list_display = ('email', 'full_name', 'is_active', 'role_names', 'last_update', 'confirmed_email_at')
+    list_display_links = ('email', 'full_name', 'role_names', 'last_update', 'confirmed_email_at')
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups', 'roles',
+                   'confirmed_email_at')
     search_fields = ('email', 'full_name')
-    ordering = ('email',)
+    ordering = ('full_name', 'email')
 
     def role_names(self, user):
         roles = user.roles.filter(is_active=True)
