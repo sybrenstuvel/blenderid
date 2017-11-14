@@ -9,7 +9,7 @@
             "is_staff": false,
             "is_superuser": false,
             "last_login": null,
-            "password": "pbkdf2_sha256$24000$impossibru",
+            "password": "blenderid$$2b$12$impossibru",
             "user_permissions": []
         },
         "model": "bid_main.user",
