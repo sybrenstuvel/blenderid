@@ -1,11 +1,13 @@
 from django.db import transaction
 from django.shortcuts import render
 from django.contrib.auth.forms import PasswordResetForm
-from django.contrib.auth import views as auth_views
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic import CreateView
+from django.views.generic.edit import UpdateView
 
-from .forms import UserRegistrationForm
+
+from .forms import UserRegistrationForm, UserProfileForm
 from .models import User
 
 
@@ -53,3 +55,13 @@ class RegistrationView(CreateView):
         reset_form.save(**opts)
 
         return redirect('bid_main:register-done')
+
+
+class ProfileView(UpdateView):
+    form_class = UserProfileForm
+    model = User
+    template_name = 'settings/profile.html'
+    success_url = reverse_lazy('bid_main:index')
+
+    def get_object(self, queryset=None):
+        return self.request.user

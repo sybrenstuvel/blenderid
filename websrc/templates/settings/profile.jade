@@ -1,72 +1,56 @@
-| {% extends 'settings/_settings_layout.html' %}
-| {% from 'settings/_macros.html' import render_field_horizontal, render_label_horizontal%}
-| {% block page_title %}
-| {% if current_user.full_name %}
-| {{current_user.full_name}}'s
-| {% else %}
-| Your
-| {% endif %}
-| Profile
-| {% endblock %}
-| {% block nav_thirdlevel %}
-header.navbar.navbar-default.navbar-thirdlevel.navbar-static-top.bright(role='navigation')
-	.container
-		ul.nav.navbar-nav.navbar-left
-			li(class="{% if title == 'profile' %}active{% endif %}")
-				a(href="{{url_for('profile')}}") Profile
-			li(class="{% if title == 'address' %}active{% endif %}")
-				a(href="{{url_for('address')}}") Address
-| {% endblock %}
-
+| {% extends 'layout.html' %}
+| {% block page_title %}Your Profile -- Blender ID{% endblock %}
 | {% block body %}
 .container
 	.row.profile
-		.col-lg-6.col-lg-offset-3.col-md-8.col-md-offset-2.col-sm-12
-			.row.box
-				h1 Your Profile
-				.col-md-5.col-md-push-7.col-sm-2.col-sm-push-9.col-xs-12.margin-top-4.text-align-center
-					a(href='http://gravatar.com', target='_blank')
-						img.img-circle.margin-top-5.margin-bottom-4.content-margin-center(src='{{gravatar_url}}', title='Gravatar Profile Picture')
-						.clearfix
-						small
-							| Change Gravatar
-							i.fa.fa-angle-double-right
-					hr
-					a(href="{{url_for_security('change_password')}}")
-						small
-							| Change Password
-						i.fa.fa-lock
-					hr.visible-xs
-				.col-md-7.col-md-pull-5.col-sm-9.col-sm-pull-2.col-xs-12
-					form.form-horizontal(action="{{url_for('profile')}}", method='POST', role='form')
-						| {{ form.hidden_tag() }}
+		.col-md-8.col-md-push-2
+			.box
+				i.bf-blender.backicon
+				form.margin-top-5(action='', method='POST')
+					| {% csrf_token %}
+					.col-md-6
 						fieldset
-							.input-group.input-group-lg.width-full.disabled(title='Blender IDs are not changeable')
+							// Email display
+							.input-group.input-group-lg.width-full
 								span.input-group-addon
 									i.fa.fa-envelope-o
-								| {{ form.blender_id(class='form-control', disabled='') }}
-								label.control-label Blender ID
-							.input-group.input-group-lg.if.endif(class='width-full{% if form.full_name.errors %} has-error{% endif %}')
+								span.form-control {{user.email}}
+								label.control-label E-mail (cannot be changed)
+							.clearfix.margin-top-2
+							// Full name input
+							.input-group.input-group-lg.width-full
 								span.input-group-addon
-									i.fa.fa-font
-								| {{ form.full_name(class='form-control', placeholder='Full Name') }}
+									i.fa.fa-lock
+								| {{ form.full_name }}
 								label.control-label Full Name
-								| {% if form.full_name.errors %}
-								ul.error
-									| {% for error in form.full_name.errors %}
-									li {{ error }}
-									| {% endfor %}
-								| {% endif %}
-						.col-md-12
+							.clearfix.margin-top-2
+
+							| {% if form.errors %}
+							p.text-danger {{ form.errors }}
+							| {% endif %}
+
 							hr
 							.form-group
-								button.btn.btn-default.btn-squishy.btn-success.width-full(type='submit')
-									| Update Profile
+								button.btn.btn-default.btn-squishy.width-full(type='submit')
 									i.fa.fa-check
-| {% endblock %}
-| {% block footer_scripts %}
-script.
-	$(document).ready(function() {
-	$('#public_setting').tooltip({container:'body'});
-	});
+									| Update Profile
+								a.btn.btn-squishy(href="{% url 'bid_main:index' %}")
+									i.fa.fa-times
+									| Cancel
+							| {% if user.is_staff %}
+							a(href="{% url 'admin:bid_main_user_change' user.id %}") Your account in the admin
+							| {% endif %}
+					.col-md-6
+						.width-full.text-align-center.margin-top-5.margin-bottom-5
+							h2
+								| One Account
+								br
+								| Everything Blender
+							// Button
+							.control-group
+								label.control-label(for='signin')
+								.controls.text-align-center
+									button.btn.btn-default.btn-lg.btn-squishy.width-75#register Sign in
+							hr
+							a.link(href="{% url 'bid_main:register' %}") Don't have a Blender ID yet?
 | {% endblock %}

@@ -46,3 +46,9 @@ class AuthenticationForm(BootstrapModelFormMixin, auth_forms.AuthenticationForm)
 
         self.fields['username'].widget.attrs['placeholder'] = 'Your e-mail address'
         self.fields['password'].widget.attrs['placeholder'] = 'Your password'
+
+
+class UserProfileForm(BootstrapModelFormMixin, forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['full_name']

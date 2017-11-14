@@ -8,7 +8,7 @@ from . import views, forms
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^about$', views.about, name='about'),
-    url(r'^profile$', views.about, name='profile'),
+    url(r'^settings/profile$', views.ProfileView.as_view(), name='profile'),
     url(r'^login$',
         auth_views.LoginView.as_view(template_name='login.html',
                                      authentication_form=forms.AuthenticationForm),
