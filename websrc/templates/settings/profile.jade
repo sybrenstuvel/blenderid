@@ -5,52 +5,35 @@
 	.row.profile
 		.col-md-8.col-md-push-2
 			.box
-				i.bf-blender.backicon
+				h1 Your Profile
 				form.margin-top-5(action='', method='POST')
 					| {% csrf_token %}
-					.col-md-6
-						fieldset
-							// Email display
-							.input-group.input-group-lg.width-full
-								span.input-group-addon
-									i.fa.fa-envelope-o
-								span.form-control {{user.email}}
-								label.control-label E-mail (cannot be changed)
-							.clearfix.margin-top-2
-							// Full name input
-							.input-group.input-group-lg.width-full
-								span.input-group-addon
-									i.fa.fa-lock
-								| {{ form.full_name }}
-								label.control-label Full Name
-							.clearfix.margin-top-2
+					fieldset
+						// Email display
+						.input-group.input-group-lg.width-full
+							span.input-group-addon
+								i.fa.fa-envelope-o
+							span.form-control {{user.email}}
+							label.control-label E-mail (cannot be changed)
+						.clearfix.margin-top-2
+						// Full name input
+						.input-group.input-group-lg.width-full
+							span.input-group-addon
+								i.fa.fa-lock
+							| {{ form.full_name }}
+							label.control-label Full Name
+							| {{ form.full_name.errors }}
+						.clearfix.margin-top-2
 
-							| {% if form.errors %}
-							p.text-danger {{ form.errors }}
-							| {% endif %}
-
-							hr
-							.form-group
-								button.btn.btn-default.btn-squishy.width-full(type='submit')
-									i.fa.fa-check
-									| Update Profile
-								a.btn.btn-squishy(href="{% url 'bid_main:index' %}")
-									i.fa.fa-times
-									| Cancel
-							| {% if user.is_staff %}
-							a(href="{% url 'admin:bid_main_user_change' user.id %}") Your account in the admin
-							| {% endif %}
-					.col-md-6
-						.width-full.text-align-center.margin-top-5.margin-bottom-5
-							h2
-								| One Account
-								br
-								| Everything Blender
-							// Button
-							.control-group
-								label.control-label(for='signin')
-								.controls.text-align-center
-									button.btn.btn-default.btn-lg.btn-squishy.width-75#register Sign in
-							hr
-							a.link(href="{% url 'bid_main:register' %}") Don't have a Blender ID yet?
+						hr
+						.form-group
+							button.btn.btn-default.btn-squishy.width-full(type='submit')
+								i.fa.fa-check
+								| Update Profile
+							a.btn.btn-squishy(href="{% url 'bid_main:index' %}")
+								i.fa.fa-times
+								| Cancel
+						| {% if user.is_staff %}
+						a(href="{% url 'admin:bid_main_user_change' user.id %}") Your account in the admin
+						| {% endif %}
 | {% endblock %}

@@ -3,6 +3,7 @@ import logging
 from django import forms
 from django.contrib.auth import forms as auth_forms
 from django.utils import timezone
+from django.utils.translation import ugettext_lazy as _
 
 from .models import User
 
@@ -52,3 +53,12 @@ class UserProfileForm(BootstrapModelFormMixin, forms.ModelForm):
     class Meta:
         model = User
         fields = ['full_name']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        full_name = cleaned_data.get('full_name', '').strip()
+        if not full_name:
+            raise forms.ValidationError({'full_name': _('Full Name is a required field')})
+
+        cleaned_data['full_name'] = full_name
+        return cleaned_data
