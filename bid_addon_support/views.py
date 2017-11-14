@@ -81,10 +81,17 @@ class SpecialSnowflakeMixin:
         try:
             token = AccessToken.objects.get(token=access_token, subclient=subclient or '')
         except AccessToken.DoesNotExist:
+            self.log.debug('Token not found in database.')
             return None
 
         if user_id and token.user.id != user_id:
+            self.log.warning('Token is owned by user %s but user %s is validating it',
+                             token.user_id, user_id)
             raise django_exc.PermissionDenied()
+
+        if not token.is_valid():
+            self.log.debug('Token is found but not valid.')
+            return None
 
         return token
 
@@ -183,11 +190,6 @@ class ValidateTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
 
         token = self.validate_oauth_token(user_id, access_token, subclient)
         if not token or not token.is_valid():
-            if self.log.isEnabledFor(logging.DEBUG):
-                if not token:
-                    self.log.debug('Token not found in database.')
-                elif token.is_valid():
-                    self.log.debug('Token is found but not valid.')
             return JsonResponse({'status': 'fail',
                                  'token': 'Token is invalid'},
                                 status=403)
