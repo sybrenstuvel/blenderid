@@ -1,4 +1,5 @@
 import os
+import typing
 import unittest
 from urllib.parse import urljoin
 
@@ -24,7 +25,7 @@ class AbstractBlenderIDTest(unittest.TestCase):
         return urljoin(cls.endpoint, relative_url)
 
     def request(self, method: str, path: str, *,
-                expected_status=200,
+                expected_status: typing.Union[int, typing.Set[int]]=200,
                 token=None,
                 etag=None,
                 headers=None,
@@ -51,8 +52,10 @@ class AbstractBlenderIDTest(unittest.TestCase):
         url = urljoin(self.endpoint, path)
         resp = self.session.request(method, url, headers=headers, **kwargs)
 
-        self.assertEqual(
-            expected_status, resp.status_code,
+        if isinstance(expected_status, int):
+            expected_status = {expected_status}
+        self.assertIn(
+            resp.status_code, expected_status,
             f'Expected status {expected_status} but got {resp.status_code}. '
             f'Response: {resp.text[:300]}')
 

@@ -132,4 +132,5 @@ class OAuthFlowTest(AbstractBlenderIDTest):
         self.do_revoke_token()
 
         # This token shouldn't work any more now.
-        self.get('api/user', token=self.access_token, expected_status=401)
+        # Old Blender ID returns 401, this one returns 403.
+        self.get('api/user', token=self.access_token, expected_status={401, 403})
