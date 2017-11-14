@@ -18,6 +18,16 @@ class UserSettingInline(admin.TabularInline):
     extra = 0
 
 
+def make_staff(modeladmin, request, queryset):
+    queryset.update(is_staff=True)
+make_staff.short_description = 'Make selected users staff'
+
+
+def unmake_staff(modeladmin, request, queryset):
+    queryset.update(is_staff=False)
+unmake_staff.short_description = 'Make selected users non-staff'
+
+
 @admin.register(models.User)
 class UserAdmin(BaseUserAdmin):
     inlines = (UserSettingInline, )
@@ -43,6 +53,8 @@ class UserAdmin(BaseUserAdmin):
                    'confirmed_email_at', 'is_staff', 'is_superuser')
     search_fields = ('email', 'full_name')
     ordering = ('email', )
+
+    actions = [make_staff, unmake_staff]
 
     def role_names(self, user):
         """Lists role names of the user.
