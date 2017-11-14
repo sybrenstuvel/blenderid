@@ -15,6 +15,14 @@ urlpatterns = [
         name='login'),
     url(r'^logout$', auth_views.LogoutView.as_view(next_page='bid_main:about'), name='logout'),
 
+    url('^change$',
+        auth_views.PasswordChangeView.as_view(
+            form_class=forms.PasswordChangeForm,
+            success_url=reverse_lazy('bid_main:password_change_done')),
+        name='password_change'),
+    url('^change-password/done$', auth_views.PasswordChangeDoneView.as_view(),
+        name='password_change_done'),
+
     url(r'^password_reset/$',
         auth_views.PasswordResetView.as_view(
             success_url=reverse_lazy('bid_main:password_reset_done')),

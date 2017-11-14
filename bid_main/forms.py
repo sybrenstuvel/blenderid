@@ -15,6 +15,7 @@ class BootstrapModelFormMixin:
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        kwargs.setdefault('label_suffix', '')
 
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
@@ -60,3 +61,6 @@ class UserProfileForm(BootstrapModelFormMixin, forms.ModelForm):
             raise forms.ValidationError({'full_name': _('Full Name is a required field')})
         return full_name
 
+
+class PasswordChangeForm(BootstrapModelFormMixin, auth_forms.PasswordChangeForm):
+    """Password change form with Bootstrap CSS classes."""

@@ -30,6 +30,9 @@
 				a.btn.btn-default(href="{% url 'bid_main:profile' %}")
 					i.fa.fa-edit
 					|  Edit Profile
+				a.btn.btn-default(href="{% url 'bid_main:password_change' %}")
+					i.fa.fa-edit
+					|  Change Password
 			| {% if not user.confirmed_at and config.SECURITY_CONFIRMABLE %}
 			p
 				a.btn.btn-warning(href="-- url_for_security('send_confirmation') --")
