@@ -172,6 +172,7 @@ class Command(BaseCommand):
             # "ignore" skips duplicates.
             cursor.execute('insert ignore into bid_main_user_roles (user_id, role_id) '
                            'select user_id, role_id from roles_users')
+        self.stdout.write(self.style.SUCCESS('Migrated user-roles'))
 
     @transaction.atomic()
     def migrate_user_settings(self):
@@ -179,3 +180,4 @@ class Command(BaseCommand):
             # "ignore" skips duplicates.
             cursor.execute('insert ignore into bid_main_usersetting (id, user_id, setting_id, unconstrained_value) '
                            'select id, user_id, setting_id, unconstrained_value from users_settings')
+        self.stdout.write(self.style.SUCCESS('Migrated user-settings'))
