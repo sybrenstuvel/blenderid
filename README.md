@@ -35,7 +35,9 @@ After cloning the Git repo, perform these steps to create a working dev server:
 2. Test against Blender Cloud.
 3. Port templates & assets from existing Blender ID.
 4. Test against other websites using Blender ID
-5. Check out the
+5. Check out the [default management
+   endpoints](https://django-oauth-toolkit.readthedocs.io/en/latest/tutorial/tutorial_02.html#make-your-api)
+   of the Django OAuth Toolkit.
 5. Deploy!
 
 
@@ -46,8 +48,16 @@ more convenient way to obtain an OAuth authentication token. Effectively it allo
 entry in the application itself, rather than spawning a web browser.
 
 
-# Including shared assets
+## Differences with previous Blender ID
 
-    git submodule add git://git.blender.org/blender-web-assets.git static/assets_shared
-    git submodule init
-    git submodule update
+Even though we have tried to keep the API the same, there are a few subtle differences between this
+Blender ID and the previous (Flask-based) incarnation:
+
+- Date/times in JSON responses are encoded in ISO-8601 format (old used RFC-1123 with a hardcoded
+  'GMT' timezone). ISO-8601 is the default format used by Django in all JSON responses, and, since it
+  is also actually compatible with JavaScript, we decided to keep it. We suggest using
+  [dateutil](https://dateutil.readthedocs.io/en/stable/) in Python projects to parse the timestamp.
+  As it auto-detects the format, it can be used to transparently switch between the old and this
+  Blender ID.
+- Anonymous requests to a protected endpoint return a `403 Forbidden` response (old used `401
+  Unauthorized`). This is the default Django behaviour.
