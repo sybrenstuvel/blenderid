@@ -4,9 +4,9 @@ var chmod        = require('gulp-chmod');
 var concat       = require('gulp-concat');
 var gulp         = require('gulp');
 var gulpif       = require('gulp-if');
-var jade         = require('gulp-jade');
 var livereload   = require('gulp-livereload');
 var plumber      = require('gulp-plumber');
+var pug          = require('gulp-pug');
 var rename       = require('gulp-rename');
 var sass         = require('gulp-sass');
 var sourcemaps   = require('gulp-sourcemaps');
@@ -40,10 +40,10 @@ gulp.task('styles', function() {
 
 /* Templates - Jade */
 gulp.task('templates', function() {
-    gulp.src('websrc/templates/**/*.jade')
+    gulp.src('websrc/templates/**/*.pug')
         .pipe(gulpif(enabled.failCheck, plumber()))
         .pipe(cache('templating'))
-        .pipe(jade({
+        .pipe(pug({
             pretty: enabled.prettyPug
         }))
         .pipe(gulp.dest('templates/'))
@@ -89,7 +89,7 @@ gulp.task('watch',function() {
     }
 
     gulp.watch('websrc/styles/**/*.sass',['styles']);
-    gulp.watch('websrc/templates/**/*.jade',['templates']);
+    gulp.watch('websrc/templates/**/*.pug',['templates']);
     gulp.watch('websrc/scripts/*.js',['scripts']);
     gulp.watch('websrc/scripts/tutti/*.js',['scripts_tutti']);
 });
