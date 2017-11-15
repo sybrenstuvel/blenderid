@@ -49,7 +49,7 @@ class SpecialSnowflakeMixin:
             app = Application.objects.get(client_id=self.application_id)
         except Application.DoesNotExist:
             self.log.error('Special snowflake OAuth app %r does not exist', self.application_id)
-            raise RuntimeError('Server-side OAuth configuration error.')
+            raise django_exc.ImproperlyConfigured('Server-side OAuth configuration error.')
 
         self._application = app
         return app
