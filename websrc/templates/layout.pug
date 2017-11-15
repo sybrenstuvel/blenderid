@@ -8,8 +8,8 @@ html(lang="en")
 		meta(name='description', content='')
 		meta(name='author', content='')
 
-		link(href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css', rel='stylesheet')
-		link(href='//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css', rel='stylesheet')
+		link(href="{% static 'assets_vendor/css/bootstrap.min.css' %}", rel='stylesheet')
+		link(href='//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', rel='stylesheet')
 		link(href="{% static 'assets/css/main.css' %}", rel='stylesheet')
 
 		| {% block header %}
