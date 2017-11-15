@@ -89,64 +89,91 @@ html(lang="en")
 					.col-md-12
 						| {% block body %}{% endblock %}
 
-		#footer-navigation
-
+		// main container
+		.footer-navigation
+			// Sitemap
 			.container
 				.row
-					.col-md-3.col-xs-6.margin-top-1
-						h4 Blender
+					.col-md-2.col-xs-4
+						a.sitemap-title(href='https://www.blender.org/download/') Blender
 						ul
 							li
 								a(href='https://www.blender.org/download/', title='Download Blender') Download
 							li
-								a(href='https://www.blender.org/download/#source', title='Source Code') Source Code
-							li
 								a(href='https://www.blender.org/features/', title='Blender Features') Features
 							li
-								a(href='https://wiki.blender.org/index.php/Doc:2.6/Manual', title='Blender Documentation') Documentation
-					.col-md-3.col-xs-6.margin-top-1
-						h4 Organization
+								a(href='https://developer.blender.org/diffusion/B/', title='Source Code') Source
+							li
+								a(href='https://www.blender.org/about/license/', title='License') License
+					.col-md-2.col-xs-4
+						a.sitemap-title(href='https://www.blender.org/foundation/') Organization
 						ul
 							li
 								a(href='https://www.blender.org/foundation/', title='Blender Foundation') Foundation
 							li
 								a(href='https://www.blender.org/institute/', title='Blender Institute') Institute
 							li
-								a(href='https://www.blender.org/get-involved/developers/', title='Developers') Developers
+								a(href='https://www.blender.org/conference/', title='Conference') Conference
 							li
-								a(href='https://www.blendernetwork.org', title='The Network of Blender Professionals')
-									i.bf-network
-									|  Blender Network
-					.col-md-3.col-xs-6.margin-top-1
-						h4 Get Involved
+								a(href='https://www.blendernetwork.org', title='The Network of Blender Professionals') Blender Network
+					.col-md-2.col-xs-4
+						a.sitemap-title(href='https://www.blender.org/get-involved/') Get Involved
 						ul
 							li
-								a(href='https://www.blender.org/foundation/donation-payment/') Donations
+								a(href='https://www.blender.org/foundation/donation-payment/', title='Donations') Donations
 							li
-								a(href='https://www.blender.org/get-involved/developers/') Software
+								a(href='https://www.blender.org/get-involved/developers/', title='Development') Development
 							li
-								a(href='https://www.blender.org/get-involved/') Websites & Docs
+								a(href='https://www.blender.org/get-involved/documenters/', title='Documenters') Documenters
 							li
-								a(href='http://www.blender.org/conference/') Conferences
-					.col-md-3.col-xs-12.margin-top-1
-						h4 Blender.org
+								a(href='https://www.blender.org/get-involved/', title='Education') Education
+					.col-md-2.col-xs-4
+						a.sitemap-title(href='https://www.blender.org/community/') Support
 						ul
 							li
-								a(href='https://www.blender.org/news/') News
+								a(href='https://www.blender.org/community/', title='Community') Community
 							li
-								a(href='https://www.blender.org/foundation/') Contact
+								a(href='https://docs.blender.org/manual/en/dev/', title='Manual') Manual
 							li
-								a(href='https://www.blender.org/about/logo/') Trademark & Logo
+								a(href='https://www.blender.org/support/tutorials/', title='Tutorials') Tutorials
 							li
-								a(href='https://www.blender.org/about/website/') Website License
-
+								a(href='https://docs.blender.org/api/current/', title='Python API') Python API
+					.col-md-2.col-xs-4
+						a.sitemap-title(href='https://www.blender.org/about/website/') blender.org
+						ul
+							li
+								a(href='https://www.blender.org/news/', title='News') News
+							li
+								a(href='https://www.blender.org/foundation/', title='Contact') Contact
+							li
+								a(href='https://www.blender.org/about/logo/', title='Logo & Trademark') Logo & Trademark
+					.col-md-2.col-xs-12
+						span.sitemap-title Follow Blender
+						.social-icons
+							a.social-icons__youtube(href='https://youtube.com/BlenderFoundation', title="Blender's Official YouTube channel")
+								i.fa.fa-youtube-play
+							a.social-icons__facebook(href='https://www.facebook.com/YourOwn3DSoftware/', title='Follow Blender on Facebook')
+								i.fa.fa-facebook-official
+							a.social-icons__twitter(href='https://twitter.com/blender_org', title='Follow Blender on Twitter')
+								i.fa.fa-twitter
+				// footer row
+			// footer container
+		// footer-navigation
 		footer
-			.container
-				.pull-right
-					p
-						| Blender.org
-						a(href='#hop')
-							i.fa.fa-angle-up
+			span
+				| Artistic freedom starts with Blender
+				i.fa.fa-heart-o
+				|  The Free and Open Source 3D Creation Suite
+				a(href='https://www.blender.org') blender.org
+			#hop(title='Be awesome in space')
+				i.fa.fa-angle-up
+		script.
+			var hop = document.getElementById("hop");
+			hop.onclick = function(e){ window.scrollTo(0, 0);}
+			window.addEventListener("scroll", function() {
+			if (window.pageYOffset > 250){ hop.className = 'active'; } else {	hop.className = ''; }
+			});
+
 
 		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js')
 		script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
