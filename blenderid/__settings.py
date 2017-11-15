@@ -62,3 +62,7 @@ LOGGING = {
 # For Debug Toolbar, extend with whatever address you use to connect
 # to your dev server.
 INTERNAL_IPS = ['127.0.0.1']
+
+
+# Don't use this in production, but only in tests.
+# ALLOWED_HOSTS = ['*']
