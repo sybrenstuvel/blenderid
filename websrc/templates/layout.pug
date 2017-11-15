@@ -14,7 +14,7 @@ html(lang="en")
 
 		| {% block header %}
 		| {% endblock %}
-	body.transition-none
+	body
 		| {% block modal %}
 		| {% endblock %}
 		header.navbar.navbar-default.navbar-primary(role="navigation")
@@ -23,8 +23,7 @@ html(lang="en")
 					button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbar-collapse-menu')
 						span.sr-only Toggle navigation
 						i.fa.fa-bars
-					a.navbar-logo(href='https://www.blender.org')
-						img(src="{% static 'assets_shared/images/logo_blender.png' %}", width="128", height="37")
+					a.navbar-logo-blender(href='https://www.blender.org')
 
 				nav#navbar-collapse-menu.collapse.navbar-collapse
 					ul.nav.navbar-nav.navbar-right
@@ -50,53 +49,52 @@ html(lang="en")
 				button.close(type='button', data-dismiss='alert')
 					i.fa.fa-times
 		| {% endfor %}
+
 		.container-main
-			.container-fluid.featured.featured-sm
+			.featured
+				h1 Blender ID
+				.featured-overlay
+
+			header.navbar.navbar-default.navbar-secondary(role="navigation")
 				.container
-					h1 Blender ID
-			header.navbar.navbar-default.navbar-secondlevel.navbar-static-top
-				.container.relative
 					ul.nav.navbar-nav.navbar-left
 						| {% if user.is_authenticated %}
-						li(class="{% if page_id == 'index' %}active{% endif %}")
-							a(href="{% url 'bid_main:index' %}") Dashboard
 						li(class="{% if page_id == 'about' %}active{% endif %}")
 							a(href="{% url 'bid_main:about' %}") About
+
+						li(class="{% if page_id == 'index' %}active{% endif %}")
+							a(href="{% url 'bid_main:index' %}") Dashboard
+
 						| {% if user.is_staff %}
 						li
 							a(href="{% url 'admin:index' %}")
 								i.fa.fa-rocket
-								=' Whoosh!'
+								| Whoosh!
 						| {% endif %}
-						li.dropdown.absolute.right
-							a.dropdown-toggle(href='javascript:void();', data-toggle='dropdown') {{user.email}}
-								b.caret
-							ul.dropdown-menu.right
-								li
-									a(href="{% url 'bid_main:logout' %}")
-										i.fa.fa-power-off
-										|  Log out
+
+
+						li
+							a(href="{% url 'bid_main:logout' %}")
+								i.fa.fa-power-off
+								| Log out
+
 						| {% else %}
 						li(class="{% if page_id == 'index' %}login{% endif %}")
 							a(href="{% url 'bid_main:login' %}")
 								i.fa.fa-sign-in
-								|  Sign in
+								| Sign in
+
 						li(class="{% if page_id == 'register' %}login{% endif %}")
 							a(href="{% url 'bid_main:register' %}")
 								i.fa.fa-user-plus
-								|  Register
+								| Register
 						| {% endif %}
 
 			| {% block nav_thirdlevel %}{% endblock %}
 
-			.container
-				.row
-					.col-md-12
-						| {% block body %}{% endblock %}
+			| {% block body %}{% endblock %}
 
-		// main container
 		.footer-navigation
-			// Sitemap
 			.container
 				.row
 					.col-md-2.col-xs-4
@@ -161,17 +159,15 @@ html(lang="en")
 								i.fa.fa-facebook-official
 							a.social-icons__twitter(href='https://twitter.com/blender_org', title='Follow Blender on Twitter')
 								i.fa.fa-twitter
-				// footer row
-			// footer container
-		// footer-navigation
+
 		footer
 			span
-				| Artistic freedom starts with Blender
-				i.fa.fa-heart-o
-				|  The Free and Open Source 3D Creation Suite
+				| Artistic freedom starts with Blender #[i.fa.fa-heart-o] The Free and Open Source 3D Creation Suite
 				a(href='https://www.blender.org') blender.org
+
 			#hop(title='Be awesome in space')
 				i.fa.fa-angle-up
+
 		script.
 			var hop = document.getElementById("hop");
 			hop.onclick = function(e){ window.scrollTo(0, 0);}
@@ -179,12 +175,10 @@ html(lang="en")
 			if (window.pageYOffset > 250){ hop.className = 'active'; } else {	hop.className = ''; }
 			});
 
-
 		script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js')
-		script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
-		script(type='text/javascript').
-			$(window).load(function() {$("body").removeAttr("class"); /* Avoid transitions jump on load */});
-		|     {% block footer_scripts %}{% endblock %}
+
+		| {% block footer_scripts %}{% endblock %}
+
 		script.
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
