@@ -55,7 +55,7 @@ class SpecialSnowflakeMixin:
         return app
 
     def create_oauth_token(self, user, host_label: str, subclient='') -> (
-    AccessToken, RefreshToken):
+            AccessToken, RefreshToken):
         """Creates an OAuth token and stores it in the database."""
         expires = timezone.now() + datetime.timedelta(days=self.expires_days)
         token = AccessToken(
