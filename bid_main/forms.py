@@ -58,7 +58,7 @@ class UserProfileForm(BootstrapModelFormMixin, forms.ModelForm):
     def clean_full_name(self):
         full_name = self.cleaned_data['full_name'].strip()
         if not full_name:
-            raise forms.ValidationError({'full_name': _('Full Name is a required field')})
+            raise forms.ValidationError(_('Full Name is a required field'))
         return full_name
 
 
