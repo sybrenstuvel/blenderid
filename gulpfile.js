@@ -33,7 +33,7 @@ gulp.task('styles', function() {
             ))
         .pipe(autoprefixer("last 3 versions"))
         .pipe(gulpif(enabled.maps, sourcemaps.write(".")))
-        .pipe(gulp.dest('static/assets/css'))
+        .pipe(gulp.dest('webstatic/assets/css'))
         .pipe(gulpif(enabled.liveReload, livereload()));
 });
 
@@ -61,7 +61,7 @@ gulp.task('scripts', function() {
         .pipe(rename({suffix: '.min'}))
         .pipe(gulpif(enabled.maps, sourcemaps.write(".")))
         .pipe(chmod(644))
-        .pipe(gulp.dest('static/assets/js/generated/'))
+        .pipe(gulp.dest('webstatic/assets/js/generated/'))
         .pipe(gulpif(enabled.liveReload, livereload()));
 });
 
@@ -76,7 +76,7 @@ gulp.task('scripts_tutti', function() {
         .pipe(gulpif(enabled.uglify, uglify()))
         .pipe(gulpif(enabled.maps, sourcemaps.write(".")))
         .pipe(chmod(644))
-        .pipe(gulp.dest('static/assets/js/generated/'))
+        .pipe(gulp.dest('webstatic/assets/js/generated/'))
         .pipe(gulpif(enabled.liveReload, livereload()));
 });
 
@@ -100,7 +100,7 @@ gulp.task('shared', function() {
       Set the working directory of your current process as
       the directory where the target Gulpfile exists.
     */
-    process.chdir('static/assets_shared');
+    process.chdir('webstatic/assets_shared');
 
     // Run the `gulp` executable
     var child = spawn('../../node_modules/.bin/gulp');

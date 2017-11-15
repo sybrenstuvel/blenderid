@@ -1,6 +1,3 @@
-[submodule "bid_web/websrc/assets_shared"]
-	path = bid_web/websrc/assets_shared
-	url = git://git.blender.org/blender-web-assets.git
-[submodule "static/assets_shared"]
-	path = static/assets_shared
+[submodule "webstatic/assets_shared"]
+	path = webstatic/assets_shared
 	url = git://git.blender.org/blender-web-assets.git

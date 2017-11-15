@@ -3,7 +3,8 @@ __pycache__
 db.sqlite3
 /node_modules/
 /templates/
-/static/assets/
+/static/
+/webstatic/assets/
 /blenderid/settings.py
 .cache
 .coverage
