@@ -17,7 +17,7 @@ var spawn        = require('child_process').spawn;
 var enabled = {
     uglify: argv.production,
     maps: argv.production,
-    failCheck: argv.production,
+    failCheck: !argv.production,
     prettyPug: !argv.production,
     liveReload: !argv.production
 };
