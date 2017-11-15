@@ -46,11 +46,12 @@ class UserAdmin(BaseUserAdmin):
         }),
     )
 
-    list_display = ('email', 'full_name', 'is_active', 'is_staff', 'last_update',
+    list_display = ('email', 'full_name', 'is_active', 'is_staff', 'role_names', 'last_update',
                     'confirmed_email_at')
-    list_display_links = list_display
+    list_display_links = ('email', 'full_name')
     list_filter = ('roles', 'is_active', 'groups',
                    'confirmed_email_at', 'is_staff', 'is_superuser')
+    list_per_page = 12
     search_fields = ('email', 'full_name')
     ordering = ('email', )
 
