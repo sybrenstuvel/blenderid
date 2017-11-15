@@ -11,25 +11,26 @@
 | {% block body %}
 .row.id
 	.col-md-6
-		.id__profile-details
+		.box.id__profile-details
 			img.img-circle.id__profile-details-avatar(src='{% gravatar_url user.email 120 %}', title='Gravatar Profile Picture')
+			| {% if user.full_name %}
 			h1.id__profile-details-name
-				| {% if user.full_name %}
 				| {{ user.full_name }}
-				| {% endif %}
-			| {% if not user.full_name %}
+			| {% else %}
+			h1.danger Your full name is not known
 			p
-				.background-info
-					span.margin-left-2
-						| Your name is missing,
-						a(href="{% url 'bid_main:profile' %}") add it here
+				a.btn.btn-danger(href="{% url 'bid_main:profile' %}")
+					i.fa.fa-edit
+					| Edit Profile
 			| {% endif %}
 			p.id__profile-details-email
 				| {{ user.email }}
 			p
+				| {% if user.full_name %}
 				a.btn.btn-default(href="{% url 'bid_main:profile' %}")
 					i.fa.fa-edit
 					|  Edit Profile
+				| {% endif %}
 				a.btn.btn-default(href="{% url 'bid_main:password_change' %}")
 					i.fa.fa-edit
 					|  Change Password
@@ -49,7 +50,7 @@
 
 		// id__profile-details
 		| {% if 'bfct_trainer' in user.role_names %}
-		.id__profile-certification
+		.box.id__profile-certification
 			i.fa.fa-graduation-cap.backicon
 			h3.id__profile-certification-title Blender Foundation Certified Trainer
 			p
@@ -68,14 +69,14 @@
 		|     {% endif %}
 	// col-md-6
 	.col-md-6
-		.id__profile-subscriptions
+		.box.id__profile-subscriptions
 			i.bf-cloud.backicon
 			h3.id__profile-subscriptions-title Blender Cloud
 			p
 				| Visit your
 				a(href='https://cloud.blender.org/settings/billing')  preferences
 				|  for more details
-		.id__profile-subscriptions
+		.box.id__profile-subscriptions
 			i.bf-network.backicon
 			h3.id__profile-subscriptions-title Blender Network
 			p
