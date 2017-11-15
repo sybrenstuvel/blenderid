@@ -17,13 +17,15 @@ html(lang="en")
 	body.transition-none
 		| {% block modal %}
 		| {% endblock %}
-		header.navbar.navbar-default.navbar-fixed-top.bright#hop
+		header.navbar.navbar-default.navbar-primary(role="navigation")
 			.container
 				.navbar-header
 					button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbar-collapse-menu')
 						span.sr-only Toggle navigation
 						i.fa.fa-bars
-					a.logo(href='http://www.blender.org')
+					a.navbar-logo(href='https://www.blender.org')
+						img(src="{% static 'assets_shared/images/logo_blender.png' %}", width="128", height="37")
+
 				nav#navbar-collapse-menu.collapse.navbar-collapse
 					ul.nav.navbar-nav.navbar-right
 						li
@@ -37,7 +39,10 @@ html(lang="en")
 						li
 							a(href='https://www.blender.org/about/') About
 						li
-							a(href='https://www.blender3d.org/e-shop/') Store
+							a(href='https://www.blender.org/donate/') Donate
+						li
+							a(href='https://store.blender.org/') Store
+
 		| {% for message in messages %}
 		.alert.alert-info(class="{{ message.tags }}")
 			.container
