@@ -1,6 +1,5 @@
 from django.conf.urls import url
 from django.urls import reverse_lazy
-from .views import RegistrationView
 from django.contrib.auth import views as auth_views
 
 from . import views, forms
@@ -41,7 +40,7 @@ urlpatterns = [
 
     # Source of registration machinery:
     # http://musings.tinbrain.net/blog/2014/sep/21/registration-django-easy-way/
-    url(r'^register/$', RegistrationView.as_view(), name='register'),
+    url(r'^register/$', views.RegistrationView.as_view(), name='register'),
     url(r'^register/signed-up/$',
         auth_views.PasswordResetDoneView.as_view(
             template_name='registration/initial_signed_up.html'),
