@@ -35,26 +35,41 @@ DATABASES = {
 
 LOGGING = {
     'version': 1,
+    'disable_existing_loggers': True,
     'formatters': {
-        'default': {'format': '%(asctime)-15s %(levelname)8s %(name)s %(message)s'}
+        'default': {
+            'format': '%(asctime)-15s %(levelname)8s %(name)s %(message)s'
+        },
+        'verbose': {
+            'format': '%(asctime)-15s %(levelname)8s %(name)s %(process)d %(thread)d %(message)s'
+        },
     },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
-            'formatter': 'default',
+            'formatter': 'default',  # Set to 'verbose' in production
             'stream': 'ext://sys.stderr',
-        }
+        },
+        # Enable this in production:
+        # 'sentry': {
+        #     'level': 'ERROR',  # To capture more than ERROR, change to WARNING, INFO, etc.
+        #     'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+        #     # 'tags': {'custom-tag': 'x'},
+        # },
     },
     'loggers': {
         'bid_main': {'level': 'DEBUG'},
         'blenderid': {'level': 'DEBUG'},
         'bid_api': {'level': 'DEBUG'},
         'bid_addon_support': {'level': 'DEBUG'},
+        'sentry.errors': {'level': 'DEBUG', 'handlers': ['console'], 'propagate': False},
     },
     'root': {
         'level': 'WARNING',
         'handlers': [
             'console',
+            # Enable this in production:
+            # 'sentry',
         ],
     }
 }
@@ -66,3 +81,16 @@ INTERNAL_IPS = ['127.0.0.1']
 
 # Don't use this in production, but only in tests.
 # ALLOWED_HOSTS = ['*']
+
+
+# # Raven is the Sentry.io integration app for Django. Enable this on production:
+# import os
+# import raven
+# INSTALLED_APPS.append('raven.contrib.django.raven_compat')
+#
+# RAVEN_CONFIG = {
+#     'dsn': 'https://<key>:<secret>@sentry.io/<project>',
+#     # If you are using git, you can also automatically configure the
+#     # release based on the git info.
+#     'release': raven.fetch_git_sha(os.path.abspath(os.pardir)),
+# }
