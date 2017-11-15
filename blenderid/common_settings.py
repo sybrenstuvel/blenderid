@@ -64,7 +64,7 @@ ROOT_URLCONF = 'blenderid.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,6 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'webstatic']
+STATIC_ROOT = BASE_DIR / 'static'
 
 BLENDER_ID_ADDON_CLIENT_ID = '-secret-'
 
