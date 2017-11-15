@@ -55,10 +55,10 @@ html(lang="en")
 				h1 Blender ID
 				.featured-overlay
 
+			| {% if user.is_authenticated %}
 			header.navbar.navbar-default.navbar-secondary(role="navigation")
 				.container
 					ul.nav.navbar-nav.navbar-left
-						| {% if user.is_authenticated %}
 						li(class="{% if page_id == 'about' %}active{% endif %}")
 							a(href="{% url 'bid_main:about' %}") About
 
@@ -77,18 +77,7 @@ html(lang="en")
 							a(href="{% url 'bid_main:logout' %}")
 								i.fa.fa-power-off
 								| Log out
-
-						| {% else %}
-						li(class="{% if page_id == 'index' %}login{% endif %}")
-							a(href="{% url 'bid_main:login' %}")
-								i.fa.fa-sign-in
-								| Sign in
-
-						li(class="{% if page_id == 'register' %}login{% endif %}")
-							a(href="{% url 'bid_main:register' %}")
-								i.fa.fa-user-plus
-								| Register
-						| {% endif %}
+				| {% endif %}
 
 			| {% block nav_thirdlevel %}{% endblock %}
 

@@ -1,12 +1,12 @@
 | {% extends 'layout.html' %}
 | {% load gravatar %}
 | {% block page_title %}Log in to Blender ID{% endblock %}
+
 | {% block body %}
 .container
 	.row
 		.col-md-6
-			.box.decent-height.centre-all
-				i.bf-blender.backicon
+			.bid-box-form
 				ul.about-icons
 					li
 						i.bf-cloud
@@ -14,31 +14,42 @@
 						i.bf-blender
 					li
 						i.bf-network
-				h1 One Account, Everything Blender
+
 				| {% if user.is_authenticated %}
-				a(href="{% url 'bid_main:index' %}")
-					img.img-circle.about__join-avatar(src='{% gravatar_url user.email 192 %}', title='Gravatar Profile Picture')
-				h3 You are currently logged in as
-				h1 {{ user.email }}
-				a.btn(href="{% url 'bid_main:logout' %}")
-					i.fa.fa-sign-out
-					| Log out
+
+				p You are currently logged in as
+				.bid-box-user
+					a.bid-box-user-avatar(href="{% url 'bid_main:index' %}")
+						img(src='{% gravatar_url user.email 64 %}', title='Gravatar Profile Picture')
+					.bid-box-user-info
+						| {% if user.full_name %}
+						h3 {{ user.full_name }}
+						| {% else %}
+						h3
+							a.danger(href="{% url 'bid_main:profile' %}")
+								| Your full name is not known
+						| {% endif %}
+
+						p {{ user.email }}
+
 				| {% else %}
+
+				h1 One Account, Everything Blender
+
 				form(role='login', action='', method='POST')
 					| {% csrf_token %}
 					fieldset
 						// Email input
-						.input-group.input-group-lg.width-full
+						.input-group
 							span.input-group-addon
 								i.fa.fa-envelope-o
 							| {{ form.username }}
-						.clearfix.margin-top-2
+
 						// Password input
-						.input-group.input-group-lg.width-full
+						.input-group
 							span.input-group-addon
-								i.fa.fa-lock
+								i.fa.fa-unlock-alt
 							| {{ form.password }}
-						.clearfix.margin-top-2
 
 						| {% if form.errors %}
 						p.text-danger Your username and password didn't match. Please try again.
@@ -46,46 +57,33 @@
 							a(href="{% url 'bid_main:password_reset' %}") Lost your password?
 						| {% endif %}
 
-					.control-group
-						label.control-label(for='signin')
-						.controls.text-align-center
-							button.btn.btn-default.btn-lg.btn-squishy.width-75#register Sign in
+						.input-cta
+							button.btn-success#register Sign in
+
 					hr
-					a.link(href="{% url 'bid_main:register' %}")
-						i.fa.fa-user-plus
-						| Don't have a Blender ID yet?
+
+					.bid-box-links
+						a(href="{% url 'bid_main:register' %}")
+							| Create a new account
+						a(href="{% url 'bid_main:password_reset' %}")
+							| Recover password
 				| {% endif %}
+
 		.col-md-6
-			.box.decent-height
-				section
-					h2 What is the Blender ID?
-					p
-						| The Blender ID is a unified login system that will give you access to
-						a(href='https://blender.org/institute')  Blender Institute
-						|  and
-						a(href='https://blender.org/foundation')  Blender Foundation
-						|  web platforms.
-					p
-						| With just one account you can set up a Blender Cloud subscription,
-						| manage your professional profile on the Blender Network, your
-						| Blender Foundation Certified Trainer application, Blender
-						| Conference talks, and much more in the future.
-				section
-					h3 Where to use your Blender ID:
-					ul.about__info-where-links
-						li
-							a(href='https://cloud.blender.org') Blender Cloud
-						li
-							a(href='https://store.blender.org') Blender Store
-						li
-							a(href='https://www.blender.org/conference/') Blender Conference
-						li
-							a(href='https://www.blendernetwork.org') Blender Network
-						li
-							a(href='https://www.blender.org/foundation/development-fund/')
-								| Blender Development Fund
-								small  (soon)
-						li
-							a(href='https://www.blender.org/certification/') Blender Foundation Certified Trainer Program
+			.bid-box-info
+				h3 What is the Blender ID?
+				p.
+					The Blender ID is a unified login system that will give you access to
+					a large number of services around Blender.
+
+				p.
+					With just one account you can set up a #[a(href='https://cloud.blender.org') Blender Cloud] subscription,
+					manage your professional profile on #[a(href='https://www.blendernetwork.org') Blender Network],
+					your BFCT application, #[a(href='https://www.blender.org/conference/') Blender Conference] talks,
+					your purchases on the #[a(href='https://store.blender.org') Blender Store].
+
+				p.
+					You can also authenticate within Blender via the Blender ID add-on,
+					and log in authorized third-party websites and much more.
 
 | {% endblock %}
