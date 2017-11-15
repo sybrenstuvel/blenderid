@@ -18,6 +18,8 @@
 						fieldset
 							// Full name input
 							.input-group.input-group-lg.width-full
+								span.input-group-addon
+									i.fa.fa-user
 								| {{ form.full_name }}
 								label.control-label(for="{{ form.full_name.id_for_label }}") Full Name
 								| {{ form.full_name.errors }}
