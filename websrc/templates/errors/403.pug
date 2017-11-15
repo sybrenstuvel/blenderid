@@ -1,0 +1,16 @@
+| {% extends 'errors/layout.html' %}
+| {% block page_title %}Forbidden{% endblock %}
+| {% block errorbody %}
+h1 Nope, no access
+
+p For some reason you are not allowed to do this.
+| {% if user.is_authenticated %}
+p Try <a href="{% url 'bid_main:index' %}">your dashboard</a> instead.
+| {% else %}
+p Maybe you'd be allowed after logging in.
+p
+	a.btn.btn-lg.btn-squishy(href="{% url 'bid_main:login' %}")
+		i.fa.fa-sign-in
+		| Sign in
+| {% endif %}
+| {% endblock %}

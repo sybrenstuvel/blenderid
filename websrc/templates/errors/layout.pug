@@ -1,0 +1,8 @@
+| {% extends 'layout.html' %}
+| {% block body %}
+.row
+	.col-md-6.col-md-push-2
+		.box.error
+			| {% block errorbody %}
+			| {% endblock %}
+| {% endblock %}

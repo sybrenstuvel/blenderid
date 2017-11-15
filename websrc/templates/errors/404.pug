@@ -1,0 +1,8 @@
+| {% extends 'errors/layout.html' %}
+| {% block page_title %}Page Not Found{% endblock %}
+| {% block errorbody %}
+h1 Page Not Found
+
+p The page you tried to reach does not exist.
+p Try <a href="{% url 'bid_main:index' %}">the front page</a> instead.
+| {% endblock %}

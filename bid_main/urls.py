@@ -59,4 +59,6 @@ urlpatterns = [
         'template_name': 'registration/registration_complete.html',
     }, name='register-complete'),
 
+    # Only enable this on a dev server:
+    # url(r'^error/(?P<code>\d+)$', views.test_error)
 ]

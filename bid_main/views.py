@@ -74,3 +74,38 @@ class SwitchUserView(LoginRequiredMixin, LoginView):
     template_name = 'switch_user.html'
     form_class = AuthenticationForm
     success_url_allowed_hosts = settings.NEXT_REDIR_AFTER_LOGIN_ALLOWED_HOSTS
+
+
+def test_error(request, code):
+    from django.core import exceptions
+    from django.http import response, Http404
+
+    codes = {
+        403: exceptions.PermissionDenied,
+        404: Http404,
+        500: exceptions.ImproperlyConfigured,
+    }
+    try:
+        exc = codes[int(code)]
+    except KeyError:
+        return response.HttpResponse(f'error test for code {code}', status=int(code))
+    else:
+        raise exc(f'exception test for code {code}')
+
+
+class ErrorView(TemplateView):
+    """Renders an error page."""
+    # TODO(Sybren): respond as JSON when this is an XHR.
+
+    status = 500
+
+    def dispatch(self, request, *args, **kwargs):
+        from django.http.response import HttpResponse
+        if request.method in {'HEAD', 'OPTIONS'}:
+            # Don't render templates in this case.
+            return HttpResponse(status=self.status)
+
+        # We allow any method for this view,
+        response = self.render_to_response(self.get_context_data(**kwargs))
+        response.status_code = self.status
+        return response
