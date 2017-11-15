@@ -23,13 +23,8 @@ class PageIdTemplateView(TemplateView):
 class IndexView(LoginRequiredMixin, PageIdTemplateView):
     template_name = 'index.html'
     page_id = 'index'
-    login_url = reverse_lazy('bid_main:about')
+    login_url = reverse_lazy('bid_main:login')
     redirect_field_name = None
-
-
-class AboutView(PageIdTemplateView):
-    template_name = 'about.html'
-    page_id = 'about'
 
 
 class RegistrationView(CreateView):

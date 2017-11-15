@@ -55,7 +55,6 @@ html(lang="en")
 						| {% if user.is_authenticated %}
 						li(class="{% if page_id == 'index' %}active{% endif %}")
 							a(href="{% url 'bid_main:index' %}") Dashboard
-						| {% endif %}
 						li(class="{% if page_id == 'about' %}active{% endif %}")
 							a(href="{% url 'bid_main:about' %}") About
 						| {% if user.is_staff %}
@@ -64,7 +63,6 @@ html(lang="en")
 								i.fa.fa-rocket
 								=' Whoosh!'
 						| {% endif %}
-						| {% if user.is_authenticated %}
 						li.dropdown.absolute.right
 							a.dropdown-toggle(href='javascript:void();', data-toggle='dropdown') {{user.email}}
 								b.caret
@@ -74,10 +72,14 @@ html(lang="en")
 										i.fa.fa-power-off
 										|  Log out
 						| {% else %}
-						li.absolute.right
+						li(class="{% if page_id == 'index' %}login{% endif %}")
 							a(href="{% url 'bid_main:login' %}")
 								i.fa.fa-sign-in
 								|  Sign in
+						li(class="{% if page_id == 'register' %}login{% endif %}")
+							a(href="{% url 'bid_main:register' %}")
+								i.fa.fa-user-plus
+								|  Register
 						| {% endif %}
 
 			| {% block nav_thirdlevel %}{% endblock %}

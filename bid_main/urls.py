@@ -1,12 +1,15 @@
 from django.conf.urls import url
 from django.urls import reverse_lazy
 from django.contrib.auth import views as auth_views
+from django.views.generic import RedirectView
 
 from . import views, forms
 
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
-    url(r'^about$', views.AboutView.as_view(), name='about'),
+    url(r'^about$',
+        RedirectView.as_view(permanent=True, url=reverse_lazy('bid_main:login')),
+        name='about'),
     url(r'^settings/profile$', views.ProfileView.as_view(), name='profile'),
     url(r'^login$',
         auth_views.LoginView.as_view(template_name='login.html',
@@ -45,7 +48,6 @@ urlpatterns = [
         auth_views.PasswordResetDoneView.as_view(
             template_name='registration/initial_signed_up.html'),
         name='register-done'),
-
     url(
         r'^register/password/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         auth_views.password_reset_confirm, {
