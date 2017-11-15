@@ -3,26 +3,33 @@ from django.conf import settings
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
 from django.views.generic.edit import UpdateView
 
 from .forms import UserRegistrationForm, UserProfileForm, AuthenticationForm
 from .models import User
 
 
-def index(request):
-    context = {
-        'page_id': 'index',
-    }
-    return render(request, 'index.html', context)
+class PageIdTemplateView(TemplateView):
+    page_id = ''
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['page_id'] = self.page_id
 
 
-def about(request):
-    context = {
-    }
-    return render(request, 'about.html', context)
+class IndexView(LoginRequiredMixin, PageIdTemplateView):
+    template_name = 'index.html'
+    page_id = 'index'
+    login_url = reverse_lazy('bid_main:about')
+    redirect_field_name = None
+
+
+class AboutView(PageIdTemplateView):
+    template_name = 'about.html'
+    page_id = 'about'
 
 
 class RegistrationView(CreateView):
