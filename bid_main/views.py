@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 from django.views.generic.edit import UpdateView
 
-from .forms import UserRegistrationForm, UserProfileForm, AuthenticationForm
+from . import forms
 from .models import User
 
 
@@ -34,7 +34,7 @@ class LoginView(PageIdMixin, auth_views.LoginView):
 
     page_id = 'login'
     template_name = 'login.html'
-    authentication_form = AuthenticationForm
+    authentication_form = forms.AuthenticationForm
 
 
 class AboutView(PageIdMixin, TemplateView):
@@ -51,7 +51,7 @@ class AboutView(PageIdMixin, TemplateView):
 
 
 class RegistrationView(CreateView):
-    form_class = UserRegistrationForm
+    form_class = forms.UserRegistrationForm
     model = User
     template_name_suffix = '_register_form'
 
@@ -84,7 +84,7 @@ class RegistrationView(CreateView):
 
 
 class ProfileView(LoginRequiredMixin, UpdateView):
-    form_class = UserProfileForm
+    form_class = forms.UserProfileForm
     model = User
     template_name = 'settings/profile.html'
     success_url = reverse_lazy('bid_main:index')
@@ -95,7 +95,7 @@ class ProfileView(LoginRequiredMixin, UpdateView):
 
 class SwitchUserView(LoginRequiredMixin, auth_views.LoginView):
     template_name = 'switch_user.html'
-    form_class = AuthenticationForm
+    form_class = forms.AuthenticationForm
     success_url_allowed_hosts = settings.NEXT_REDIR_AFTER_LOGIN_ALLOWED_HOSTS
 
 
