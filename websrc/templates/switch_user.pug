@@ -39,38 +39,40 @@
 
 				hr
 
-				h2 Login as someone else
+				.row
+					.col-md-8.col-md-offset-2
+						h2 Login as someone else
 
-				form(role='login', action='', method='POST', name='login_user_form')
-					| {% csrf_token %}
-					fieldset
-						// Email input
-						.input-group
-							span.input-group-addon
-								i.fa.fa-envelope-o
-							| {{ form.username }}
+						form(role='login', action='', method='POST', name='login_user_form')
+							| {% csrf_token %}
+							fieldset
+								// Email input
+								.input-group
+									span.input-group-addon
+										i.fa.fa-envelope-o
+									| {{ form.username }}
 
-						// Password input
-						.input-group
-							span.input-group-addon
-								i.fa.fa-unlock-alt
-							| {{ form.password }}
+								// Password input
+								.input-group
+									span.input-group-addon
+										i.fa.fa-unlock-alt
+									| {{ form.password }}
 
-						| {% if form.errors %}
-						p.text-danger Your username and password didn't match. Please try again.
-						p
-							a(href="{% url 'bid_main:password_reset' %}") Lost your password?
-						| {% endif %}
+								| {% if form.errors %}
+								p.text-danger Your username and password didn't match. Please try again.
+								p
+									a(href="{% url 'bid_main:password_reset' %}") Lost your password?
+								| {% endif %}
 
-						.input-cta
-							button.btn-success#register Sign in
+								.bid-cta
+									button.btn-success#register Sign in
 
-					hr
+						hr
 
-					.bid-links
-						a(href="{% url 'bid_main:register' %}")
-							| Create a new account
-						a(href="{% url 'bid_main:password_reset' %}")
-							| Recover password
+						.bid-links
+							a(href="{% url 'bid_main:register' %}")
+								| Create a new account
+							a(href="{% url 'bid_main:password_reset' %}")
+								| Recover password
 
 | {% endblock %}
