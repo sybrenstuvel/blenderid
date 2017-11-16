@@ -7,14 +7,9 @@ from . import views, forms
 
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
-    url(r'^about$',
-        RedirectView.as_view(permanent=True, url=reverse_lazy('bid_main:login')),
-        name='about'),
     url(r'^settings/profile$', views.ProfileView.as_view(), name='profile'),
-    url(r'^login$',
-        auth_views.LoginView.as_view(template_name='login.html',
-                                     authentication_form=forms.AuthenticationForm),
-        name='login'),
+    url(r'^login$', views.LoginView.as_view(), name='login'),
+    url(r'^about$', views.LoginView.as_view(page_id='about'), name='about'),
     url(r'^logout$', auth_views.LogoutView.as_view(next_page='bid_main:about'), name='logout'),
     url(r'^switch', views.SwitchUserView.as_view(), name='switch_user'),
 

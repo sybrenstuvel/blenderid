@@ -1,7 +1,7 @@
 from django.db import transaction
 from django.conf import settings
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import PasswordResetForm
-from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -12,19 +12,26 @@ from .forms import UserRegistrationForm, UserProfileForm, AuthenticationForm
 from .models import User
 
 
-class PageIdTemplateView(TemplateView):
+class PageIdMixin:
     page_id = ''
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['page_id'] = self.page_id
+        return ctx
 
 
-class IndexView(LoginRequiredMixin, PageIdTemplateView):
+class IndexView(LoginRequiredMixin, PageIdMixin, TemplateView):
     template_name = 'index.html'
     page_id = 'index'
     login_url = reverse_lazy('bid_main:login')
     redirect_field_name = None
+
+
+class LoginView(PageIdMixin, auth_views.LoginView):
+    page_id = 'login'
+    template_name = 'login.html'
+    authentication_form = AuthenticationForm
 
 
 class RegistrationView(CreateView):
@@ -70,7 +77,7 @@ class ProfileView(LoginRequiredMixin, UpdateView):
         return self.request.user
 
 
-class SwitchUserView(LoginRequiredMixin, LoginView):
+class SwitchUserView(LoginRequiredMixin, auth_views.LoginView):
     template_name = 'switch_user.html'
     form_class = AuthenticationForm
     success_url_allowed_hosts = settings.NEXT_REDIR_AFTER_LOGIN_ALLOWED_HOSTS
