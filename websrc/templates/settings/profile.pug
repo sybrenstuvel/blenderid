@@ -1,20 +1,21 @@
 | {% extends 'layout.html' %}
+| {% load gravatar %}
 | {% block page_title %}Your Profile -- Blender ID{% endblock %}
 | {% block body %}
-.row
-	.col-md-12
-		.bid.box
-			.row
-				.col-md-8.col-md-offset-2
-					.bid-header
-						ul.bid-icons
-							li
-								i.fa.fa-vcard
-						h1 Profile Details
+.bid.box
+	.row
+		.col-md-10.col-md-offset-1
+			.bid-header
+				ul.bid-icons
+					li
+						i.fa.fa-vcard
+				h1 Profile Details
 
-					form(action='', method='POST')
-						| {% csrf_token %}
-						fieldset
+			form(action='', method='POST')
+				| {% csrf_token %}
+				fieldset
+					.row
+						.col-md-9
 							// Full name input
 							label.control-label Full Name
 							.input-group
@@ -30,17 +31,28 @@
 									i.fa.fa-envelope-o
 								span.form-control {{user.email}}
 
-							.bid-cta
-								button.btn.btn-success(type='submit')
-									i.fa.fa-check
-									| Save Changes
-								a.btn(href="{% url 'bid_main:index' %}")
-									i.fa.fa-times
-									| Cancel
+						.col-md-3
+							.bid-user.profile
+								.bid-user-info
+									a(href="https://gravatar.com")
+										img(
+											src='{% gravatar_url user.email 100 %}',
+											title='Change Gravatar',
+											alt="Change Gravatar")
+									a(href="https://gravatar.com")
+										small Change Gravatar
 
-					| {% if user.is_staff %}
-					hr
-					.bid-links
-						a(href="{% url 'admin:bid_main_user_change' user.id %}") Edit account in admin
-					| {% endif %}
+					.bid-cta
+						button.btn.btn-success(type='submit')
+							i.fa.fa-check
+							| Save Changes
+						a.btn(href="{% url 'bid_main:index' %}")
+							i.fa.fa-times
+							| Cancel
+
+			| {% if user.is_staff %}
+			hr
+			.bid-links
+				a(href="{% url 'admin:bid_main_user_change' user.id %}") Edit account in admin
+			| {% endif %}
 | {% endblock %}

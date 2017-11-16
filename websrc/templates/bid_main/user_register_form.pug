@@ -7,46 +7,45 @@
 | Register your Blender ID
 | {% endblock %}
 | {% block body %}
-.row
-	.col-md-12
-		.bid.box
-			.row
-				.col-md-8.col-md-offset-2
-					.bid-header
-						ul.bid-icons
-							li
-								i.bf-blender
-						h1 Get Your Own Blender ID
+.bid.box
+	.row
+		.col-md-8.col-md-offset-2
+			.bid-header
+				ul.bid-icons
+					li
+						i.bf-blender
+				h1 Get Your Own Blender ID
 
-					form(role='register', action="", method='POST', name='register_user_form')
-						| {% csrf_token %}
-						fieldset
-							// Full name input
-							label.control-label(for="{{ form.full_name.id_for_label }}") Full Name
-							.input-group
-								span.input-group-addon
-									i.fa.fa-user
-								| {{ form.full_name }}
-							| {{ form.full_name.errors }}
+			form(role='register', action="", method='POST', name='register_user_form')
+				| {% csrf_token %}
+				fieldset
+					// Full name input
+					label.control-label(for="{{ form.full_name.id_for_label }}") Full Name
+					.input-group
+						span.input-group-addon
+							i.fa.fa-user
+						| {{ form.full_name }}
+					| {{ form.full_name.errors }}
 
-							// Email input
-							label.control-label(for="{{ form.email.id_for_label }}") E-mail
-							.input-group
-								span.input-group-addon
-									i.fa.fa-envelope-o
-								| {{ form.email }}
-							| {{ form.email.errors }}
+					// Email input
+					label.control-label(for="{{ form.email.id_for_label }}") E-mail
+					.input-group
+						span.input-group-addon
+							i.fa.fa-envelope-o
+						| {{ form.email }}
+					| {{ form.email.errors }}
 
-							p After registration, we will send you an email with instructions to set a password.
+					p We will send you an email with instructions to set a password.
 
-						.bid-cta
-							button.btn.btn-success#register
-								i.fa.fa-check
-								| Create Account
+				.bid-cta
+					button.btn.btn-success#register
+						i.fa.fa-check
+						| Create Account
 
-							hr
+				hr
 
-							a(href="{% url 'bid_main:login' %}")
-								i.fa.fa-angle-double-left
-								|  Back to Login
+				.bid-links
+					a(href="{% url 'bid_main:login' %}")
+						| Already have an account
+
 | {% endblock %}

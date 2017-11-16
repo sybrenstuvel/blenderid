@@ -1,57 +1,59 @@
 | {% extends "oauth2_provider/base.html" %}
 | {% load i18n gravatar %}
 | {% block content %}
-.container
+.bid.box
 	.row
-		.col-md-6.col-md-push-1
-			.box
-				| {% if not error %}
-				form#authorizationForm(method="post")
-					h3.block-center-heading {% trans "Authorize" %} {{ application.name }}?
-					| {% csrf_token %}
+		.col-md-8.col-md-offset-2
+			.bid-header
+				ul.bid-icons
+					li
+						i.fa.fa-exchange
+				h1 Connect Your Blender ID
 
-					| {% for field in form %}
-					|	{% if field.is_hidden %}
-					|		{{ field }}
-					|	{% endif %}
-					| {% endfor %}
+			hr
 
-					p {% trans "The application would obtain the following information:" %}
-					ul
-						li Full Name
-						li Email Address
+			| {% if not error %}
+			form#authorizationForm(method="post")
+				h3 {% trans "Authorize" %} {{ application.name }}?
+				| {% csrf_token %}
 
-					//- ul
-					//- 	| {% for scope in scopes_descriptions %}
-					//- 	li {{ scope }}
-					//- 	| {% endfor %}
+				| {% for field in form %}
+				|	{% if field.is_hidden %}
+				|		{{ field }}
+				|	{% endif %}
+				| {% endfor %}
 
-					| {{ form.errors }}
-					| {{ form.non_field_errors }}
+				.row
+					p {% trans "The application would obtain your following information:" %}
 
-					.control-group
-						.controls
-							p
-								input.btn.btn-large(type="submit",value="Cancel")
-								input.btn.btn-large.btn-primary(type="submit",value="Authorize",name="allow")
-				| {% else %}
-				h2 Error: {{ error.error }}
-				p {{ error.description }}
-				| {% endif %}
-		.col-md-4.col-md-push-1
-			.box
-				h3 You are logged in as:
-				.bid-box-user
-					p
-						a.bid-box-user-avatar(href="{% url 'bid_main:index' %}")
-							img(src='{% gravatar_url user.email 64 %}', title='Gravatar Profile Picture')
-					.bid-box-user-info
-						| {% if user.full_name %}
-						p {{ user.full_name }}
-						| {% else %}
-						p
-							a.danger(href="{% url 'bid_main:profile' %}")
-								| Your full name is not known
-						| {% endif %}
-						p {{ user.email }}
+					.col-md-10.col-md-offset-1
+
+						ul.text-left
+							li Full Name
+							li Email Address
+
+						//- ul.text-left
+						//- 	| {% for scope in scopes_descriptions %}
+						//- 	li {{ scope }}
+						//- 	| {% endfor %}
+
+				| {{ form.errors }}
+				| {{ form.non_field_errors }}
+
+				hr
+
+				.bid-cta
+					button.btn.btn-primary(type="submit", name="allow")
+						i.fa.fa-check
+						| Yes, Authorize
+
+					a.btn(href="{% url 'bid_main:index' %}")
+						| Cancel
+			| {% else %}
+
+			h2 Error: {{ error.error }}
+			p {{ error.description }}
+
+			| {% endif %}
+
 | {% endblock %}

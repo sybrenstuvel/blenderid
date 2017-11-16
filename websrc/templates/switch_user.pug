@@ -2,79 +2,76 @@
 | {% load gravatar %}
 | {% block page_title %}Switch Blender ID user{% endblock %}
 | {% block body %}
-.container
+.bid.box
+	ul.bid-icons
+		li
+			i.bf-cloud
+		li
+			i.bf-blender
+		li
+			i.bf-network
+
+	small You are currently logged in as
+
+	.bid-user
+		| {% if user.full_name %}
+		a(href="{% url 'bid_main:index' %}")
+			img(
+				src='{% gravatar_url user.email 84 %}',
+				title='Profile Picture',
+				alt="Profile Picture")
+		.bid-user-info
+			a(href="{% url 'bid_main:index' %}")
+				h3 {{ user.full_name }}
+			p {{ user.email }}
+		| {% else %}
+		a.bid-user-missing(href="{% url 'bid_main:profile' %}")
+			i.fa.fa-exclamation
+		.bid-user-info
+			h3
+				a.danger(href="{% url 'bid_main:profile' %}")
+					| Please specify your full name
+			p {{ user.email }}
+		| {% endif %}
+
+	hr
+
 	.row
-		.col-md-12
-			.bid.box
-				ul.bid-icons
-					li
-						i.bf-cloud
-					li
-						i.bf-blender
-					li
-						i.bf-network
+		.col-md-8.col-md-offset-2
+			h2 Login as someone else
 
-				small You are currently logged in as
+			br
 
-				.bid-user
-					| {% if user.full_name %}
-					a(href="{% url 'bid_main:index' %}")
-						img(
-							src='{% gravatar_url user.email 84 %}',
-							title='Profile Picture',
-							alt="Profile Picture")
-					.bid-user-info
-						a(href="{% url 'bid_main:index' %}")
-							h3 {{ user.full_name }}
-						p {{ user.email }}
-					| {% else %}
-					a.bid-user-missing(href="{% url 'bid_main:profile' %}")
-						i.fa.fa-exclamation
-					.bid-user-info
-						h3
-							a.danger(href="{% url 'bid_main:profile' %}")
-								| Please specify your full name
-						p {{ user.email }}
+			form(role='login', action='', method='POST', name='login_user_form')
+				| {% csrf_token %}
+				fieldset
+					// Email input
+					.input-group
+						span.input-group-addon
+							i.fa.fa-envelope-o
+						| {{ form.username }}
+
+					// Password input
+					.input-group
+						span.input-group-addon
+							i.fa.fa-unlock-alt
+						| {{ form.password }}
+
+					| {% if form.errors %}
+					p.text-danger Your username and password didn't match. Please try again.
+					p
+						a(href="{% url 'bid_main:password_reset' %}") Lost your password?
 					| {% endif %}
 
-				hr
+					.bid-cta
+						button.btn-success#register Sign in
 
-				.row
-					.col-md-8.col-md-offset-2
-						h2 Login as someone else
+			hr
 
-						br
-
-						form(role='login', action='', method='POST', name='login_user_form')
-							| {% csrf_token %}
-							fieldset
-								// Email input
-								.input-group
-									span.input-group-addon
-										i.fa.fa-envelope-o
-									| {{ form.username }}
-
-								// Password input
-								.input-group
-									span.input-group-addon
-										i.fa.fa-unlock-alt
-									| {{ form.password }}
-
-								| {% if form.errors %}
-								p.text-danger Your username and password didn't match. Please try again.
-								p
-									a(href="{% url 'bid_main:password_reset' %}") Lost your password?
-								| {% endif %}
-
-								.bid-cta
-									button.btn-success#register Sign in
-
-						hr
-
-						.bid-links
-							a(href="{% url 'bid_main:register' %}")
-								| Create a new account
-							a(href="{% url 'bid_main:password_reset' %}")
-								| Recover password
+			.bid-links
+				a(href="{% url 'bid_main:register' %}")
+					| Create a new account
+				a(href="{% url 'bid_main:password_reset' %}")
+					| Recover password
 
 | {% endblock %}
