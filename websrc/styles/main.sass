@@ -135,6 +135,33 @@ header.navbar
 			.form-control
 				border-bottom: none
 
+		&-help
+			text-align: left
+			color: $color-text-dark-primary
+
+
+	&-header
+		align-items: center
+		display: flex
+		font-size: 1.1em
+		justify-content: center
+		margin: 15px auto
+
+		h1
+			+text-gradient(5deg, rgba($color-primary, .9), darken(cyan, 10%))
+			margin: 0 20px !important
+
+		.bid-icons
+			padding: 0
+			margin: 0
+
+			li
+				font-size: 2.5em
+				margin: 0
+				padding: 0
+
+
+	// The colorful icons on top
 	&-icons
 		li
 			+text-gradient(25deg, rgba($color-primary, .8), cyan)
@@ -145,6 +172,9 @@ header.navbar
 
 			&:after
 				content: ''
+
+			i.fa
+				+text-gradient(25deg, rgba($color-primary, .8), cyan)
 
 	&.about
 		text-align: left
@@ -301,8 +331,12 @@ header.navbar
 	margin: 0
 
 .errorlist
-	color: $color_danger
+	color: $color-danger
 	margin-top: 0.5em
+	text-align: left
+
+.errornote
+	color: $color-danger
 
 .nav>li
 	white-space: nowrap

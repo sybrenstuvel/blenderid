@@ -13,11 +13,17 @@
 	.row
 		.col-md-12
 			.bid.box
+				.bid-header
+					ul.bid-icons
+						li
+							i.bf-blender
+					h1 Your Blender ID
+
 				.bid-user
 					| {% if user.full_name %}
 					a(href="{% url 'bid_main:profile' %}")
 						img(
-							src='{% gravatar_url user.email 64 %}',
+							src='{% gravatar_url user.email 84 %}',
 							title='Profile Picture',
 							alt="Profile Picture")
 					.bid-user-info

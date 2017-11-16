@@ -7,44 +7,45 @@
 | Register your Blender ID
 | {% endblock %}
 | {% block body %}
-.container
-	.row
-		.col-md-8.col-md-push-2
-			.box.padding-bottom-15px.padding-top-15px
-				i.bf-blender.backicon
-				form(role='register', action="", method='POST', name='register_user_form')
-					| {% csrf_token %}
-					.col-md-6
+.row
+	.col-md-12
+		.bid.box
+			.row
+				.col-md-8.col-md-offset-2
+					.bid-header
+						ul.bid-icons
+							li
+								i.bf-blender
+						h1 Get Your Own Blender ID
+
+					form(role='register', action="", method='POST', name='register_user_form')
+						| {% csrf_token %}
 						fieldset
 							// Full name input
-							.input-group.input-group-lg.width-full
+							label.control-label(for="{{ form.full_name.id_for_label }}") Full Name
+							.input-group
 								span.input-group-addon
 									i.fa.fa-user
 								| {{ form.full_name }}
-								label.control-label(for="{{ form.full_name.id_for_label }}") Full Name
-								| {{ form.full_name.errors }}
-							.clearfix.margin-top-2
+							| {{ form.full_name.errors }}
+
 							// Email input
-							.input-group.input-group-lg.width-full
+							label.control-label(for="{{ form.email.id_for_label }}") E-mail
+							.input-group
 								span.input-group-addon
 									i.fa.fa-envelope-o
 								| {{ form.email }}
-								label.control-label(for="{{ form.email.id_for_label }}") E-mail
-								| {{ form.email.errors }}
+							| {{ form.email.errors }}
+
 							p After registration, we will send you an email with instructions to set a password.
-							.clearfix.margin-top-2
-					.col-md-6
-						.width-full.text-align-center.margin-top-5.margin-bottom-5
-							h2
-								| Get your own
-								br
-								| Blender ID
-							// Button
-							.control-group
-								label.control-label(for='register')
-								.controls
-									button.btn.btn-default.btn-lg.btn-squishy.width-75#register Sign Up
+
+						.bid-cta
+							button.btn.btn-success#register
+								i.fa.fa-check
+								| Create Account
+
 							hr
+
 							a(href="{% url 'bid_main:login' %}")
 								i.fa.fa-angle-double-left
 								|  Back to Login

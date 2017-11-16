@@ -20,7 +20,7 @@
 					| {% if user.full_name %}
 					a(href="{% url 'bid_main:index' %}")
 						img(
-							src='{% gravatar_url user.email 64 %}',
+							src='{% gravatar_url user.email 84 %}',
 							title='Profile Picture',
 							alt="Profile Picture")
 					.bid-user-info
@@ -42,6 +42,8 @@
 				.row
 					.col-md-8.col-md-offset-2
 						h2 Login as someone else
+
+						br
 
 						form(role='login', action='', method='POST', name='login_user_form')
 							| {% csrf_token %}

@@ -9,6 +9,7 @@
 			.bid.box.about
 				.row
 					.col-md-8.col-md-offset-2
+						| {% if user.is_authenticated %}
 						.text-center
 							ul.bid-icons
 								li
@@ -21,8 +22,11 @@
 							h1 One Account, Everything Blender
 
 						hr
+						| {% endif %}
 
-						h3 What is the Blender ID?
+						p
+							h3 What is the Blender ID?
+
 						p.
 							The Blender ID is a unified login system that will give you access to
 							a large number of services around Blender.
