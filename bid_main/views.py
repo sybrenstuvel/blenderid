@@ -3,10 +3,15 @@ from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
 from django.views.generic import CreateView, TemplateView
 from django.views.generic.edit import UpdateView
+from django.views.decorators.debug import sensitive_post_parameters
 
 from .forms import UserRegistrationForm, UserProfileForm, AuthenticationForm
 from .models import User
@@ -22,16 +27,43 @@ class PageIdMixin:
 
 
 class IndexView(LoginRequiredMixin, PageIdMixin, TemplateView):
-    template_name = 'index.html'
     page_id = 'index'
+    template_name = 'index.html'
     login_url = reverse_lazy('bid_main:login')
     redirect_field_name = None
 
 
 class LoginView(PageIdMixin, auth_views.LoginView):
+    """Shows the login view.
+
+    Redirects to the switch view if already logged in.
+    """
+
     page_id = 'login'
     template_name = 'login.html'
     authentication_form = AuthenticationForm
+
+    @method_decorator(sensitive_post_parameters())
+    @method_decorator(csrf_protect)
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            redirect_to = reverse_lazy('bid_main:switch_user', self.get_redirect_url())
+            return HttpResponseRedirect(redirect_to)
+        return super().dispatch(request, *args, **kwargs)
+
+
+class AboutView(PageIdMixin, TemplateView):
+    page_id = 'about'
+    template_name = 'about.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """Redirect to the login page, but without specifying 'next' param."""
+
+        if request.user.is_anonymous:
+            redirect_to = reverse_lazy('bid_main:login')
+            return HttpResponseRedirect(redirect_to)
+        return super().dispatch(request, *args, **kwargs)
 
 
 class RegistrationView(CreateView):
