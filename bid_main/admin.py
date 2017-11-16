@@ -9,8 +9,6 @@ from . import models
 admin.site.site_title = 'Blender-ID admin'
 # Text to put in each page's <h1>.
 admin.site.site_header = 'Blender-ID Administration'
-# Text to put at the top of the admin index page.
-admin.site.index_title = 'Admin menu'
 
 
 class UserSettingInline(admin.TabularInline):
