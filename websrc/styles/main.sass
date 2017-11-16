@@ -1,5 +1,6 @@
 @import url(//fonts.googleapis.com/css?family=PT+Sans+Narrow|Roboto)
 @import url(../../assets_shared/css/font-borg.css)
+
 @import ../../webstatic/assets_shared/styles/main.sass
 
 header.navbar
@@ -10,7 +11,7 @@ header.navbar
 	&.navbar-primary
 		box-shadow: 1px 0 1px rgba(black, .5)
 
-.bid-box
+.bid
 	&-user
 		align-items: center
 		display: flex
@@ -85,18 +86,14 @@ header.navbar
 		margin: 10px auto
 
 		.btn
-			font-size: .8em
+			font-size: .9em
 
 			&+.btn // A .btn next to another .btn
 				margin-left: 15px
 
-	&-form
-		background-color: $color-background-light
-		border-radius: 3px
-		box-shadow: 1px 1px 1px rgba(black, .2)
+	&.box
 		display: flex
 		flex-direction: column
-		font-size: 1.1em
 		margin: 10px auto 35px
 		max-width: 700px
 		padding: 15px 15px 25px
@@ -106,53 +103,91 @@ header.navbar
 			text-decoration: underline
 
 		h1
-			margin: 0 auto 15px
+			margin: 0 auto 20px
 
-		.input
-			&-cta
-				margin-top: 15px
+	.input
+		&-cta
+			margin-top: 15px
 
-				button
-					max-width: 200px
-					width: 100%
+			button
+				max-width: 200px
+				width: 100%
 
-			&-group
-				max-width: 400px
-				margin: 10px auto
-				box-shadow: 0 0 1px rgba(black, .5)
-				border-radius: 6px
-				overflow: hidden
+		&-group
+			max-width: 400px
+			margin: 10px auto
+			box-shadow: 0 0 1px rgba(black, .5)
+			border-radius: 6px
+			overflow: hidden
 
-				input
-					flex: 1
-					border-bottom: none
+			input
+				flex: 1
+				border-bottom: none
 
-				&-addon
-					align-items: center
-					background-color: $color-background
-					border-bottom: none
-					display: flex
-					justify-content: center
-					padding: 0 20px
+			&-addon
+				align-items: center
+				background-color: $color-background
+				border-bottom: none
+				display: flex
+				justify-content: center
+				padding: 0 20px
 
-.about-icons
-	li
-		+text-gradient(25deg, rgba($color-primary, .8), cyan)
-		color: $color-primary
-		display: inline-block
-		font-size: 4em
-		margin: 10px 15px
+	&-icons
+		li
+			+text-gradient(25deg, rgba($color-primary, .8), cyan)
+			color: $color-primary
+			display: inline-block
+			font-size: 4em
+			margin: 10px 15px
 
-		&:after
-			content: ''
+			&:after
+				content: ''
+
+	&.about
+		text-align: left
 
 
-.id
-	&__profile
-		&-details
-			&-avatar
-				float: right
-				margin: 15px
+.bid-roles
+	margin-bottom: 25px
+
+	> ul
+		padding-left: 0
+
+		> li
+			&:after
+				display: none
+
+	&-role // .bid-roles-role
+		background-color: $color-background-light
+		border-radius: 3px
+		box-shadow: inset 0 0 0 1px rgba(black, .1), 1px 1px 1px rgba(black, .2)
+		display: flex
+		padding: 15px 15px 15px 0
+		margin-bottom: 10px
+
+		&-image // .bid-roles-role-image
+			color: $color-text-dark-secondary
+			display: flex
+			justify-content: center
+			font-size: 2.2em
+			padding: 0 15px
+			min-width: 80px
+
+		&-info
+			flex: 1
+			hr
+				width: 100%
+				margin: 5px auto
+
+		a.title
+			color: $color-text
+			font-size: 1.3em
+			display: block
+			width: 100%
+
+			&:hover
+				color: $color-primary
+
 
 .application_row
 	width: 2800%

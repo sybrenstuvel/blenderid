@@ -12,22 +12,22 @@
 .container
 	.row
 		.col-md-12
-			.bid-box-form
-				.bid-box-user
+			.bid.box
+				.bid-user
 					| {% if user.full_name %}
 					a(href="{% url 'bid_main:profile' %}")
 						img(
 							src='{% gravatar_url user.email 64 %}',
 							title='Profile Picture',
 							alt="Profile Picture")
-					.bid-box-user-info
+					.bid-user-info
 						a(href="{% url 'bid_main:profile' %}")
 							h3 {{ user.full_name }}
 						p {{ user.email }}
 					| {% else %}
-					a.bid-box-user-missing(href="{% url 'bid_main:profile' %}")
+					a.bid-user-missing(href="{% url 'bid_main:profile' %}")
 						i.fa.fa-exclamation
-					.bid-box-user-info
+					.bid-user-info
 						h3
 							a.danger(href="{% url 'bid_main:profile' %}")
 								| Please specify your full name
@@ -35,7 +35,7 @@
 					| {% endif %}
 
 
-				.bid-box-cta
+				.bid-cta
 					| {% if not user.confirmed_at and config.SECURITY_CONFIRMABLE %}
 					a.btn.btn-warning-filled(href="-- url_for_security('send_confirmation') --")
 						i.fa.fa-envelope
@@ -51,47 +51,60 @@
 
 				hr
 
-				.bid-box-links
+				.bid-links
 					a(href="{% url 'bid_main:switch_user' %}")
 						| Not you? Log in as someone else
 
 
+	.row
+		.col-md-6.col-md-offset-3
+			.bid-roles
+				h3.text-center Your Blender ID Apps
 
-	.bid-
-		| {% if 'bfct_trainer' in user.role_names %}
-		.box.id__profile-certification
-			h3.id__profile-certification-title
-				i.fa.fa-graduation-cap
-				| Blender Foundation Certified Trainer
-			p
-				| You're an official
-				span.info  Blender Foundation Certified Trainer
-				br
-				| More details about your
-				a(href='https://www.blender.org/certification')  certification
-				| {% if 'bfct_board' in user.role_names %}
-				hr.width-full
-				| BFCT Board Member
-				| {% if 'bfct_manager' in user.role_names %} &amp; Manager{% endif %}
-				| {% endif %}
-		| {% endif %}
+				ul
+					li
+						.bid-roles-role
+							.bid-roles-role-image
+								i.bf-cloud
+							.bid-roles-role-info
+								a.title(href="https://cloud.blender.org") Blender Cloud
+								hr
+								ul
+									li
+										a(href='https://cloud.blender.org/settings/billing') Subscription Details
+									li
+										a(href='https://cloud.blender.org/settings/emails') Preferences
 
-		.box.id__profile-subscriptions
-			h3.id__profile-subscriptions-title
-				i.bf-cloud
-				| Blender Cloud
-			p
-				| Visit your
-				a(href='https://cloud.blender.org/settings/billing')  preferences
-				|  for more details
+					li
+						.bid-roles-role
+							.bid-roles-role-image
+								i.bf-network
+							.bid-roles-role-info
+								a.title(href="https://www.blendernetwork.org") Blender Network
+								hr
+								ul
+									li
+										a(href='https://www.blendernetwork.org/billing/') Subscription Details
+									li
+										a(href='https://www.blendernetwork.org/profile/edit') Blender Network Profile
 
-		.box.id__profile-subscriptions
-			h3.id__profile-subscriptions-title
-				i.bf-network
-				| Blender Network
-			p
-				| Visit your
-				a(href='https://www.blendernetwork.org/profile/edit')  profile settings
-				|  for subscription details
+					| {% if 'bfct_trainer' in user.role_names %}
+					li
+						.bid-roles-role
+							.bid-roles-role-image
+								i.fa.fa-graduation-cap(style="font-size: .8em; margin-top: 5px")
+							.bid-roles-role-info
+								a.title(href="https://www.blendernetwork.org/certification/") Blender Foundation Certified Trainer
+								hr
+								ul
+									li
+										a(href='https://www.blendernetwork.org/certification/') Certification Details
+
+								| {% if 'bfct_board' in user.role_names %}
+								hr
+								p.
+									BFCT Board Member {% if 'bfct_manager' in user.role_names %} &amp; Manager{% endif %}
+								| {% endif %}
+					| {% endif %}
 
 | {% endblock %}

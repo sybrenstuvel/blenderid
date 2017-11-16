@@ -5,8 +5,8 @@
 | {% block before_about_bid %}
 .row
 	.col-md-12
-		.bid-box-form
-			ul.about-icons
+		.bid
+			ul.bid-icons
 				li
 					i.bf-cloud
 				li
@@ -42,7 +42,7 @@
 
 				hr
 
-				.bid-box-links
+				.bid-links
 					a(href="{% url 'bid_main:register' %}")
 						| Create a new account
 					a(href="{% url 'bid_main:password_reset' %}")

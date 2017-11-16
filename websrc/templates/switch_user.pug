@@ -5,8 +5,8 @@
 .container
 	.row
 		.col-md-12
-			.bid-box-form
-				ul.about-icons
+			.bid.box
+				ul.bid-icons
 					li
 						i.bf-cloud
 					li
@@ -14,23 +14,23 @@
 					li
 						i.bf-network
 
-				p You are currently logged in as
+				small You are currently logged in as
 
-				.bid-box-user
+				.bid-user
 					| {% if user.full_name %}
 					a(href="{% url 'bid_main:index' %}")
 						img(
 							src='{% gravatar_url user.email 64 %}',
 							title='Profile Picture',
 							alt="Profile Picture")
-					.bid-box-user-info
+					.bid-user-info
 						a(href="{% url 'bid_main:index' %}")
 							h3 {{ user.full_name }}
 						p {{ user.email }}
 					| {% else %}
-					a.bid-box-user-missing(href="{% url 'bid_main:profile' %}")
+					a.bid-user-missing(href="{% url 'bid_main:profile' %}")
 						i.fa.fa-exclamation
-					.bid-box-user-info
+					.bid-user-info
 						h3
 							a.danger(href="{% url 'bid_main:profile' %}")
 								| Please specify your full name
@@ -67,7 +67,7 @@
 
 					hr
 
-					.bid-box-links
+					.bid-links
 						a(href="{% url 'bid_main:register' %}")
 							| Create a new account
 						a(href="{% url 'bid_main:password_reset' %}")
