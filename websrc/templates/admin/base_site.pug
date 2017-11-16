@@ -1,4 +1,5 @@
 | {% extends "admin/base.html" %}
+| {% load i18n %}
 
 | {% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
 | {% block extrastyle %}
@@ -25,3 +26,22 @@ h1#site-name
 | {% endblock %}
 
 | {% block nav-global %}{% endblock %}
+
+| {% block userlinks %}
+| {% if site_url %}
+a(href="{{ site_url }}") {% trans 'View site' %}
+=' / '
+| {% endif %}
+| {% if user.is_active and user.is_staff %}
+|     {% url 'django-admindocs-docroot' as docsroot %}
+|     {% if docsroot %}
+a(href="{{ docsroot }}") {% trans 'Documentation' %}
+=' / '
+|     {% endif %}
+| {% endif %}
+| {% if user.has_usable_password %}
+a(href="{% url 'bid_main:password_change' %}") {% trans 'Change password' %}
+=' / '
+| {% endif %}
+a(href="{% url 'admin:logout' %}") {% trans 'Log out' %}
+| {% endblock %}
