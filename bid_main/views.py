@@ -34,23 +34,11 @@ class IndexView(LoginRequiredMixin, PageIdMixin, TemplateView):
 
 
 class LoginView(PageIdMixin, auth_views.LoginView):
-    """Shows the login view.
-
-    Redirects to the switch view if already logged in.
-    """
+    """Shows the login view."""
 
     page_id = 'login'
     template_name = 'login.html'
     authentication_form = AuthenticationForm
-
-    @method_decorator(sensitive_post_parameters())
-    @method_decorator(csrf_protect)
-    @method_decorator(never_cache)
-    def dispatch(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            redirect_to = reverse_lazy('bid_main:switch_user', self.get_redirect_url())
-            return HttpResponseRedirect(redirect_to)
-        return super().dispatch(request, *args, **kwargs)
 
 
 class AboutView(PageIdMixin, TemplateView):
