@@ -31,13 +31,11 @@ header.navbar
 
 
 	&-info
-		background-color: white
-		box-shadow: 1px 1px 1px rgba(black, .2)
 		display: flex
 		flex-direction: column
 		font-size: 1.1em
 		margin: 35px auto
-		padding: 15px
+		padding: 25px 15px
 
 		h3
 			font-size: 1.8em
@@ -56,8 +54,14 @@ header.navbar
 			font-size: .9em
 
 	&-form
-		max-width: 600px
-		margin: 15px auto 35px
+		background-color: lighten($color-background, 1%)
+		box-shadow: 1px 1px 1px rgba(black, .2)
+		display: flex
+		flex-direction: column
+		font-size: 1.1em
+		margin: 10px auto 35px
+		max-width: 700px
+		padding: 15px 15px 25px
 		text-align: center
 
 		a
@@ -93,7 +97,6 @@ header.navbar
 					padding: 0 20px
 
 .about-icons
-
 	li
 		+text-gradient(25deg, rgba($color-primary, .8), cyan)
 		color: $color-primary

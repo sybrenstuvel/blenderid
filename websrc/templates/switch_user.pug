@@ -1,44 +1,69 @@
 | {% extends 'layout.html' %}
 | {% load gravatar %}
-| {% block page_title %}Log in to Blender ID{% endblock %}
+| {% block page_title %}Switch Blender ID user{% endblock %}
 | {% block body %}
 .container
 	.row
-		.col-md-6
-			.box.decent-height.centre-all
-					a(href="{% url 'bid_main:index' %}")
-						img.img-circle.about__join-avatar(src='{% gravatar_url user.email 192 %}', title='Gravatar Profile Picture')
-					h3 You are currently logged in as
-					h1 {{ user.email }}
-		.col-md-6
-			.box.decent-height
-				i.bf-blender.backicon
-				h1 Login as Someone Else
-				form.margin-top-5(role='login', action='', method='POST', name='login_user_form')
+		.col-md-12
+			.bid-box-form
+				ul.about-icons
+					li
+						i.bf-cloud
+					li
+						i.bf-blender
+					li
+						i.bf-network
+
+				p You are currently logged in as
+
+				.bid-box-user
+					a.bid-box-user-avatar(href="{% url 'bid_main:index' %}")
+						img(src='{% gravatar_url user.email 64 %}', title='Gravatar Profile Picture')
+					.bid-box-user-info
+						| {% if user.full_name %}
+						h3 {{ user.full_name }}
+						| {% else %}
+						h3
+							a.danger(href="{% url 'bid_main:profile' %}")
+								| Your full name is not known
+						| {% endif %}
+
+						p {{ user.email }}
+
+				hr
+
+				h2 Login as Someone Else
+
+				form(role='login', action='', method='POST', name='login_user_form')
 					| {% csrf_token %}
 					fieldset
 						// Email input
-						.input-group.input-group-lg.width-full
+						.input-group
 							span.input-group-addon
 								i.fa.fa-envelope-o
 							| {{ form.username }}
-						.clearfix.margin-top-2
+
 						// Password input
-						.input-group.input-group-lg.width-full
+						.input-group
 							span.input-group-addon
-								i.fa.fa-lock
+								i.fa.fa-unlock-alt
 							| {{ form.password }}
-						.clearfix.margin-top-2
 
 						| {% if form.errors %}
 						p.text-danger Your username and password didn't match. Please try again.
 						p
 							a(href="{% url 'bid_main:password_reset' %}") Lost your password?
 						| {% endif %}
-						.control-group
-							label.control-label(for='signin')
-							.controls.text-align-center
-								button.btn.btn-default.btn-lg.btn-squishy.width-75#register
-									i.fa.fa-sign-in
-									| Sign in
+
+						.input-cta
+							button.btn-success#register Sign in
+
+					hr
+
+					.bid-box-links
+						a(href="{% url 'bid_main:register' %}")
+							| Create a new account
+						a(href="{% url 'bid_main:password_reset' %}")
+							| Recover password
+
 | {% endblock %}

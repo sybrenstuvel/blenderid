@@ -5,8 +5,8 @@ html(lang="en")
 		meta(charset="utf-8")
 		title {% block page_title %}Home{% endblock %} - Blender ID - blender.org
 		meta(name='viewport', content='width=device-width, initial-scale=1.0')
-		meta(name='description', content='')
-		meta(name='author', content='')
+		meta(name='description', content='The Blender ID is a unified login system for all services around Blender.')
+		meta(name='author', content='Blender Foundation')
 
 		link(href="{% static 'assets_vendor/css/bootstrap.min.css' %}", rel='stylesheet')
 		link(href='//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', rel='stylesheet')
@@ -71,7 +71,6 @@ html(lang="en")
 								i.fa.fa-rocket
 								| Whoosh!
 						| {% endif %}
-
 
 						li
 							a(href="{% url 'bid_main:logout' %}")
