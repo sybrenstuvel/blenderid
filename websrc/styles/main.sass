@@ -20,6 +20,21 @@ header.navbar
 		img
 			border-radius: 6px
 
+		&-missing
+			align-items: center
+			background-color: $color-danger
+			border-radius: 6px
+			color: white !important
+			display: flex
+			font-size: 2em
+			justify-content: center
+			height: 64px
+			text-decoration: none !important
+			width: 64px
+
+			&:hover
+				background-color: lighten($color-danger, 10%)
+
 		&-info
 			padding: 15px
 
@@ -28,6 +43,17 @@ header.navbar
 
 			h3
 				margin-top: 0
+
+			a
+				color: $color-text
+				text-decoration: none !important
+
+				&:hover
+					color: $color-primary
+
+				&.danger
+					&:hover
+						color: lighten($color-danger, 10%) !important
 
 
 	&-info
@@ -48,13 +74,25 @@ header.navbar
 			&:hover
 				color: $color-primary
 
+
 	&-links
 		a
 			padding: 10px
 			font-size: .9em
 
+
+	&-cta
+		margin: 10px auto
+
+		.btn
+			font-size: .8em
+
+			&+.btn // A .btn next to another .btn
+				margin-left: 15px
+
 	&-form
-		background-color: lighten($color-background, 1%)
+		background-color: $color-background-light
+		border-radius: 3px
 		box-shadow: 1px 1px 1px rgba(black, .2)
 		display: flex
 		flex-direction: column
@@ -81,7 +119,7 @@ header.navbar
 			&-group
 				max-width: 400px
 				margin: 10px auto
-				box-shadow: 0 0 1px rgba(black, .2)
+				box-shadow: 0 0 1px rgba(black, .5)
 				border-radius: 6px
 				overflow: hidden
 
@@ -91,6 +129,7 @@ header.navbar
 
 				&-addon
 					align-items: center
+					background-color: $color-background
 					border-bottom: none
 					display: flex
 					justify-content: center

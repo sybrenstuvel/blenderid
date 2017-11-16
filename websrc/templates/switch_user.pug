@@ -17,22 +17,29 @@
 				p You are currently logged in as
 
 				.bid-box-user
-					a.bid-box-user-avatar(href="{% url 'bid_main:index' %}")
-						img(src='{% gravatar_url user.email 64 %}', title='Gravatar Profile Picture')
+					| {% if user.full_name %}
+					a(href="{% url 'bid_main:index' %}")
+						img(
+							src='{% gravatar_url user.email 64 %}',
+							title='Profile Picture',
+							alt="Profile Picture")
 					.bid-box-user-info
-						| {% if user.full_name %}
-						h3 {{ user.full_name }}
-						| {% else %}
+						a(href="{% url 'bid_main:index' %}")
+							h3 {{ user.full_name }}
+						p {{ user.email }}
+					| {% else %}
+					a.bid-box-user-missing(href="{% url 'bid_main:profile' %}")
+						i.fa.fa-exclamation
+					.bid-box-user-info
 						h3
 							a.danger(href="{% url 'bid_main:profile' %}")
-								| Your full name is not known
-						| {% endif %}
-
+								| Please specify your full name
 						p {{ user.email }}
+					| {% endif %}
 
 				hr
 
-				h2 Login as Someone Else
+				h2 Login as someone else
 
 				form(role='login', action='', method='POST', name='login_user_form')
 					| {% csrf_token %}
