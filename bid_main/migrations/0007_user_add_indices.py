@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bid_main', '0008_oauth2_tokens_app_relation'),
+        ('bid_main', '0006_role_is_public'),
     ]
 
     operations = [

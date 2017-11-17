@@ -135,8 +135,8 @@ BLENDER_ID_ADDON_CLIENT_ID = '-secret-'
 
 # Defining one of those means you have to define them all.
 OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = 'bid_main.OAuth2AccessToken'
-OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL = 'oauth2_provider.RefreshToken'
-OAUTH2_PROVIDER_APPLICATION_MODEL = 'oauth2_provider.Application'
+OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL = 'bid_main.OAuth2RefreshToken'
+OAUTH2_PROVIDER_APPLICATION_MODEL = 'bid_main.OAuth2Application'
 
 OAUTH2_PROVIDER = {
     'SCOPES': {
@@ -149,6 +149,7 @@ OAUTH2_PROVIDER = {
     'REFRESH_TOKEN_EXPIRE_SECONDS': 3600 * 24 * 31,  # keep for a month
     'ACCESS_TOKEN_MODEL': OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL,
     'REFRESH_TOKEN_MODEL': OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL,
+    'APPLICATION_MODEL': OAUTH2_PROVIDER_APPLICATION_MODEL,
 }
 
 # This is required for compatibility with Blender Cloud, as it performs

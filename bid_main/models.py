@@ -193,3 +193,15 @@ class OAuth2AccessToken(oa2_models.AbstractAccessToken):
 
     host_label = models.CharField(max_length=255, unique=False, blank=True)
     subclient = models.CharField(max_length=255, unique=False, blank=True)
+
+
+class OAuth2RefreshToken(oa2_models.AbstractRefreshToken):
+    class Meta:
+        verbose_name = 'refresh token'
+
+
+class OAuth2Application(oa2_models.AbstractApplication):
+    class Meta:
+        verbose_name = 'application'
+
+    url = models.URLField(unique=False, blank=True)
