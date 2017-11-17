@@ -76,7 +76,8 @@ as the database.
 5. Make yourself a super-user with `manage.py makesuperuser your.email@example.com`
 6. After testing that everything works, remove the old data using `manage.py drop_olddb`.
 
-Users with an invalid email address (based on format and length) are skipped. Note that migrating of user-roles and user-settings will cause warnings; some users are skipped
+Users with an invalid email address (based on format and length) are skipped. Note that migrating of
+user-roles and user-settings will cause warnings; some users are skipped
 
 The following tables are explicitly *not* migrated:
 - collections
@@ -87,3 +88,39 @@ The following tables are explicitly *not* migrated:
 - mail_queue_prepaid
 - mail_queue_recurring
 - users_collections
+
+
+## Deployment notes
+
+Assuming deployment on FreeBSD with uWSGI, take care to:
+
+- Install `python36`.
+- Update `/usr/ports/www/uwsgi/Makefile` and set `USES=pkgconfig python:3.6 ssl` (add the `:3.6`),
+  then run `make install clean`.
+- Install `a24_mod_proxy_uwsgi`
+- Add the `uwsgi` user to the `www` group, or graceful restarts won't work due to permission
+  problems. uWSGI tries to change ownership of `/tmp/uwsgi.sock` to `uwsgi:www`, and not being in
+  the `www` group this would fails.
+- Use the following file in `/usr/local/etc/uwsgi/uwsgi.ini`:
+      [uwsgi]
+      master = true
+      enable-threads = true
+      processes = 2
+      virtualenv = /data/www/vhosts/www.blender.org/venv-bid/
+      chdir = /data/www/vhosts/www.blender.org/blender-id/
+      wsgi-file = /data/www/vhosts/www.blender.org/blender-id/blenderid/wsgi.py
+      touch-reload = /data/www/vhosts/www.blender.org/blender-id/blenderid/wsgi.py
+
+- Enable the following Apache modules:
+      LoadModule proxy_module libexec/apache24/mod_proxy.so
+      LoadModule proxy_uwsgi_module libexec/apache24/mod_proxy_uwsgi.so
+
+- Use the following configuration for Apache, I placed it in `Includes/uwsgi.conf`:
+      Alias /id/static/ /data/www/vhosts/www.blender.org/blender-id/static/
+      <Directory /data/www/vhosts/www.blender.org/blender-id/static/>
+          Require all granted
+      </Directory>
+
+      ProxyPass /id/static/ "!"
+      ProxyPass /id unix:/tmp/uwsgi.sock|uwsgi://blender-id/
+      ProxyPassReverse /id "www.blender.org/id/"
