@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^about$', views.AboutView.as_view(), name='about'),
     url(r'^logout$', auth_views.LogoutView.as_view(next_page='bid_main:about'), name='logout'),
     url(r'^switch', views.SwitchUserView.as_view(), name='switch_user'),
+    url(r'^applications', views.ApplicationTokenView.as_view(), name='auth_tokens'),
 
     url('^change$',
         auth_views.PasswordChangeView.as_view(

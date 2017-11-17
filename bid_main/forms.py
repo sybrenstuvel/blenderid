@@ -64,3 +64,9 @@ class UserProfileForm(BootstrapModelFormMixin, forms.ModelForm):
 
 class PasswordChangeForm(BootstrapModelFormMixin, auth_forms.PasswordChangeForm):
     """Password change form with Bootstrap CSS classes."""
+
+
+class AppRevokeTokensForm(forms.Form):
+    """Form for revoking OAuth tokens for a specific application."""
+
+    app_id = forms.IntegerField(widget=forms.HiddenInput)

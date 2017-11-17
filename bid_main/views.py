@@ -1,4 +1,7 @@
+import logging
+
 from django.db import transaction
+from django.db.models import Count
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import PasswordResetForm
@@ -6,8 +9,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, FormView
 from django.views.generic.edit import UpdateView
+
+import oauth2_provider.models as oauth2_models
 
 from . import forms
 from .models import User
@@ -132,3 +137,42 @@ class ErrorView(TemplateView):
         response = self.render_to_response(self.get_context_data(**kwargs))
         response.status_code = self.status
         return response
+
+
+class ApplicationTokenView(PageIdMixin, LoginRequiredMixin, FormView):
+    page_id = 'auth_tokens'
+    template_name = 'bid_main/auth_tokens.html'
+    form_class = forms.AppRevokeTokensForm
+    success_url = reverse_lazy('bid_main:auth_tokens')
+
+    log = logging.getLogger(f'{__name__}.ApplicationTokenView')
+
+    def get(self, request, *args, **kwargs):
+        ctx = self.get_context_data(**kwargs)
+
+        tokens_per_app = list(request.user.bid_main_oauth2accesstoken
+                              .values('application')
+                              .annotate(Count('id'))
+                              .order_by())
+        app_ids = {tpa['application'] for tpa in tokens_per_app}
+        app_model = oauth2_models.get_application_model()
+        apps = app_model.objects.filter(id__in=app_ids)
+
+        ctx['apps'] = apps
+
+        return self.render_to_response(ctx)
+
+    def form_valid(self, form):
+        user = self.request.user
+        app_id = form.cleaned_data['app_id']
+        self.log.info('Revoking all oauth tokens for user %s, application %d', user, app_id)
+
+        rt_model = oauth2_models.get_refresh_token_model()
+        at_model = oauth2_models.get_access_token_model()
+        gr_model = oauth2_models.get_grant_model()
+
+        rt_model.objects.filter(user=user, application=app_id).delete()
+        at_model.objects.filter(user=user, application=app_id).delete()
+        gr_model.objects.filter(user=user, application=app_id).delete()
+
+        return super().form_valid(form)

@@ -64,6 +64,9 @@ html(lang="en")
 						li(class="{% if page_id == 'index' %}active{% endif %}")
 							a(href="{% url 'bid_main:index' %}") Dashboard
 
+						li(class="{% if page_id == 'auth_tokens' %}active{% endif %}")
+							a(href="{% url 'bid_main:auth_tokens' %}") Access
+
 						li(class="{% if page_id == 'about' %}active{% endif %}")
 							a(href="{% url 'bid_main:about' %}") About Blender ID
 

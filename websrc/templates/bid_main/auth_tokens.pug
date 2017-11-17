@@ -1,0 +1,58 @@
+| {% extends 'layout.html' %}
+| {% load staticfiles %}
+| {% block page_title %}Authentication Tokens{% endblock %}
+| {% block header %}
+script.
+	function revoke(app_id)
+	{
+		var $form = $("#revokeform");
+		$form.find("input[name='app_id']").val(app_id);
+	    $form.submit();
+	}
+style.
+	td.revoke { text-align: left; }
+	td.appname { text-align: right; }
+	a.revoke { padding: 0.5em 3em; }
+	p { text-align: justify; }
+| {% endblock header %}
+| {% block body %}
+.bid.box
+	i.backicon.fa.fa-lock
+	h1 Your Authenticated Applications
+
+	| {% if apps %}
+	p.
+		You have granted the following applications access to your Blender ID; in other
+		words, you used your Blender ID to log in there. Click on the cross to remove
+		all authentication tokens for those apps, effectively logging you out there.
+	| {% else %}
+	p.
+		You have not granted any applications access to your Blender ID; in other words,
+		you have not used your Blender ID to log in anywhere yet. When you do, this is
+		the place where you will be able to revoke that access from those applications.
+	| {% endif %}
+
+	form#revokeform(method='post', action='')
+		| {% csrf_token %}
+		| {{ form.app_id }}
+		| {{ form.errors }}
+	table.table
+		tbody
+			| {% for app in apps %}
+			tr
+				td.appname {{ app }}
+				td.revoke
+					a.text-danger.revoke(title='Remove tokens',href='javascript:revoke({{ app.id }})')
+						i.fa.fa-times
+			| {% endfor %}
+
+	h2 Some notes
+	p.
+		Revoking the access token may not log you out immediately. For example, for
+		performance reasons Blender Cloud only checks with Blender ID periodically.
+	p.
+		At this moment, this revocation can only be done in a rather coarse, per-application way.
+		Since we currently don't store any metadata (like the name of the computer you used to log
+		in or the name/version of the browser), you wouldn't be able to distinguish between
+		individual authentication tokens.
+| {% endblock %}
