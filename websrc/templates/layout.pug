@@ -78,7 +78,7 @@ html(lang="en")
 						| {% endif %}
 
 						li
-							a(href="{% url 'bid_main:logout' %}")
+							a(href="{{ settings.LOGOUT_URL }}")
 								i.fa.fa-power-off
 								| Log out
 				| {% endif %}

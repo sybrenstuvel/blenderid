@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import pathlib
+from django.core.urlresolvers import reverse_lazy
 
 BASE_DIR = pathlib.Path(__file__).absolute().parent.parent
 
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'oauth2_provider',
     'django_gravatar',
+    'loginas',
     'bid_main',
     'bid_api',
     'bid_addon_support',
@@ -169,6 +171,7 @@ PASSWORD_HASHERS = [
 AUTH_USER_MODEL = 'bid_main.User'
 LOGIN_URL = 'bid_main:login'
 LOGIN_REDIRECT_URL = 'bid_main:index'
+LOGOUT_URL = reverse_lazy('bid_main:logout')
 
 # Hosts that we allow redirecting to with a next=xxx parameter on the /login and /switch
 # endpoints. This is a limited set for security reasons.

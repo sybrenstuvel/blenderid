@@ -9,10 +9,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 from django.views.generic import CreateView, TemplateView, FormView
 from django.views.generic.edit import UpdateView
 
 import oauth2_provider.models as oauth2_models
+import loginas.utils
 
 from . import forms
 from .models import User
@@ -40,6 +43,25 @@ class LoginView(PageIdMixin, auth_views.LoginView):
     page_id = 'login'
     template_name = 'login.html'
     authentication_form = forms.AuthenticationForm
+
+
+class LogoutView(auth_views.LogoutView):
+    """Logout view with support for django-loginas.
+
+    By default django-loginas registers the logout view at /admin/logout,
+    which I don't like. I don't want to have /admin/ used by non-admin
+    users.
+    """
+
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        loginas.utils.restore_original_login(request)
+
+        next_page = self.get_next_page()
+        if next_page:
+            # Redirect to this page until the session has been cleared.
+            return HttpResponseRedirect(next_page)
+        return super(LogoutView, self).dispatch(request, *args, **kwargs)
 
 
 class AboutView(PageIdMixin, TemplateView):

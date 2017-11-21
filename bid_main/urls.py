@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^settings/profile$', views.ProfileView.as_view(), name='profile'),
     url(r'^login$', views.LoginView.as_view(), name='login'),
     url(r'^about$', views.AboutView.as_view(), name='about'),
-    url(r'^logout$', auth_views.LogoutView.as_view(next_page='bid_main:about'), name='logout'),
+    url(r'^logout$', views.LogoutView.as_view(next_page='bid_main:about'), name='logout'),
     url(r'^switch', views.SwitchUserView.as_view(), name='switch_user'),
     url(r'^applications', views.ApplicationTokenView.as_view(), name='auth_tokens'),
 

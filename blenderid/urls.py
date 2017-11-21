@@ -1,7 +1,7 @@
 """blenderid URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.9/topics/http/urls/
+    https://docs.djangoproject.com/en/1.11/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -20,6 +20,7 @@ import django.contrib.staticfiles.views
 
 urlpatterns = [
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/', include('loginas.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'', include('bid_addon_support.urls', namespace='addon_support')),
     url(r'^oauth/', include('blenderid.oauth2_urls', namespace='oauth2_provider')),
