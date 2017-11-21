@@ -138,3 +138,8 @@ Assuming deployment on FreeBSD with uWSGI, take care to:
       mysql_enable="YES"
       uwsgi_enable="YES"
       apache24_enable="YES"
+
+      # Appears to not honour the configfile flag, pass as --ini instead
+      # -- troubled/sybren @ Nov 21 2017 hangout chat
+      #uwsgi_configfile="/usr/local/etc/uwsgi/uwsgi.ini"
+      uwsgi_flags="-L --ini /usr/local/etc/uwsgi/uwsgi.conf"
