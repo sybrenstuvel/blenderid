@@ -26,7 +26,8 @@ header.navbar
 			text-decoration: underline
 
 		h1
-			margin: 0 auto 20px
+			margin-top: 0
+			margin-bottom: 20px
 
 		fieldset
 			label
@@ -184,7 +185,7 @@ header.navbar
 			i.fa
 				+text-gradient(25deg, rgba($color-primary, .8), cyan)
 
-	&.about
+	&.about, &.flatpage
 		text-align: left
 
 
@@ -360,6 +361,15 @@ header.navbar
 	.box.decent-height
 		min-height: 400px
 
-.box.centre-all
-	vertical-align: middle
-	text-align: center
+section.admin-links
+	margin-top: 1em
+	padding: 1em
+	border-top: thin solid #8a9bd7
+	font-size: 80%
+	color: #8a9bd7
+
+	.btn
+		color: inherit !important
+		box-shadow: inset 0 0 0 1px #8a9bd7
+		padding: 4px 10px
+		font-size: 100%

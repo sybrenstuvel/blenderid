@@ -1,0 +1,11 @@
+| {% extends 'layout.html' %}
+| {% load markdownify %}
+| {% block page_title %}{{ flatpage.title }}{% endblock %}
+| {% block body %}
+.bid.box.flatpage
+	| {{ flatpage.content | markdownify }}
+	| {% if perms.flatpages.change_flatpage %}
+	section.admin-links
+		a.btn(href="{% url 'admin:flatpages_flatpage_change' flatpage.id %}") edit this page
+	| {% endif %}
+| {% endblock %}

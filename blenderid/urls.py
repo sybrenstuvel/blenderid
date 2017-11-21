@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.flatpages import views as fp_views
 from django.conf import settings
 import django.contrib.staticfiles.views
+
 
 urlpatterns = [
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -26,6 +28,7 @@ urlpatterns = [
     url(r'^oauth/', include('blenderid.oauth2_urls', namespace='oauth2_provider')),
     url(r'^api/', include('bid_api.urls', namespace='bid_api')),
     url(r'', include('bid_main.urls', namespace='bid_main')),
+    url(r'^(?P<url>.*/?)', fp_views.flatpage),
 ]
 
 import bid_main.views
