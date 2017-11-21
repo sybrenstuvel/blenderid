@@ -79,6 +79,7 @@
 								li
 									a(href='https://cloud.blender.org/settings/emails') Preferences
 
+				| {% if 'network_member' in user.role_names %}
 				li
 					.bid-roles-role
 						.bid-roles-role-image
@@ -91,6 +92,7 @@
 									a(href='https://www.blendernetwork.org/billing/') Subscription Details
 								li
 									a(href='https://www.blendernetwork.org/profile/edit') Blender Network Profile
+				| {% endif %}
 
 				| {% if 'bfct_trainer' in user.role_names %}
 				li
