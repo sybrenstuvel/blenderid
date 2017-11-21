@@ -32,7 +32,7 @@ class PageIdMixin:
 
 class IndexView(LoginRequiredMixin, PageIdMixin, TemplateView):
     page_id = 'index'
-    template_name = 'index.html'
+    template_name = 'bid_main/index.html'
     login_url = reverse_lazy('bid_main:login')
     redirect_field_name = None
 
@@ -41,7 +41,7 @@ class LoginView(PageIdMixin, auth_views.LoginView):
     """Shows the login view."""
 
     page_id = 'login'
-    template_name = 'login.html'
+    template_name = 'bid_main/login.html'
     authentication_form = forms.AuthenticationForm
 
 
@@ -66,7 +66,7 @@ class LogoutView(auth_views.LogoutView):
 
 class AboutView(PageIdMixin, TemplateView):
     page_id = 'about'
-    template_name = 'about.html'
+    template_name = 'bid_main/about.html'
 
     def dispatch(self, request, *args, **kwargs):
         """Redirect to the login page, but without specifying 'next' param."""
@@ -113,7 +113,7 @@ class RegistrationView(CreateView):
 class ProfileView(LoginRequiredMixin, UpdateView):
     form_class = forms.UserProfileForm
     model = User
-    template_name = 'settings/profile.html'
+    template_name = 'bid_main/profile.html'
     success_url = reverse_lazy('bid_main:index')
 
     def get_object(self, queryset=None):
@@ -121,7 +121,7 @@ class ProfileView(LoginRequiredMixin, UpdateView):
 
 
 class SwitchUserView(LoginRequiredMixin, auth_views.LoginView):
-    template_name = 'switch_user.html'
+    template_name = 'bid_main/switch_user.html'
     form_class = forms.AuthenticationForm
     success_url_allowed_hosts = settings.NEXT_REDIR_AFTER_LOGIN_ALLOWED_HOSTS
 
