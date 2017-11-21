@@ -33,7 +33,7 @@ fi
 
 python3 manage.py collectstatic --noinput --verbosity 0  || exit 4
 rsync -va static/ $DEPLOYHOST:$DEPLOYPATH/static/ --delete-after || exit 5
-rsync -va templates/ $DEPLOYHOST:$DEPLOYPATH/templates/ --delete-after || exit 5
+rsync -va templates/ $DEPLOYHOST:$DEPLOYPATH/templates/ --delete-after || exit 6
 
 $SSH -TA << EOT
 . $VENVPATH/bin/activate
