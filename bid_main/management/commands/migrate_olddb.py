@@ -29,7 +29,7 @@ from bid_main import models
 def normalise_name(name):
     if name is None:
         return ''
-    return name.strip()
+    return name.strip()[:80]
 
 
 def query(sql, args=None):
