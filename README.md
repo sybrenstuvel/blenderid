@@ -106,7 +106,7 @@ Assuming deployment on FreeBSD with uWSGI, take care to:
 - `pkg install a24_mod_proxy_uwsgi`
 - Add the `uwsgi` user to the `www` group, or graceful restarts won't work due to permission
   problems. uWSGI tries to change ownership of `/tmp/uwsgi.sock` to `uwsgi:www`, and not being in
-  the `www` group this would fails.
+  the `www` group this would fail.
 - Use the following file in `/usr/local/etc/uwsgi/uwsgi.ini`:
 
       [uwsgi]
