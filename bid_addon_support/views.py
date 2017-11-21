@@ -24,6 +24,12 @@ AccessToken = oa2_models.get_access_token_model()
 RefreshToken = oa2_models.get_refresh_token_model()
 Application = oa2_models.get_application_model()
 
+# Oops, I (Sybren) made a mistake in the Blender ID add-on and used the
+# wrong datetime format string to parse the new format. Can't easily
+# change the add-on as it's bundled with Blender, so for now let's use
+# the expected format for the expiry date here.
+EXPIRY_DATE_FMT = '%Y-%m-%dT%H:%M:%S.%fZ'
+
 
 def index(request):
     return HttpResponse('This is an API end-point for the Blender ID add-on.')
@@ -95,6 +101,11 @@ class SpecialSnowflakeMixin:
 
         return token
 
+    def fmt_expires(self, expiry: datetime.datetime) -> str:
+        """Formats the expiry datetime of an access token."""
+
+        return expiry.strftime(EXPIRY_DATE_FMT)
+
 
 class VerifyIdentityView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
     log = logging.getLogger('%s.VerifyIdentityView' % __name__)
@@ -135,7 +146,7 @@ class VerifyIdentityView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
                 'oauth_token': {
                     'access_token': token.token,
                     'refresh_token': refresh_token.token,
-                    'expires': token.expires,
+                    'expires': self.fmt_expires(token.expires),
                 },
             },
         })
@@ -199,7 +210,7 @@ class ValidateTokenView(SpecialSnowflakeMixin, CsrfExemptMixin, View):
                              'user': {'id': user.id,
                                       'email': user.email,
                                       'full_name': user.get_full_name().strip()},
-                             'token_expires': token.expires,
+                             'token_expires': self.fmt_expires(token.expires),
                              })
 
 
@@ -221,6 +232,6 @@ class SubclientCreateToken(SpecialSnowflakeMixin, CsrfExemptMixin, LoginRequired
             'status': 'success',
             'data': {
                 'token': scst.token,
-                'expires': scst.expires,
+                'expires': self.fmt_expires(scst.expires),
             }
         }, status=201)
