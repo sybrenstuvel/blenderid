@@ -40,7 +40,12 @@ style.
 		tbody
 			| {% for app in apps %}
 			tr
-				td.appname {{ app }}
+				td.appname
+					| {% if app.url %}
+					a(href='{{ app.url }}') {{ app }}
+					| {% else %}
+					| {{ app }}
+					| {% endif %}
 				td.revoke
 					a.text-danger.revoke(title='Remove tokens',href='javascript:revoke({{ app.id }})')
 						i.fa.fa-times
