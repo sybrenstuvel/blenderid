@@ -94,7 +94,7 @@ The following tables are explicitly *not* migrated:
 
 Assuming deployment on FreeBSD with uWSGI, take care to:
 
-- Install `python36`.
+- Install `python36`, `apache24`, `a24_mod_proxy_uwsgi`, and `mysql56-server`.
 - Add the following to `/etc/make.conf`. Remove the `.if` and `.endif` lines if you're fine having
   Python 3.6 as a global default.
 
@@ -103,7 +103,6 @@ Assuming deployment on FreeBSD with uWSGI, take care to:
       .endif
 
 - Build and install the `www/uwsgi` port and run `make clean`.
-- `pkg install a24_mod_proxy_uwsgi`
 - Add the `uwsgi` user to the `www` group, or graceful restarts won't work due to permission
   problems. uWSGI tries to change ownership of `/tmp/uwsgi.sock` to `uwsgi:www`, and not being in
   the `www` group this would fail.
@@ -133,3 +132,9 @@ Assuming deployment on FreeBSD with uWSGI, take care to:
       ProxyPass /id/static/ "!"
       ProxyPass /id unix:/tmp/uwsgi.sock|uwsgi://blender-id/
       ProxyPassReverse /id "www.blender.org/id/"
+
+- Enable the required services in `/etc/rc.conf`:
+
+      mysql_enable="YES"
+      uwsgi_enable="YES"
+      apache24_enable="YES"
