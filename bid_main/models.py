@@ -189,7 +189,7 @@ class Role(models.Model):
 
 class OAuth2AccessToken(oa2_models.AbstractAccessToken):
     class Meta:
-        verbose_name = 'access token'
+        verbose_name = 'OAuth2 access token'
 
     host_label = models.CharField(max_length=255, unique=False, blank=True)
     subclient = models.CharField(max_length=255, unique=False, blank=True)
@@ -197,11 +197,11 @@ class OAuth2AccessToken(oa2_models.AbstractAccessToken):
 
 class OAuth2RefreshToken(oa2_models.AbstractRefreshToken):
     class Meta:
-        verbose_name = 'refresh token'
+        verbose_name = 'OAuth2 refresh token'
 
 
 class OAuth2Application(oa2_models.AbstractApplication):
     class Meta:
-        verbose_name = 'application'
+        verbose_name = 'OAuth2 application'
 
     url = models.URLField(unique=False, blank=True)
