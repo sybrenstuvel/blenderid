@@ -12,6 +12,8 @@ The following tables are explicitly *not* migrated:
     - mail_queue_recurring
     - users_collections
 
+The migrate_olddb command is idempotent, i.e. it can be run multiple times
+and it will gracefully skip already-migrated data.
 """
 
 from collections import namedtuple
@@ -65,6 +67,7 @@ class Command(BaseCommand):
         self.migrate_user_roles()
         self.migrate_user_settings()
         self.migrate_oauth_clients()
+        self.migrate_oauth_tokens()
 
     @transaction.atomic()
     def migrate_roles(self):
@@ -237,3 +240,96 @@ class Command(BaseCommand):
             migrated += 1
 
         self.stdout.write(self.style.SUCCESS('Migrated %d OAuth2 applications' % migrated))
+
+    @transaction.atomic()
+    def migrate_oauth_tokens(self):
+        from oauth2_provider import models as oa2_models
+        from django.contrib.auth import get_user_model
+
+        app_model = oa2_models.get_application_model()
+        at_model = oa2_models.get_access_token_model()
+        rt_model = oa2_models.get_refresh_token_model()
+        user_model = get_user_model()
+
+        # Old database:
+        # +---------------+--------------+------+-----+---------+----------------+
+        # | Field         | Type         | Null | Key | Default | Extra          |
+        # +---------------+--------------+------+-----+---------+----------------+
+        # | id            | int(11)      | NO   | PRI | NULL    | auto_increment |
+        # | client_id     | varchar(40)  | NO   | MUL | NULL    |                |
+        # | user_id       | int(11)      | NO   | MUL | NULL    |                |
+        # | token_type    | varchar(40)  | YES  |     | NULL    |                |
+        # | access_token  | varchar(255) | YES  | UNI | NULL    |                |
+        # | refresh_token | varchar(255) | YES  | UNI | NULL    |                |
+        # | expires       | datetime     | YES  |     | NULL    |                |
+        # | _scopes       | text         | YES  |     | NULL    |                |
+        # | host_label    | varchar(255) | YES  |     | NULL    |                |
+        # | subclient     | varchar(40)  | YES  |     | NULL    |                |
+        # +---------------+--------------+------+-----+---------+----------------+
+
+        migrated = 0
+
+        # Get an in-memory maping from client ID to application.
+        apps = {app.client_id: app for app in app_model.objects.all()}
+
+        # Some optimisation to only fetch a user when it's different than the previous one.
+        last_user = None
+        skip_user_id = None
+
+        # noinspection PyProtectedMember
+        sql = (f"SELECT client_id, user_id, access_token, refresh_token, expires, "
+               f"_scopes as scopes, host_label, subclient "
+               f"FROM token "
+               f"WHERE "
+               f" expires > now() "
+               f" and access_token  not in (select token from {at_model._meta.db_table}) "
+               f" and refresh_token not in (select token from {rt_model._meta.db_table}) "
+               f"ORDER BY user_id")
+
+        for result in query(sql):
+
+            # Some optimisation to only fetch a user when it's different than the previous one.
+            if skip_user_id is not None:
+                if result.user_id == skip_user_id:
+                    continue
+                # We've skipped that user, time to forget about it.
+                skip_user_id = None
+
+            if last_user is None or last_user.id != result.user_id:
+                try:
+                    user = user_model.objects.get(id=result.user_id)
+                except user_model.DoesNotExist:
+                    self.stdout.write(self.style.WARNING(
+                        f'User {result.user_id} does not exist, skipping tokens'))
+                    skip_user_id = result.user_id
+                    continue
+
+                last_user = user
+            else:
+                user = last_user
+
+            app = apps[result.client_id]
+
+            at = at_model(
+                user=user,
+                token=result.access_token,
+                application=app,
+                expires=localise_datetime(result.expires),
+                scope=result.scopes or '',
+                host_label=result.host_label or '',
+                subclient=result.subclient or '',
+            )
+            at.save()
+
+            if result.refresh_token:
+                rt = rt_model(
+                    user=user,
+                    token=result.refresh_token,
+                    application=app,
+                    access_token=at,
+                )
+                rt.save()
+
+            migrated += 1
+
+        self.stdout.write(self.style.SUCCESS('Migrated %d OAuth2 tokens' % migrated))
