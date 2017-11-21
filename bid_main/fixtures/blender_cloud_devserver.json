@@ -1,6 +1,6 @@
 [
 {
-    "model": "oauth2_provider.application",
+    "model": "bid_main.oauth2application",
     "pk": 3,
     "fields": {
         "client_id": "CLOUD-OF-SNOWFLAKES-42",

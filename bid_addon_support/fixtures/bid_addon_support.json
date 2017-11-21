@@ -28,7 +28,7 @@
             "updated": "2017-06-13T16:23:16.543Z",
             "user": 2
         },
-        "model": "oauth2_provider.application",
+        "model": "bid_main.oauth2application",
         "pk": 1
     }
 ]
