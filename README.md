@@ -95,9 +95,13 @@ The following tables are explicitly *not* migrated:
 Assuming deployment on FreeBSD with uWSGI, take care to:
 
 - Install `python36`.
-- Update `/usr/ports/www/uwsgi/Makefile` and set `USES=pkgconfig python:3.6 ssl` (add the `:3.6`),
-  then run `make install clean`.
-- Install `a24_mod_proxy_uwsgi`
+- Add the following to `/etc/make.conf`. Remove the `.if` and `.endif` lines if you're fine having
+  Python 3.6 as a global default.
+      .if ${.CURDIR:M*/www/uwsgi*}
+      DEFAULT_VERSIONS=python=3.6 python3=3.6
+      .endif
+- Build and install the `www/uwsgi` port and run `make clean`.
+- `pkg install a24_mod_proxy_uwsgi`
 - Add the `uwsgi` user to the `www` group, or graceful restarts won't work due to permission
   problems. uWSGI tries to change ownership of `/tmp/uwsgi.sock` to `uwsgi:www`, and not being in
   the `www` group this would fails.
@@ -110,11 +114,9 @@ Assuming deployment on FreeBSD with uWSGI, take care to:
       chdir = /data/www/vhosts/www.blender.org/blender-id/
       wsgi-file = /data/www/vhosts/www.blender.org/blender-id/blenderid/wsgi.py
       touch-reload = /data/www/vhosts/www.blender.org/blender-id/blenderid/wsgi.py
-
 - Enable the following Apache modules:
       LoadModule proxy_module libexec/apache24/mod_proxy.so
       LoadModule proxy_uwsgi_module libexec/apache24/mod_proxy_uwsgi.so
-
 - Use the following configuration for Apache, I placed it in `Includes/uwsgi.conf`:
       Alias /id/static/ /data/www/vhosts/www.blender.org/blender-id/static/
       <Directory /data/www/vhosts/www.blender.org/blender-id/static/>
