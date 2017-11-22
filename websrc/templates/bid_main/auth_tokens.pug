@@ -42,7 +42,7 @@ style.
 			tr
 				td.appname
 					| {% if app.url %}
-					a(href='{{ app.url }}') {{ app }}
+					a(href='{{ app.url }}',target='_blank') {{ app }}
 					| {% else %}
 					| {{ app }}
 					| {% endif %}
