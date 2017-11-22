@@ -9,6 +9,7 @@ from blenderid.common_settings import *
 
 DEBUG = True
 BLENDER_ID_ADDON_CLIENT_ID = 'SPECIAL-SNOWFLAKE-57'
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
 
 # Update this to something unique for your machine.
 # This was generated using "pwgen -sync 64"
