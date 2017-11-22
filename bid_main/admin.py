@@ -88,7 +88,17 @@ make_badge.short_description = 'Mark selected roles as badges'
 
 def make_not_badge(modeladmin, request, queryset):
     queryset.update(is_badge=False)
-make_not_badge.short_description = 'Mark selected roles as NOT badges'
+make_not_badge.short_description = 'Un-mark selected roles as badges'
+
+
+def make_active(modeladmin, request, queryset):
+    queryset.update(is_active=True)
+make_active.short_description = 'Mark selected roles as active'
+
+
+def make_inactive(modeladmin, request, queryset):
+    queryset.update(is_active=False)
+make_inactive.short_description = 'Mark selected roles as inactive'
 
 
 @admin.register(models.Role)
@@ -99,4 +109,4 @@ class RoleAdmin(admin.ModelAdmin):
     list_filter = ('is_badge', 'is_active')
     search_fields = ('name', 'description')
 
-    actions = [make_badge, make_not_badge]
+    actions = [make_badge, make_not_badge, make_active, make_inactive]
