@@ -143,3 +143,14 @@ Assuming deployment on FreeBSD with uWSGI, take care to:
       # -- troubled/sybren @ Nov 21 2017 hangout chat
       #uwsgi_configfile="/usr/local/etc/uwsgi/uwsgi.ini"
       uwsgi_flags="-L --ini /usr/local/etc/uwsgi/uwsgi.conf"
+
+
+## Troubleshooting
+
+### "Site matching query does not exist."
+
+Do this:
+
+    ./manage.py loaddata default_site
+    
+Then access your site at http://blender-id:8000/. Add an entry to your hosts file if necessary.
