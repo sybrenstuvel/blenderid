@@ -180,3 +180,5 @@ NEXT_REDIR_AFTER_LOGIN_ALLOWED_HOSTS = {
     'cloud.blender.org', 'blender.cloud',
     'blender.community',
 }
+
+CSRF_FAILURE_VIEW = 'bid_main.views.csrf_failure'

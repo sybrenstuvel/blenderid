@@ -198,3 +198,11 @@ class ApplicationTokenView(PageIdMixin, LoginRequiredMixin, FormView):
         gr_model.objects.filter(user=user, application=app_id).delete()
 
         return super().form_valid(form)
+
+
+def csrf_failure(request, reason=""):
+    import django.views.csrf
+
+    return django.views.csrf.csrf_failure(request,
+                                          reason=reason,
+                                          template_name='errors/403_csrf.html')

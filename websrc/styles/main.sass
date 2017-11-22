@@ -3,6 +3,8 @@
 
 @import ../../webstatic/assets_shared/styles/main.sass
 
+$color-danger-dark: hsl(hue($color-danger), 80%, 40%) !default
+
 header.navbar
 	i
 		padding-right: 10px
@@ -343,6 +345,13 @@ header.navbar
 
 .errornote
 	color: $color-danger
+
+.box.error-page
+	text-align: left
+
+.box.error-page h1
+	color: $color-danger-dark
+	text-align: center
 
 .nav>li
 	white-space: nowrap
