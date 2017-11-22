@@ -178,7 +178,7 @@ class ApplicationTokenView(PageIdMixin, LoginRequiredMixin, FormView):
                               .order_by())
         app_ids = {tpa['application'] for tpa in tokens_per_app}
         app_model = oauth2_models.get_application_model()
-        apps = app_model.objects.filter(id__in=app_ids)
+        apps = app_model.objects.filter(id__in=app_ids).order_by('name')
 
         ctx['apps'] = apps
 
