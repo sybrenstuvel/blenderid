@@ -37,7 +37,7 @@ class SetInitialPasswordForm(BootstrapModelFormMixin, auth_forms.SetPasswordForm
 
     def save(self, commit=True):
         self.user.confirmed_email_at = timezone.now()
-        log.info('Confirmed email of %s throuhg initial password form.', self.user.email)
+        log.info('Confirmed email of %s through initial password form.', self.user.email)
 
         return super().save(commit=commit)
 
