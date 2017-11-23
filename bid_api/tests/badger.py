@@ -130,7 +130,6 @@ class BadgerApiGrantTest(BadgerBaseTest):
 
     def test_unknown_target_user(self):
         response = self.post('bid_api:badger_grant', 'badge1', 'unknown@address')
-
         self.assertEqual(response.status_code, 422)
 
 
