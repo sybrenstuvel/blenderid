@@ -18,9 +18,9 @@ and it will gracefully skip already-migrated data.
 
 from collections import namedtuple
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.db import connection, transaction
-from django.contrib.auth import get_user_model, models as auth_models
+from django.contrib.auth import get_user_model
 import pytz
 
 from bid_main import models
