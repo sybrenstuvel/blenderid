@@ -34,10 +34,19 @@ class UserAdmin(BaseUserAdmin):
 
     fieldsets = (
         (None, {'fields': ('email', 'password', 'full_name', 'roles')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                       'groups', 'user_permissions')}),
-        (_('Important dates'), {'fields': ('date_joined', 'last_update', 'confirmed_email_at')}),
-        (_('Login info'), {'fields': ('last_login', 'last_login_ip', 'current_login_ip', 'login_count')}),
+        (_('Permissions'), {
+            'fields': ('is_active', 'is_staff', 'is_superuser',
+                       'groups', 'user_permissions'),
+            'classes': ('collapse',),
+        }),
+        (_('Important dates'), {
+            'fields': ('date_joined', 'last_update', 'confirmed_email_at'),
+            'classes': ('collapse',),
+        }),
+        (_('Login info'), {
+            'fields': ('last_login', 'last_login_ip', 'current_login_ip', 'login_count'),
+            'classes': ('collapse',),
+        }),
     )
     add_fieldsets = (
         (None, {
