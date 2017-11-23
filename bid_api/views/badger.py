@@ -67,7 +67,7 @@ class BadgerView(View):
                 log.debug('User %s already has role %r', email, badge)
                 return JsonResponse({'result': 'no-op'})
             target_user.roles.add(role)
-            change_message = f'granted role {badge}'
+            change_message = f'Granted role {badge}.'
         elif action == 'revoke':
             log.info('User %s revokes role %r from user %s.', user, badge, email)
             action_flag = DELETION
@@ -75,7 +75,7 @@ class BadgerView(View):
                 log.debug('User %s already does not have role %r', email, badge)
                 return JsonResponse({'result': 'no-op'})
             target_user.roles.remove(role)
-            change_message = f'revoked role {badge}'
+            change_message = f'Revoked role {badge}.'
         else:
             log.warning('unknown action %r', action)
             return HttpResponseUnprocessableEntity('unknown action')
