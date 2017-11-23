@@ -31,14 +31,9 @@ After cloning the Git repo, perform these steps to create a working dev server:
 
 ## TODO
 
-1. Test against the Blender-ID Addon.
-2. Test against Blender Cloud.
-3. Port templates & assets from existing Blender ID.
-4. Test against other websites using Blender ID
-5. Check out the [default management
+1. Check out the [default management
    endpoints](https://django-oauth-toolkit.readthedocs.io/en/latest/tutorial/tutorial_02.html#make-your-api)
    of the Django OAuth Toolkit.
-5. Deploy!
 
 
 ## Blender ID add-on support
