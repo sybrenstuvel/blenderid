@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from django.http import HttpResponse
+from django.contrib.admin.models import LogEntry
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -118,6 +119,16 @@ class BadgerApiGrantTest(BadgerBaseTest):
         self.target_user.refresh_from_db()
         self.assertEqual(list(self.target_user.roles.all()), [self.role_badge1])
 
+        # There should be a log entry describing this change
+        entries = list(LogEntry.objects.filter(object_id=self.target_user.id))
+        self.assertEqual(1, len(entries))
+
+        # After granting another time, there should still be only one log message.
+        response = self.post('bid_api:badger_grant', 'badge1', self.target_user.email)
+        self.assertEqual(response.status_code, 200, f'response: {response}')
+        entries = list(LogEntry.objects.filter(object_id=self.target_user.id))
+        self.assertEqual(1, len(entries))
+
     def test_grant_multiple_roles(self):
         response = self.post('bid_api:badger_grant', 'badge1', self.target_user.email)
         self.assertEqual(response.status_code, 200)
@@ -130,6 +141,10 @@ class BadgerApiGrantTest(BadgerBaseTest):
 
         self.target_user.refresh_from_db()
         self.assertEqual(list(self.target_user.roles.all()), [self.role_badge1, self.role_badge2])
+
+        # There should be a log entry describing each change
+        entries = list(LogEntry.objects.filter(object_id=self.target_user.id))
+        self.assertEqual(3, len(entries))
 
     def test_unknown_target_user(self):
         response = self.post('bid_api:badger_grant', 'badge1', 'unknown@address')
@@ -190,6 +205,16 @@ class BadgerApiRevokeTest(BadgerBaseTest):
         self.assertEqual(set(self.target_user.roles.all()),
                          {self.role_notallowed, self.role_notabadge, self.role_inactivebadge})
 
+        # There should be a log entry describing this change
+        entries = list(LogEntry.objects.filter(object_id=self.target_user.id))
+        self.assertEqual(1, len(entries))
+
+        # After revoking another time, there should still be only one log message.
+        response = self.post('bid_api:badger_revoke', 'badge1', self.target_user.email)
+        self.assertEqual(response.status_code, 200, f'response: {response}')
+        entries = list(LogEntry.objects.filter(object_id=self.target_user.id))
+        self.assertEqual(1, len(entries))
+
     def test_revoke_multiple_roles(self):
         response = self.post('bid_api:badger_revoke', 'badge1', self.target_user.email)
         self.assertEqual(response.status_code, 200)
@@ -203,6 +228,10 @@ class BadgerApiRevokeTest(BadgerBaseTest):
         self.target_user.refresh_from_db()
         self.assertEqual(set(self.target_user.roles.all()),
                          {self.role_notallowed, self.role_notabadge, self.role_inactivebadge})
+
+        # There should be a log entry describing each change, but not the no-ops
+        entries = list(LogEntry.objects.filter(object_id=self.target_user.id))
+        self.assertEqual(1, len(entries))
 
     def test_unknown_target_user(self):
         response = self.post('bid_api:badger_revoke', 'badge1', 'unknown@address')

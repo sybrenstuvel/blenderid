@@ -5,7 +5,9 @@ Badger service functionality.
 import logging
 
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
+from django.contrib.admin.models import LogEntry, ADDITION, DELETION
 from django.contrib.auth import get_user_model
+from django.contrib.contenttypes.models import ContentType
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
@@ -60,13 +62,31 @@ class BadgerView(View):
         # Grant/revoke the role to/from the target user.
         if action == 'grant':
             log.info('User %s grants badge %r to user %s.', user, badge, email)
+            action_flag = ADDITION
+            if role in target_user.roles.all():
+                log.debug('User %s already has badge %r', email, badge)
+                return JsonResponse({'result': 'no-op'})
             target_user.roles.add(role)
+            change_message = f'granted badge {badge}'
         elif action == 'revoke':
             log.info('User %s revokes badge %r from user %s.', user, badge, email)
+            action_flag = DELETION
+            if role not in target_user.roles.all():
+                log.debug('User %s already does not have badge %r', email, badge)
+                return JsonResponse({'result': 'no-op'})
             target_user.roles.remove(role)
+            change_message = f'revoked badge {badge}'
         else:
             log.warning('unknown action %r', action)
             return HttpResponseUnprocessableEntity('unknown action')
         target_user.save()
+
+        LogEntry.objects.log_action(
+            user_id=user.id,
+            content_type_id=ContentType.objects.get_for_model(UserModel).pk,
+            object_id=target_user.id,
+            object_repr=str(target_user),
+            action_flag=action_flag,
+            change_message=change_message)
 
         return JsonResponse({'result': 'ok'})
