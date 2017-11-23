@@ -29,6 +29,20 @@ After cloning the Git repo, perform these steps to create a working dev server:
    management command regularly.
 5. Load any fixtures you want to use.
 
+## Setting up the Blender Store (and other `bid_api` users)
+
+To allow the Blender Store to call our API endpoints, do the following:
+
+- Add an OAuth2 application for the API, name it "Blender ID API". You can choose any name, but
+  it's nice if we all use the same so we can recognise it.
+- Make sure that the `cloud_demo` and `cloud_subscriber` roles exist, and that they are badges.
+  Add a role `cloud_badger` and allow it to manage the above roles.
+- Add a user for the Blender Store, for example using "yourname+store@yourdomain.com" as email
+  address. Give it the `cloud_badger` role.
+- Add an OAuth2 token to the Blender Store user for the Blender ID API application. Make sure it
+  doesn't expire any time soon (e.g. somewhere in the year 2999). Give it the scopes
+  `badger` and `usercreate`.
+- Configure the Blender Store to use this token to authenticate its API calls.
 
 
 ## TODO
@@ -149,5 +163,5 @@ Assuming deployment on FreeBSD with uWSGI, take care to:
 Do this:
 
     ./manage.py loaddata default_site
-    
+
 Then access your site at http://blender-id:8000/. Add an entry to your hosts file if necessary.
