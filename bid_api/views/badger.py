@@ -61,21 +61,21 @@ class BadgerView(View):
 
         # Grant/revoke the role to/from the target user.
         if action == 'grant':
-            log.info('User %s grants badge %r to user %s.', user, badge, email)
+            log.info('User %s grants role %r to user %s.', user, badge, email)
             action_flag = ADDITION
             if role in target_user.roles.all():
-                log.debug('User %s already has badge %r', email, badge)
+                log.debug('User %s already has role %r', email, badge)
                 return JsonResponse({'result': 'no-op'})
             target_user.roles.add(role)
-            change_message = f'granted badge {badge}'
+            change_message = f'granted role {badge}'
         elif action == 'revoke':
-            log.info('User %s revokes badge %r from user %s.', user, badge, email)
+            log.info('User %s revokes role %r from user %s.', user, badge, email)
             action_flag = DELETION
             if role not in target_user.roles.all():
-                log.debug('User %s already does not have badge %r', email, badge)
+                log.debug('User %s already does not have role %r', email, badge)
                 return JsonResponse({'result': 'no-op'})
             target_user.roles.remove(role)
-            change_message = f'revoked badge {badge}'
+            change_message = f'revoked role {badge}'
         else:
             log.warning('unknown action %r', action)
             return HttpResponseUnprocessableEntity('unknown action')
