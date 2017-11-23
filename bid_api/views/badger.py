@@ -21,7 +21,7 @@ UserModel = get_user_model()
 class BadgerView(View):
     action = 'grant'
 
-    @method_decorator(protected_resource())
+    @method_decorator(protected_resource(scopes=['badger']))
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)

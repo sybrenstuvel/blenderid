@@ -27,7 +27,7 @@ class BaseTest(TestCase):
         )
         cls.access_token = AccessToken.objects.create(
             user=cls.user,
-            scope='read write',
+            scope='badger',
             expires=timezone.now() + timedelta(seconds=300),
             token='secret-access-token-key',
             application=cls.application
@@ -51,8 +51,11 @@ class BaseTest(TestCase):
         except AttributeError:
             pass
 
-    def authed(self, method: str, path: str = '/does-not-matter', **kwargs) -> HttpResponse:
-        kwargs['HTTP_AUTHORIZATION'] = f'Bearer {self.access_token.token}'
+    def authed(self, method: str, path: str = '/does-not-matter', *, access_token='',
+               **kwargs) -> HttpResponse:
+        if not access_token:
+            access_token = self.access_token.token
+        kwargs['HTTP_AUTHORIZATION'] = f'Bearer {access_token}'
         return self.client.generic(method, path, **kwargs)
 
 
@@ -76,9 +79,9 @@ class BadgerBaseTest(BaseTest):
                                             cls.role_inactivebadge]
         cls.role_badger.save()
 
-    def post(self, view_name: str, badge: str, email: str) -> HttpResponse:
+    def post(self, view_name: str, badge: str, email: str, *, access_token='') -> HttpResponse:
         url_path = reverse(view_name, kwargs={'badge': badge, 'email': email})
-        response = self.authed('POST', url_path)
+        response = self.authed('POST', url_path, access_token=access_token)
         return response
 
 
@@ -131,6 +134,21 @@ class BadgerApiGrantTest(BadgerBaseTest):
     def test_unknown_target_user(self):
         response = self.post('bid_api:badger_grant', 'badge1', 'unknown@address')
         self.assertEqual(response.status_code, 422)
+
+    def test_wrong_token_scope(self):
+        wrong_token = AccessToken.objects.create(
+            user=self.user,
+            scope='email',
+            expires=timezone.now() + timedelta(seconds=300),
+            token='token-with-wrong-scope',
+            application=self.application
+        )
+        wrong_token.save()
+        response = self.post('bid_api:badger_grant', 'badge1', self.target_user.email,
+                             access_token=wrong_token.token)
+        self.assertEqual(response.status_code, 403)
+        self.target_user.refresh_from_db()
+        self.assertEqual(list(self.target_user.roles.all()), [])
 
 
 class BadgerApiRevokeTest(BadgerBaseTest):
