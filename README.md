@@ -27,6 +27,8 @@ After cloning the Git repo, perform these steps to create a working dev server:
 4. In production, set up a cron job that calls the
    [cleartokens](https://django-oauth-toolkit.readthedocs.io/en/latest/management_commands.html#cleartokens)
    management command regularly.
+5. Load any fixtures you want to use.
+
 
 
 ## TODO
