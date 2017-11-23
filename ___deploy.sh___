@@ -49,5 +49,5 @@ sed -i~ 's/^DEBUG = .*/DEBUG = False/' blenderid/settings.py
 
 pip3 install -U -r requirements.txt
 python3 manage.py migrate
-sudo service uwsgi restart
+sudo service uwsgi reload
 EOT
