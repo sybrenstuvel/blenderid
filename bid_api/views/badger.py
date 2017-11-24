@@ -39,24 +39,28 @@ class BadgerView(View):
                 may_manage[manage_role.name] = manage_role
 
         if badge not in may_manage:
-            log.warning('User %s tried to %s badge %r to user %s, is not allowed to grant that badge.',
-                        user, action, badge, email)
+            log.warning(
+                'User %s tried to %s badge %r to user %s, is not allowed to grant that badge.',
+                user, action, badge, email)
             return HttpResponseForbidden()
 
         # Try to find the target user.
         try:
             target_user: bid_main_models.User = UserModel.objects.get(email=email)
         except UserModel.DoesNotExist:
-            log.warning('User %s tried to %s badge %r to nonexistant user %s.', user, action, badge, email)
+            log.warning('User %s tried to %s badge %r to nonexistant user %s.',
+                        user, action, badge, email)
             return HttpResponseUnprocessableEntity()
 
         # Check the role for being an active badge.
         role = may_manage[badge]
         if not role.is_badge:
-            log.warning('User %s tried to %s non-badge role %r to user %s.', user, action, badge, email)
+            log.warning('User %s tried to %s non-badge role %r to user %s.',
+                        user, action, badge, email)
             return HttpResponseForbidden()
         if not role.is_active:
-            log.warning('User %s tried to %s non-active badge %r to user %s.', user, action, badge, email)
+            log.warning('User %s tried to %s non-active badge %r to user %s.',
+                        user, action, badge, email)
             return HttpResponseForbidden()
 
         # Grant/revoke the role to/from the target user.
