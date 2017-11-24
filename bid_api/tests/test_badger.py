@@ -10,6 +10,8 @@ from .abstract import AbstractAPITest, AccessToken, UserModel
 
 
 class BadgerBaseTest(AbstractAPITest):
+    access_token_scope = 'badger'
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -31,7 +33,7 @@ class BadgerBaseTest(AbstractAPITest):
 
     def post(self, view_name: str, badge: str, email: str, *, access_token='') -> HttpResponse:
         url_path = reverse(view_name, kwargs={'badge': badge, 'email': email})
-        response = self.authed('POST', url_path, access_token=access_token)
+        response = self.authed_post(url_path, access_token=access_token)
         return response
 
 

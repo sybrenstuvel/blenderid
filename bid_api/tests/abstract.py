@@ -7,13 +7,14 @@ from django.utils import timezone
 
 import oauth2_provider.models as oa2_models
 
-
 Application = oa2_models.get_application_model()
 AccessToken = oa2_models.get_access_token_model()
 UserModel = get_user_model()
 
 
 class AbstractAPITest(TestCase):
+    access_token_scope = ''
+
     @classmethod
     def setUpClass(cls):
         cls.user = UserModel.objects.create_user('test@user.com', '123456')
@@ -25,7 +26,7 @@ class AbstractAPITest(TestCase):
         )
         cls.access_token = AccessToken.objects.create(
             user=cls.user,
-            scope='badger',
+            scope=cls.access_token_scope,
             expires=timezone.now() + timedelta(seconds=300),
             token='secret-access-token-key',
             application=cls.application
@@ -49,9 +50,8 @@ class AbstractAPITest(TestCase):
         except AttributeError:
             pass
 
-    def authed(self, method: str, path: str, *, access_token='',
-               **kwargs) -> HttpResponse:
+    def authed_post(self, path: str, *, access_token='', **kwargs) -> HttpResponse:
         if not access_token:
             access_token = self.access_token.token
         kwargs['HTTP_AUTHORIZATION'] = f'Bearer {access_token}'
-        return self.client.generic(method, path, **kwargs)
+        return self.client.post(path, **kwargs)
