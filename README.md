@@ -27,7 +27,14 @@ After cloning the Git repo, perform these steps to create a working dev server:
 4. In production, set up a cron job that calls the
    [cleartokens](https://django-oauth-toolkit.readthedocs.io/en/latest/management_commands.html#cleartokens)
    management command regularly.
-5. Load any fixtures you want to use.
+5. Create super user ./manage.py createsuperuser
+6. Load any fixtures you want to use.
+   - list fixtures  `ls */fixtures/*`
+   - `./manage.py loaddata blender_cloud_devserver`
+   - `./manage.py loaddata default_site`
+7. Run ./gulp  to compile javascript
+8. Add to /etc/hosts  127.0.0.1 blender-id
+9. ./manage.py runserver
 
 ## Setting up the Blender Store (and other `bid_api` users)
 
