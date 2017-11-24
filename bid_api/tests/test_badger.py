@@ -144,7 +144,7 @@ class BadgerApiGrantTest(BadgerBaseTest):
 
         # There should be a log entry describing each change
         entries = list(LogEntry.objects.filter(object_id=self.target_user.id))
-        self.assertEqual(3, len(entries))
+        self.assertEqual(2, len(entries))
 
     def test_unknown_target_user(self):
         response = self.post('bid_api:badger_grant', 'badge1', 'unknown@address')
