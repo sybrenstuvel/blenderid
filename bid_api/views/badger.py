@@ -9,25 +9,20 @@ from django.contrib.admin.models import LogEntry, ADDITION, DELETION
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.utils.decorators import method_decorator
-from django.views import View
-from django.views.decorators.csrf import csrf_exempt
 from oauth2_provider.decorators import protected_resource
 
 from bid_main import models as bid_main_models
 from ..http import HttpResponseUnprocessableEntity
+from .abstract import AbstractAPIView
 
 log = logging.getLogger(__name__)
 UserModel = get_user_model()
 
 
-class BadgerView(View):
+class BadgerView(AbstractAPIView):
     action = 'grant'
 
     @method_decorator(protected_resource(scopes=['badger']))
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
-
     def post(self, request, badge: str, email: str) -> HttpResponse:
         user = request.user
         action = self.action
