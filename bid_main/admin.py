@@ -62,7 +62,7 @@ class UserAdmin(BaseUserAdmin):
                    'confirmed_email_at', 'is_staff', 'is_superuser')
     list_per_page = 12
     search_fields = ('email', 'full_name')
-    ordering = ('email', )
+    ordering = ('-last_update', )
 
     actions = [make_staff, unmake_staff]
 
