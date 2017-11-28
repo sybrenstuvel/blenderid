@@ -30,7 +30,7 @@ unmake_staff.short_description = 'Make selected users non-staff'
 class UserAdmin(BaseUserAdmin):
     change_form_template = 'loginas/change_form.html'
 
-    inlines = (UserSettingInline, )
+    inlines = (UserSettingInline,)
 
     fieldsets = (
         (None, {'fields': ('email', 'password', 'full_name', 'roles')}),
@@ -62,7 +62,7 @@ class UserAdmin(BaseUserAdmin):
                    'confirmed_email_at', 'is_staff', 'is_superuser')
     list_per_page = 12
     search_fields = ('email', 'full_name')
-    ordering = ('-last_update', )
+    ordering = ('-last_update',)
 
     actions = [make_staff, unmake_staff]
 
