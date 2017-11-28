@@ -119,3 +119,19 @@ class RoleAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description')
 
     actions = [make_badge, make_not_badge, make_active, make_inactive]
+
+
+# Erase the oauth_provider admin classes so that we can register our own.
+# Butt ugly but it seems to work.
+try:
+    admin.site.unregister(models.OAuth2AccessToken)
+except admin.site.NotRegistered:
+    pass
+
+
+@admin.register(models.OAuth2AccessToken)
+class AccessTokenAdmin(admin.ModelAdmin):
+    list_display = ('token', 'user', 'application', 'scope', 'expires')
+    list_filter = ('application', 'scope')
+    raw_id_fields = ('user',)
+    search_fields = ('scope',)
