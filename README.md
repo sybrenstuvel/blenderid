@@ -50,7 +50,7 @@ To allow the Blender Store to call our API endpoints, do the following:
   `cloud_badger` role.
 - Add an OAuth2 token to the Blender Store user for the Blender ID API application. Make sure it
   doesn't expire any time soon (e.g. somewhere in the year 2999). Give it the scopes
-  `badger` and `usercreate`.
+  `badger`, `authenticate`, and `usercreate`.
 - Configure the Blender Store to use this token to authenticate its API calls.
 
 
