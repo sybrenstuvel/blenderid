@@ -25,6 +25,7 @@ SECRET_KEY = '-secret-'
 DEBUG = False
 
 ALLOWED_HOSTS = []
+SITE_ID = 1
 
 # Application definition
 
