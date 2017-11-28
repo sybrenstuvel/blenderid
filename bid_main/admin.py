@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import ugettext_lazy as _
 
 from . import models
+from .admin_decorators import short_description
 
 # Configure the admin site. Easier than creating our own AdminSite subclass.
 # Text to put at the end of each page's <title>.
@@ -16,14 +17,14 @@ class UserSettingInline(admin.TabularInline):
     extra = 0
 
 
+@short_description('Make selected users staff')
 def make_staff(modeladmin, request, queryset):
     queryset.update(is_staff=True)
-make_staff.short_description = 'Make selected users staff'
 
 
+@short_description('Make selected users non-staff')
 def unmake_staff(modeladmin, request, queryset):
     queryset.update(is_staff=False)
-unmake_staff.short_description = 'Make selected users non-staff'
 
 
 @admin.register(models.User)
@@ -90,24 +91,24 @@ class SettingAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description')
 
 
+@short_description('Mark selected roles as badges')
 def make_badge(modeladmin, request, queryset):
     queryset.update(is_badge=True)
-make_badge.short_description = 'Mark selected roles as badges'
 
 
+@short_description('Un-mark selected roles as badges')
 def make_not_badge(modeladmin, request, queryset):
     queryset.update(is_badge=False)
-make_not_badge.short_description = 'Un-mark selected roles as badges'
 
 
+@short_description('Mark selected roles as active')
 def make_active(modeladmin, request, queryset):
     queryset.update(is_active=True)
-make_active.short_description = 'Mark selected roles as active'
 
 
+@short_description('Mark selected roles as inactive')
 def make_inactive(modeladmin, request, queryset):
     queryset.update(is_active=False)
-make_inactive.short_description = 'Mark selected roles as inactive'
 
 
 @admin.register(models.Role)
