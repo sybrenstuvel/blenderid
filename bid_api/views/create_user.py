@@ -21,19 +21,6 @@ class CreateUserForm(ModelForm):
         model = UserModel
         fields = ['email', 'full_name', 'password']
 
-    def clean_password(self):
-        password = self.cleaned_data['password'].strip()
-
-        # Prefix with 'blenderid$' if not specified by the caller.
-        if not password.startswith('blenderid$'):
-            password = f'blenderid${password}'
-
-        # Replace BCrypt hash method to what Django expects.
-        if password.startswith('blenderid$$2a$') or password.startswith('blenderid$$2y$'):
-            password = f'blenderid$$2b${password[14:]}'
-
-        return password
-
 
 class CreateUserView(AbstractAPIView):
     """API endpoint for creating users.
@@ -52,7 +39,10 @@ class CreateUserView(AbstractAPIView):
             return HttpResponse(errors, content_type='application/json', status=400)
 
         self.log.info('Creating user %r on behalf of %s', request.POST['email'], request.user)
-        db_user = cuf.save()
+        db_user = UserModel.objects.create_user(
+            cuf.cleaned_data['email'],
+            cuf.cleaned_data['password'],
+            full_name=cuf.cleaned_data['full_name'])
 
         LogEntry.objects.log_action(
             user_id=request.user.id,

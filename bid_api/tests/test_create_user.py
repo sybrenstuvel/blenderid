@@ -1,7 +1,7 @@
 from datetime import timedelta
 import json
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from django.contrib.admin.models import LogEntry
 from django.core.urlresolvers import reverse
 from django.utils import timezone
@@ -17,19 +17,29 @@ class CreateUserTest(AbstractAPITest):
         response = self.authed_post(url_path, data=data, access_token=access_token)
         return response
 
+    def assert_can_auth(self, email, password, expected_user_id):
+        """Asserts that the given email/password combination is valid for the given user."""
+
+        from django.contrib.auth import authenticate
+        req = HttpRequest()
+        authed_user = authenticate(req, username=email, password=password)
+        self.assertIsNotNone(authed_user)
+        self.assertTrue(authed_user.is_authenticated)
+        self.assertEqual(authed_user.id, expected_user_id)
+
     def test_create_user_happy(self):
         test_email = 'test.complex+address-yay@user.nl'
         response = self.post({
             'email': test_email,
             'full_name': 'Ünicode Ǉepper',
-            'password': '$2a$some-hash-here',
+            'password': 'the-real-password',
         })
         self.assertEqual(201, response.status_code, f'response: {response}')
         self.assertEqual('application/json', response.get('content-type'))
 
         db_user: UserModel = UserModel.objects.get(email=test_email)
         self.assertEqual('Ünicode Ǉepper', db_user.full_name)
-        self.assertEqual('blenderid$$2b$some-hash-here', db_user.password)
+        self.assertNotEqual('blenderid$the-real-password', db_user.password)
         self.assertEqual(test_email, db_user.email)
 
         payload = json.loads(response.content)
@@ -39,22 +49,14 @@ class CreateUserTest(AbstractAPITest):
         entries = list(LogEntry.objects.filter(object_id=db_user.id))
         self.assertEqual(1, len(entries))
 
-    def test_create_user_blenderid_hash(self):
-        response = self.post({
-            'email': 'test@email.com',
-            'full_name': 'Ünicode Ǉepper',
-            'password': 'blenderid$$2a$some-hash-here',
-        })
-        self.assertEqual(201, response.status_code, f'response: {response}')
-
-        db_user: UserModel = UserModel.objects.get(email='test@email.com')
-        self.assertEqual('blenderid$$2b$some-hash-here', db_user.password)
+        # We should be able to authenticate with the password.
+        self.assert_can_auth(test_email, 'the-real-password', db_user.id)
 
     def test_create_user_exists(self):
         response = self.post({
             'email': 'test@user.nl',
             'full_name': 'Ünicode Ǉepper',
-            'password': '$2a$some-hash-here',
+            'password': 'the-real-password',
         })
         self.assertEqual(201, response.status_code, f'response: {response}')
 
@@ -73,13 +75,13 @@ class CreateUserTest(AbstractAPITest):
         # Existing user should not be modified.
         db_user: UserModel = UserModel.objects.get(email='test@user.nl')
         self.assertEqual('Ünicode Ǉepper', db_user.full_name)
-        self.assertEqual('blenderid$$2b$some-hash-here', db_user.password)
         self.assertEqual('test@user.nl', db_user.email)
+        self.assert_can_auth('test@user.nl', 'the-real-password', db_user.id)
 
     def test_missing_email(self):
         response = self.post({
             'full_name': 'Ünicode Ǉepper',
-            'password': '$2a$some-hash-here',
+            'password': 'the-real-password',
         })
         self.assertEqual(400, response.status_code, f'response: {response}')
         self.assertEqual('application/json', response.get('content-type'))
@@ -89,7 +91,7 @@ class CreateUserTest(AbstractAPITest):
     def test_missing_name(self):
         response = self.post({
             'email': 'test@email.com',
-            'password': '$2a$some-hash-here',
+            'password': 'the-real-password',
         })
         self.assertEqual(201, response.status_code, f'response: {response}')
 
@@ -110,7 +112,7 @@ class CreateUserTest(AbstractAPITest):
         response = self.post({
             'email': 'aap noot mies op je hoofd',
             'full_name': 'Ünicode Ǉepper',
-            'password': '$2a$some-hash-here',
+            'password': 'the-real-password',
         })
         self.assertEqual(400, response.status_code, f'response: {response}')
         self.assertEqual('application/json', response.get('content-type'))
@@ -129,7 +131,7 @@ class CreateUserTest(AbstractAPITest):
         response = self.post({
             'email': 'test@user.nl',
             'full_name': 'Ünicode Ǉepper',
-            'password': '$2a$some-hash-here',
+            'password': 'the-real-password',
         }, access_token=wrong_token.token)
         self.assertEqual(403, response.status_code)
         self.assert_no_user('test@user.nl')
