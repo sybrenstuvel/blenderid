@@ -55,3 +55,9 @@ class AbstractAPITest(TestCase):
             access_token = self.access_token.token
         kwargs['HTTP_AUTHORIZATION'] = f'Bearer {access_token}'
         return self.client.post(path, **kwargs)
+
+    def authed_get(self, path: str, *, access_token='', **kwargs) -> HttpResponse:
+        if not access_token:
+            access_token = self.access_token.token
+        kwargs['HTTP_AUTHORIZATION'] = f'Bearer {access_token}'
+        return self.client.get(path, **kwargs)

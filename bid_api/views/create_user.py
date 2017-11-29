@@ -36,6 +36,10 @@ class CreateUserForm(ModelForm):
 
 
 class CreateUserView(AbstractAPIView):
+    """API endpoint for creating users.
+
+    Requires an auth token with 'usercreate' scope to use.
+    """
     log = logging.getLogger(f'{__name__}.CreateUser')
 
     @method_decorator(protected_resource(scopes=['usercreate']))
@@ -59,3 +63,23 @@ class CreateUserView(AbstractAPIView):
             change_message='Account created via user creation API.')
 
         return JsonResponse({'user_id': db_user.id}, status=201)
+
+
+class CheckUserView(AbstractAPIView):
+    """API endpoint for checking user account existence.
+
+    Requires an auth token with 'usercreate' scope to use.
+    """
+    log = logging.getLogger(f'{__name__}.CheckUserView')
+
+    @method_decorator(protected_resource(scopes=['usercreate']))
+    def get(self, request, email: str) -> JsonResponse:
+        self.log.debug('checking existence of user %r on behalf of %s',
+                       email, request.user)
+        try:
+            UserModel.objects.get(email=email)
+        except UserModel.DoesNotExist:
+            found = False
+        else:
+            found = True
+        return JsonResponse({'found': found})

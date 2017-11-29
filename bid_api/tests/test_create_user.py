@@ -138,3 +138,39 @@ class CreateUserTest(AbstractAPITest):
         with self.assertRaises(UserModel.DoesNotExist):
             UserModel.objects.get(email=email)
 
+
+class CheckUserTest(AbstractAPITest):
+    access_token_scope = 'usercreate'
+
+    def get(self, email: str, *, access_token='') -> HttpResponse:
+        url_path = reverse('bid_api:check_user', kwargs={'email': email})
+        response = self.authed_get(url_path, access_token=access_token)
+        return response
+
+    def test_check_user_happy(self):
+        # Existing user
+        resp = self.get(self.user.email)
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual({'found': True}, json.loads(resp.content))
+
+        # Nonexisting user
+        resp = self.get('nonexistent@nowhere.huh')
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual({'found': False}, json.loads(resp.content))
+
+    def test_bad_email(self):
+        resp = self.get(f'{self.user.email}\x00\x00\xffhackhackhack')
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual({'found': False}, json.loads(resp.content))
+
+    def test_check_user_bad_token_scope(self):
+        wrong_token = AccessToken.objects.create(
+            user=self.user,
+            scope='email',
+            expires=timezone.now() + timedelta(seconds=300),
+            token='token-with-wrong-scope',
+            application=self.application
+        )
+        wrong_token.save()
+        resp = self.get(self.user.email, access_token=wrong_token.token)
+        self.assertEqual(403, resp.status_code)
